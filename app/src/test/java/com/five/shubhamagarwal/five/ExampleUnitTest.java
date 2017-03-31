@@ -1,4 +1,4 @@
-package com.five.shubhamagrawal.five;
+package com.five.shubhamagarwal.five;
 
 import org.junit.Test;
 
