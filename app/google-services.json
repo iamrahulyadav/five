@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "457726832540",
+    "firebase_url": "https://five-51d04.firebaseio.com",
+    "project_id": "five-51d04",
+    "storage_bucket": "five-51d04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457726832540:android:d6efd0e2464668d2",
+        "android_client_info": {
+          "package_name": "com.five.shubhamagrawal.five"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457726832540-btqv5ol5gaqdsc12ppjva4l2n1934jkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsLJn6wm-7y8HaGo4sbticYf7lVm8eRxQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
