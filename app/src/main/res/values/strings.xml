@@ -11,4 +11,11 @@
         <item name="female">Female</item>
         <item name="all">All</item>
     </string-array>
+
+    <string-array name="looking_categories">
+        <item name="friendship">Friendship</item>
+        <item name="casual">Casual Chat</item>
+        <item name="relationship">RelationShip</item>
+        <item name="matrimonial">Matrimonial</item>
+    </string-array>
 </resources>
