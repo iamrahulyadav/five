@@ -3,6 +3,12 @@
 
     <string name="facebook_app_id">1821145004848687</string>
 
-    
+
     <string name="action_settings">Settings</string>
+
+    <string-array name="interested_categories">
+        <item name="male">Male</item>
+        <item name="female">Female</item>
+        <item name="all">All</item>
+    </string-array>
 </resources>

@@ -22,6 +22,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
+
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // check user login status
+        if ( mAuth.getCurrentUser() != null )
+            startInterestActivity(mAuth.getCurrentUser());
+
 
     }
 
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
+    private void handleFacebookAccessToken(final AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -90,9 +97,16 @@ public class MainActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        }else{
+                            startInterestActivity(mAuth.getCurrentUser());
                         }
                     }
                 });
+    }
+
+    private void startInterestActivity(FirebaseUser user) {
+        Intent intent = new Intent(this, InterestActivity.class);
+        startActivity(intent);
     }
 
 
