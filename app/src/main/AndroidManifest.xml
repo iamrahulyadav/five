@@ -28,11 +28,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".FiltersActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-        <activity android:name=".FiltersActivity"></activity>
     </application>
 
 </manifest>

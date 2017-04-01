@@ -23,7 +23,7 @@
 
 
             <EditText
-                android:id="@+id/editText9"
+                android:id="@+id/age"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
@@ -35,7 +35,7 @@
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView6"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintLeft_toLeftOf="@+id/spinner2"
+                app:layout_constraintLeft_toLeftOf="@+id/lookingFor"
                 app:layout_constraintRight_toRightOf="parent" />
 
             <TextView
@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/lookingFor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
@@ -93,10 +93,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/textView"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+                app:layout_constraintTop_toBottomOf="@+id/interstedIn" />
 
             <Spinner
-                android:id="@+id/spinner3"
+                android:id="@+id/interstedIn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
