@@ -5,6 +5,7 @@
 
 
     <string name="action_settings">Settings</string>
+    <string name="save">Save</string>
 
     <string-array name="interested_categories">
         <item name="male">Male</item>

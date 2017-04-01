@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startInterestActivity(FirebaseUser user) {
-        Intent intent = new Intent(this, InterestActivity.class);
+        Intent intent = new Intent(this, FiltersActivity.class);
         startActivity(intent);
     }
 
