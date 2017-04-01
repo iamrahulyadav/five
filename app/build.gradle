@@ -26,6 +26,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.google.firebase:firebase-core:10.0.0'
     compile 'com.google.firebase:firebase-auth:10.0.0'
@@ -33,13 +34,14 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.firebase:firebase-database:10.0.0'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
-    compile "com.android.support:support-v4:+"
+    compile 'com.android.support:support-v4:25.3.1'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
-
+    compile 'com.opentok.android:opentok-android-sdk:2.10.1-REL-2782'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 
