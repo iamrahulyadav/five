@@ -1,0 +1,2 @@
+project.ext.chatServerUrl = "https://fierce-reaches-30236.herokuapp.com"
+//project.ext.chatServerUrl = "http://localhost:3000"
