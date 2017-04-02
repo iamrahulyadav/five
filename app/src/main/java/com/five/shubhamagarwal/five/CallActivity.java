@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.opentok.android.BaseVideoRenderer;
@@ -25,7 +26,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener,
         View.OnClickListener {
 
-    private static final String LOG_TAG = "Name";
+    private static final String LOG_TAG = "call_activity_log";
     private WebServiceCoordinator mWebServiceCoordinator;
     private String mApiKey;
     private String mSessionId;
@@ -36,6 +37,9 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     private FrameLayout mPublisherViewContainer;
     private FrameLayout mSubscriberViewContainer;
     private Button mCallDisconnectButton;
+    private ImageButton mCameraCycleButton;
+    private ImageButton mCameraOnOffButton;
+    private ImageButton mMicOnOffButton;
 
 
 
@@ -55,7 +59,11 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mSubscriberViewContainer = (FrameLayout)findViewById(R.id.subscriber_container);
         mCallDisconnectButton = (Button) findViewById(R.id.disconnect_call);
         mCallDisconnectButton.setOnClickListener(this);
-
+        mCameraCycleButton = (ImageButton) findViewById(R.id.camera_cycle_button);
+        mCameraCycleButton.setOnClickListener(this);
+        mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
+        mCameraOnOffButton.setOnClickListener(this);
+        mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
 
     }
 
@@ -157,6 +165,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     public void onStreamCreated(PublisherKit publisherKit, Stream stream) {
         Log.i(LOG_TAG, "Publisher Stream Created");
+        mPublisher.setPublishVideo(false);
 
     }
 
@@ -203,9 +212,13 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     protected void onStop() {
         Log.i(LOG_TAG, "On Stop Called");
-        mPublisher.destroy();
-        mSubscriber.destroy();
-        mSession.disconnect();
+        if(mPublisher != null)
+            mPublisher.destroy();
+        if(mSubscriber != null)
+            mSubscriber.destroy();
+        if(mSession != null)
+            mSession.disconnect();
+
         super.onStop();
     }
 
@@ -216,6 +229,36 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
             case R.id.disconnect_call: {
                 Toast.makeText(this, "Disconnecting the call.....", Toast.LENGTH_LONG).show();
                 NavUtils.navigateUpFromSameTask(this);
+            }
+
+            case R.id.camera_cycle_button: {
+                Toast.makeText(this, "Flipping the camera.....", Toast.LENGTH_LONG).show();
+                if(mPublisher != null)
+                    mPublisher.cycleCamera();
+            }
+
+            case R.id.camera_onoff_button: {
+                if(mPublisher.getPublishVideo()) {  // Camera is On
+                    Toast.makeText(this, "Deactivating Camera", Toast.LENGTH_LONG).show();
+                    mCameraOnOffButton.setBackgroundResource(R.mipmap.camera_off);
+                    mPublisher.setPublishVideo(false);
+                }else{
+                    Toast.makeText(this, "Activating Camera", Toast.LENGTH_LONG).show();
+                    mCameraOnOffButton.setBackgroundResource(R.mipmap.camera_on);
+                    mPublisher.setPublishVideo(true);
+                }
+            }
+
+            case R.id.mic_onoff_button: {
+                if(mPublisher.getPublishAudio()){ // Mic is Onn
+                    Toast.makeText(this, "Deactivating Mic", Toast.LENGTH_LONG).show();
+                    mMicOnOffButton.setBackgroundResource(R.mipmap.mic_off);
+                    mPublisher.setPublishAudio(false);
+                }else{
+                    Toast.makeText(this, "Activating Mic", Toast.LENGTH_LONG).show();
+                    mMicOnOffButton.setBackgroundResource(R.mipmap.mic_onn);
+                    mPublisher.setPublishAudio(true);
+                }
             }
         }
     }
