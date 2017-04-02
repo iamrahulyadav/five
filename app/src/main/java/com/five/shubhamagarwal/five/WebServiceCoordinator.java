@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 public class WebServiceCoordinator {
 
-    private static final String CHAT_SERVER_URL = "https://5f090696.ngrok.io";
+    private static final String CHAT_SERVER_URL = "http://301738e1.ngrok.io";
     private static final String SESSION_INFO_ENDPOINT = CHAT_SERVER_URL + "/session";
 
     private static final String LOG_TAG = WebServiceCoordinator.class.getSimpleName();

@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.five.shubhamagarwal.five.CallActivity">
 
-    <FrameLayout
-        android:id="@+id/publisher_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="16dp"
-        android:background="?android:attr/colorMultiSelectHighlight"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button2"
@@ -32,7 +15,8 @@
         android:layout_marginRight="8dp"
         android:text="Video"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="8dp" />
 
     <Button
         android:id="@+id/button3"
@@ -42,10 +26,11 @@
         android:layout_marginLeft="8dp"
         android:text="Record"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/disconnect_call"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -54,6 +39,41 @@
         android:text="Disconnect Call"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/button3"
-        app:layout_constraintRight_toLeftOf="@+id/button2" />
+        app:layout_constraintRight_toLeftOf="@+id/button2"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <FrameLayout
+        android:id="@+id/subscriber_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/disconnect_call"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/publisher_container"
+        android:background="@color/cardview_dark_background"
+        app:layout_constraintVertical_bias="0.0">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/publisher_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/colorMultiSelectHighlight"
+        app:layout_constraintBottom_toTopOf="@+id/disconnect_call"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"/>
 
 </android.support.constraint.ConstraintLayout>

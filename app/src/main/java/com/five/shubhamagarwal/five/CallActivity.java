@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
@@ -14,10 +17,13 @@ import com.opentok.android.Publisher;
 import com.opentok.android.PublisherKit;
 import com.opentok.android.Session;
 import com.opentok.android.Stream;
+import com.opentok.android.Subscriber;
+import com.opentok.android.SubscriberKit;
 
 
 public class CallActivity extends AppCompatActivity implements WebServiceCoordinator.Listener,
-        Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener {
+        Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener,
+        View.OnClickListener {
 
     private static final String LOG_TAG = "Name";
     private WebServiceCoordinator mWebServiceCoordinator;
@@ -26,7 +32,11 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     private String mToken;
     private Session mSession;
     private Publisher mPublisher;
+    private Subscriber mSubscriber;
     private FrameLayout mPublisherViewContainer;
+    private FrameLayout mSubscriberViewContainer;
+    private Button mCallDisconnectButton;
+
 
 
     @Override
@@ -42,8 +52,13 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mWebServiceCoordinator.fetchSessionConnectionData();
 
         mPublisherViewContainer = (FrameLayout)findViewById(R.id.publisher_container);
+        mSubscriberViewContainer = (FrameLayout)findViewById(R.id.subscriber_container);
+        mCallDisconnectButton = (Button) findViewById(R.id.disconnect_call);
+        mCallDisconnectButton.setOnClickListener(this);
+
 
     }
+
 
 
     @Override
@@ -97,11 +112,24 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     public void onStreamReceived(Session session, Stream stream) {
         Log.i(LOG_TAG, "Stream Received");
+
+        if (mSubscriber == null) {
+            mSubscriber = new Subscriber(this, stream);
+            mSubscriber.setSubscriberListener(this);
+            mSubscriber.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
+                    BaseVideoRenderer.STYLE_VIDEO_FILL);
+            mSession.subscribe(mSubscriber);
+        }
     }
 
     @Override
     public void onStreamDropped(Session session, Stream stream) {
         Log.i(LOG_TAG, "Stream Dropped");
+
+        if (mSubscriber != null) {
+            mSubscriber = null;
+            mSubscriberViewContainer.removeAllViews();
+        }
     }
 
     @Override
@@ -138,6 +166,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     }
 
+
     @Override
     public void onError(PublisherKit publisherKit, OpentokError opentokError) {
 
@@ -151,5 +180,43 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     public void onCameraError(Publisher publisher, OpentokError opentokError) {
 
+    }
+
+    @Override
+    public void onConnected(SubscriberKit subscriberKit) {
+        Log.i(LOG_TAG, "Subscriber Connected");
+
+        mSubscriberViewContainer.addView(mSubscriber.getView());
+    }
+
+    @Override
+    public void onDisconnected(SubscriberKit subscriberKit) {
+        Log.i(LOG_TAG, "Subscriber Disconnected");
+
+    }
+
+    @Override
+    public void onError(SubscriberKit subscriberKit, OpentokError opentokError) {
+        logOpenTokError(opentokError);
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i(LOG_TAG, "On Stop Called");
+        mPublisher.destroy();
+        mSubscriber.destroy();
+        mSession.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.i(LOG_TAG, "Button Pressed for "+v.getId());
+        switch (v.getId()){
+            case R.id.disconnect_call: {
+                Toast.makeText(this, "Disconnecting the call.....", Toast.LENGTH_LONG).show();
+                NavUtils.navigateUpFromSameTask(this);
+            }
+        }
     }
 }
