@@ -1,4 +1,4 @@
-package com.five.shubhamagarwal.five;
+package com.five.shubhamagarwal.five.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.five.shubhamagarwal.five.Adapters.RatingListViewAdapter;
 import com.five.shubhamagarwal.five.Models.RatingParameter;
+import com.five.shubhamagarwal.five.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

@@ -1,4 +1,4 @@
-package com.five.shubhamagarwal.five;
+package com.five.shubhamagarwal.five.activities;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +8,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.five.shubhamagarwal.five.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.HashMap;
 
 
@@ -23,6 +24,7 @@ public class FiltersActivity extends AppCompatActivity {
     Spinner lookingFor;
     Spinner interestedIn;
     String user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

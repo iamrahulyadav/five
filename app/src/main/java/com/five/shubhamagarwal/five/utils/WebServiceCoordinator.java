@@ -1,4 +1,4 @@
-package com.five.shubhamagarwal.five;
+package com.five.shubhamagarwal.five.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.five.shubhamagarwal.five.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,12 +18,10 @@ import org.json.JSONObject;
  * Created by shubhamagrawal on 02/04/17.
  */
 
-
 public class WebServiceCoordinator {
 
     private static final String CHAT_SERVER_URL = BuildConfig.CHAT_SERVER_URL;
     private static final String SESSION_INFO_ENDPOINT = CHAT_SERVER_URL + "/session";
-
     private static final String LOG_TAG = WebServiceCoordinator.class.getSimpleName();
 
     private final Context context;
@@ -43,12 +42,7 @@ public class WebServiceCoordinator {
                     String sessionId = response.getString("sessionId");
                     String token = response.getString("token");
 
-                    Log.i(LOG_TAG, apiKey);
-                    Log.i(LOG_TAG, sessionId);
-                    Log.i(LOG_TAG, token);
-
                     delegate.onSessionConnectionDataReady(apiKey, sessionId, token);
-
                 } catch (JSONException e) {
                     delegate.onWebServiceCoordinatorError(e);
                 }

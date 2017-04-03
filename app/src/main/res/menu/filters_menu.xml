@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.five.shubhamagarwal.five.FiltersActivity">
+    tools:context="com.five.shubhamagarwal.five.activities.FiltersActivity">
     <item
         android:id="@+id/filters_save"
         android:orderInCategory="100"

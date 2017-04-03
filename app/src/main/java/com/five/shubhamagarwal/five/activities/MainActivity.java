@@ -1,4 +1,4 @@
-package com.five.shubhamagarwal.five;
+package com.five.shubhamagarwal.five.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -25,7 +21,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.five.shubhamagarwal.five.Adapters.TransformerAdapter;
+import com.five.shubhamagarwal.five.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -88,12 +84,6 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
         url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-//        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-//        file_maps.put("Hannibal",R.drawable.hannibal);
-//        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-//        file_maps.put("House of Cards",R.drawable.house);
-//        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
 
         for(String name : url_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(this);
@@ -197,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     @Override
     public void onPageSelected(int position) {
-        Log.d("Slider Demo", "Page Changed: " + position);
     }
 
     @Override
