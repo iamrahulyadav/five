@@ -46,6 +46,7 @@ dependencies {
     compile 'com.opentok.android:opentok-android-sdk:2.10.1-REL-2782'
     compile 'com.mcxiaoke.volley:library:1.0.15@aar'
     testCompile 'junit:junit:4.12'
+    compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 }
 
 

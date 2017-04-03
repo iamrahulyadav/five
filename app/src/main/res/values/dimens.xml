@@ -1,8 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="extra_big_margin">36dp</dimen>
+    <dimen name="big_margin">24dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="padding">8dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
     <dimen name="my_video_height">150dp</dimen>
     <dimen name="my_video_width">100dp</dimen>
 
@@ -11,4 +13,8 @@
     <dimen name="publisher_right_margin">16dp</dimen>
     <dimen name="publisher_bottom_margin">16dp</dimen>
     <dimen name="publisher_padding">2dp</dimen>
+    <dimen name="header_size">24dp</dimen>
+    <dimen name="big_header_size">30dp</dimen>
+    <dimen name="paragraph_size">18dp</dimen>
+
 </resources>

@@ -1,130 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.five.shubhamagarwal.five.activities.FiltersActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="1000dp"
-        android:layout_marginTop="2dp"
-        android:clickable="false"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/talk_card"
+        android:layout_margin="@dimen/medium_margin">
 
-        <android.support.constraint.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small_margin"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/talk_text"
+                android:text="I want to talk to ..."
+                style="@style/HeaderStyle"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/talk_text">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:theme="@style/MyCheckBox"
+                    android:id="@+id/male_checkbox"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:theme="@style/MyCheckBox"
+                    android:id="@+id/female_checkbox"
+                    android:layout_below="@id/male_checkbox"
+                    />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/about_card"
+        android:layout_margin="@dimen/medium_margin"
+        android:padding="@dimen/medium_margin"
+        android:layout_below="@id/talk_card">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/small_margin"
+            android:layout_height="wrap_content">
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="... about ..."
+                style="@style/HeaderStyle"
+                android:id="@+id/about_text"/>
+            
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/about_text">
+                
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="relationship"
+                    android:theme="@style/MyCheckBox"
+                    android:id="@+id/relationship_checkbox"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="casual"
+                    android:id="@+id/casual_checkbox"
+                    android:theme="@style/MyCheckBox"
+                    android:layout_below="@id/relationship_checkbox"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="friendship"
+                    android:id="@+id/friendship_checkbox"
+                    android:theme="@style/MyCheckBox"
+                    android:layout_below="@id/casual_checkbox"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="love"
+                    android:id="@+id/love_checkbox"
+                    android:theme="@style/MyCheckBox"
+                    android:layout_below="@id/friendship_checkbox"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="action"
+                    android:theme="@style/MyCheckBox"
+                    android:id="@+id/action_checkbox"
+                    android:layout_below="@id/love_checkbox"/>
+
+            </RelativeLayout>
+            
+        </RelativeLayout>
+        
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/age_card"
+        android:layout_below="@id/about_card"
+        android:layout_margin="@dimen/medium_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/medium_margin"
             android:layout_height="wrap_content">
 
-
-            <EditText
-                android:id="@+id/age"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="8dp"
-                android:ems="10"
-                android:hint="18-90"
-                android:inputType="number"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView6"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintLeft_toLeftOf="@+id/lookingFor"
-                app:layout_constraintRight_toRightOf="parent" />
-
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:text="Looking For"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                android:id="@+id/age_range_text"
+                style="@style/HeaderStyle"
+                android:text="... in ages ..."/>
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+            <!--https://github.com/anothem/android-range-seek-bar/blob/master/rangeseekbar-sample/src/main/res/layout/main.xml-->
+            <org.florescu.android.rangeseekbar.RangeSeekBar
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:text="Intrested In"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                android:id="@+id/age_seekbar"
+                rsb:thumbNormal="@drawable/custom_slider_thumb"
+                rsb:thumbPressed="@drawable/custom_slider_thumb"
+                android:layout_marginTop="@dimen/extra_big_margin"
+                rsb:absoluteMaxValue="70"
+                rsb:absoluteMinValue="18"
+                rsb:textAboveThumbsColor="@color/dark_gray"
+                rsb:thumbShadow="true"
+                rsb:thumbShadowColor="@color/colorPrimaryLight"/>
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Filters"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Spinner
-                android:id="@+id/lookingFor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="24dp"
-                android:entries="@array/looking_categories"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/interstedIn" />
-
-            <Spinner
-                android:id="@+id/interstedIn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="32dp"
-                android:entries="@array/interested_categories"
-                app:layout_constraintBottom_toBottomOf="@+id/textView4"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toRightOf="@+id/textView"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Your Age"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-        </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
 
 
-    </ScrollView>
+    </android.support.v7.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
