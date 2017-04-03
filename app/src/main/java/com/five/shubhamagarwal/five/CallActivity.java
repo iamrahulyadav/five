@@ -36,7 +36,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     private Subscriber mSubscriber;
     private FrameLayout mPublisherViewContainer;
     private FrameLayout mSubscriberViewContainer;
-    private Button mCallDisconnectButton;
+    private ImageButton mCallDisconnectButton;
     private ImageButton mCameraCycleButton;
     private ImageButton mCameraOnOffButton;
     private ImageButton mMicOnOffButton;
@@ -57,13 +57,14 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
         mPublisherViewContainer = (FrameLayout)findViewById(R.id.publisher_container);
         mSubscriberViewContainer = (FrameLayout)findViewById(R.id.subscriber_container);
-        mCallDisconnectButton = (Button) findViewById(R.id.disconnect_call);
+        mCallDisconnectButton = (ImageButton) findViewById(R.id.disconnect_call);
         mCallDisconnectButton.setOnClickListener(this);
         mCameraCycleButton = (ImageButton) findViewById(R.id.camera_cycle_button);
         mCameraCycleButton.setOnClickListener(this);
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
         mCameraOnOffButton.setOnClickListener(this);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
+        mMicOnOffButton.setOnClickListener(this);
 
     }
 
