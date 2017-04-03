@@ -63,7 +63,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
         mCameraOnOffButton.setOnClickListener(this);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
-
     }
 
     @Override
@@ -141,12 +140,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     public void onError(Session session, OpentokError opentokError) {
         logOpenTokError(opentokError);
     }
-
-
-
-
-
-
 
     private void logOpenTokError(OpentokError opentokError) {
         Log.e(LOG_TAG, "Error Domain: " + opentokError.getErrorDomain().name());
