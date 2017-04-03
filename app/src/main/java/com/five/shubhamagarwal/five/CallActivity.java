@@ -42,7 +42,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     private ImageButton mMicOnOffButton;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +65,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
