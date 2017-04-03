@@ -7,9 +7,8 @@
     tools:context="com.five.shubhamagarwal.five.CallActivity">
 
 
-
-
     <FrameLayout
+        android:id="@+id/subscriber_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
@@ -18,14 +17,13 @@
         android:layout_marginRight="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
-        android:background="@color/colorAccent"
+        android:background="@color/com_facebook_button_background_color_disabled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:id="@+id/subscriber_container">
+        app:layout_constraintVertical_bias="0.0">
 
     </FrameLayout>
 
@@ -40,17 +38,6 @@
         app:layout_constraintRight_toRightOf="@+id/subscriber_container">
 
     </FrameLayout>
-
-    <Button
-        android:id="@+id/disconnect_call"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="64dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="End Call"
-        app:layout_constraintBottom_toBottomOf="@+id/subscriber_container"
-        app:layout_constraintRight_toLeftOf="@+id/publisher_container" />
 
     <ImageButton
         android:id="@+id/camera_cycle_button"
@@ -84,5 +71,19 @@
         app:layout_constraintRight_toLeftOf="@+id/camera_onoff_button"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/mic_onn" />
+
+    <ImageButton
+        android:id="@+id/disconnect_call"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/round_call_disconnect_button"
+        app:layout_constraintBottom_toBottomOf="@+id/subscriber_container"
+        app:layout_constraintLeft_toLeftOf="@+id/subscriber_container"
+        app:layout_constraintRight_toRightOf="@+id/subscriber_container"
+        app:srcCompat="@mipmap/end_call"
+        />
 
 </android.support.constraint.ConstraintLayout>
