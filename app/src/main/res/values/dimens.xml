@@ -2,6 +2,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="padding">8dp</dimen>
+    <dimen name="my_video_height">150dp</dimen>
+    <dimen name="my_video_width">100dp</dimen>
 
     <dimen name="publisher_height">120dp</dimen>
     <dimen name="publisher_width">90dp</dimen>

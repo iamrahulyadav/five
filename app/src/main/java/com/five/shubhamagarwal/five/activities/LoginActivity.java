@@ -32,17 +32,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
+public class LoginActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
     {
 
-    private String TAG = "MainActivity";
+    private String TAG = "LoginActivity";
     CallbackManager mCallbackManager;
     private FirebaseAuth mAuth;
     private SliderLayout mDemoSlider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }else{
                             startInterestActivity(mAuth.getCurrentUser());

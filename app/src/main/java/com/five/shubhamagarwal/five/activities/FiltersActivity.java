@@ -1,5 +1,6 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.five.shubhamagarwal.five.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
@@ -21,8 +23,7 @@ public class FiltersActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     EditText age;
-    Spinner lookingFor;
-    Spinner interestedIn;
+    Spinner lookingFor, interestedIn;
     String user;
 
     @Override
@@ -62,9 +63,15 @@ public class FiltersActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(FiltersActivity.this, "Your Filters are Saved Successfully", Toast.LENGTH_SHORT).show();
+                            startHomeActivity();
                         }
                     });
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startHomeActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }
