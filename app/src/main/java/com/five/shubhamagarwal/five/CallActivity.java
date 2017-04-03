@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
@@ -26,7 +24,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener,
         View.OnClickListener {
 
-    private static final String LOG_TAG = "call_activity_log";
+    private static final String LOG_TAG = CallActivity.class.getSimpleName();
     private WebServiceCoordinator mWebServiceCoordinator;
     private String mApiKey;
     private String mSessionId;
@@ -40,8 +38,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     private ImageButton mCameraCycleButton;
     private ImageButton mCameraOnOffButton;
     private ImageButton mMicOnOffButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +61,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraOnOffButton.setOnClickListener(this);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
         mMicOnOffButton.setOnClickListener(this);
-
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

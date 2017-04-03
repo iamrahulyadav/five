@@ -37,13 +37,6 @@
         </activity>
 
         <activity
-            android:name=".CallActivity"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".HomeActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -60,6 +53,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <activity android:name=".CallActivity"
+            android:parentActivityName=".HomeActivity"/>
 
     </application>
 
