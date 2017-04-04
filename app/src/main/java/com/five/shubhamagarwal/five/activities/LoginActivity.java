@@ -67,31 +67,35 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
 
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            handleFacebookAccessToken(accessToken);
+        } else {
+            LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+            loginButton.setReadPermissions("email", "public_profile");
+            loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                    handleFacebookAccessToken(loginResult.getAccessToken());
+                }
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
+                @Override
+                public void onCancel() {
+                    Log.d(TAG, "facebook:onCancel");
+                }
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-            }
-        });
+                @Override
+                public void onError(FacebookException error) {
+                    Log.d(TAG, "facebook:onError", error);
+                }
+            });
+        }
 
         // check user login status
-        if (mAuth.getCurrentUser() != null) {
-            startFiltersActivity();
-        }
+//        if (mAuth.getCurrentUser() != null) {
+//            startFiltersActivity();
+//        }
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
         HashMap<String, String> url_maps = new HashMap<String, String>();
@@ -155,7 +159,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                                     try {
                                         Gen.userId = response.getString("user_uuid");
                                         Log.d(TAG, response.getString("new_signup"));
-                                    } catch(Exception e){
+                                    } catch (Exception e) {
                                         Gen.showError(e);
                                     }
                                     startFiltersActivity();

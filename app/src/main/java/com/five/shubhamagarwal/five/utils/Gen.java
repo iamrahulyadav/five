@@ -26,7 +26,7 @@ public class Gen {
     }
     private static ObjectMapper objectMapper;
 
-    public static String userId = "4b1120bf-4cd5-4133-a1d4-ce62dad775a1";
+    public static String userId;
 
 
     public static ObjectMapper getObjectMapper() {
