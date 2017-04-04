@@ -1,3 +1,3 @@
-project.ext.chatServerUrl = "https://fierce-reaches-30236.herokuapp.com"
+// project.ext.chatServerUrl = "https://fierce-reaches-30236.herokuapp.com"
 //project.ext.serverUrl = "http://ec2-54-69-125-204.us-west-2.compute.amazonaws.com:8000/fiveapp"
 project.ext.serverUrl = "http://83d11a56.ngrok.io/fiveapp"

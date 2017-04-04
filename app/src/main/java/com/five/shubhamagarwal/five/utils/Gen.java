@@ -36,9 +36,9 @@ public class Gen {
         return objectMapper;
     }
 
-    public static String getTimeDiffFromCurrentTime(Date date) {
-        Date currentTime = Calendar.getInstance().getTime();
-        long seconds = (date.getTime() - currentTime.getTime())/1000;
+    public static String getTimeDiffFromCurrentTime(long seconds) {
+//        Date currentTime = Calendar.getInstance().getTime();
+//        long seconds = (date.getTime() - currentTime.getTime())/1000;
         long hour = seconds/3600;
         seconds = seconds%3600;
         long min = seconds/60;

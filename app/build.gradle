@@ -27,7 +27,6 @@ android {
 }
 
 android.buildTypes.each { type ->
-    type.buildConfigField 'String', 'CHAT_SERVER_URL', "\"$chatServerUrl\""
     type.buildConfigField 'String', 'SERVER_URL', "\"$serverUrl\""
 }
 

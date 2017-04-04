@@ -20,8 +20,8 @@ import org.json.JSONObject;
 
 public class WebServiceCoordinator {
 
-    private static final String CHAT_SERVER_URL = BuildConfig.CHAT_SERVER_URL;
-    private static final String SESSION_INFO_ENDPOINT = CHAT_SERVER_URL + "/get_session";
+    private static final String SERVER_URL = BuildConfig.SERVER_URL;
+    private static final String SESSION_INFO_ENDPOINT = SERVER_URL + "/get_session";
     private static final String LOG_TAG = WebServiceCoordinator.class.getSimpleName();
 
     private final Context context;

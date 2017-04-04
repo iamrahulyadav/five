@@ -1,6 +1,7 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,18 +30,21 @@ import java.util.Date;
 public class CallStatusActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = CallActivity.class.getSimpleName();
+    private CountDownTimer waitTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_status);
     }
+
     private static TextView mkeepCalm1, mkeepCalm2, mTimerView;
     private static Button mCallButton;
 
-    public interface CallStatus{
+    public interface CallStatus {
         String NO_CALL = "Till we schedule your next call.";
         String CALL_IN = "Your next call in ...";
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -58,32 +62,32 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
         final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/next_chat", postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
+                try {
 
-                    if(response.isNull("chat")){
+                    if (response.isNull("chat")) {
                         // there is no chat scheduled in future
                         mkeepCalm2.setText(CallStatus.NO_CALL);
                         return;
                     }
                     JSONObject chatJSON = response.getJSONObject("chat");
                     int timeLeftForChatStart = chatJSON.getInt("seconds_left_for_chat_start");
-                    if(timeLeftForChatStart == 0){
+                    if (timeLeftForChatStart == 0) {
                         // Chat is started or has already started
                         canCallNow();
                     } else {
                         mkeepCalm2.setText(CallStatus.CALL_IN);
                         startCounter(timeLeftForChatStart);
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     Gen.showError(e);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
                     try {
-                        String body = new String(error.networkResponse.data,"UTF-8");
+                        String body = new String(error.networkResponse.data, "UTF-8");
                         Log.e(TAG, body);
                     } catch (UnsupportedEncodingException e) {
                         Gen.showError(e);
@@ -94,36 +98,56 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
         requestQueue.add(request);
     }
 
-    public void startCounter(int inSeconds) {
+    public void startCounter(final int inSeconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, inSeconds);
-        final Date scheduledTime = calendar.getTime();
 
-        Thread t = new Thread() {
+        if(waitTimer != null) {
+            waitTimer.cancel();
+            waitTimer = null;
+        }
 
-            @Override
-            public void run() {
-                try {
-                    while ((scheduledTime.getTime() - Calendar.getInstance().getTime().getTime()) >= 0) {
-                        final Thread tr = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Date currentTime = Calendar.getInstance().getTime();
-                                String time = Gen.getTimeDiffFromCurrentTime(scheduledTime);
-                                mTimerView.setText(time);
-                                if ((scheduledTime.getTime() - currentTime.getTime())/1000 <= 0){
-                                    canCallNow();
-                                }
-                            }
-                        });
-                        runOnUiThread(tr);
-                        Thread.sleep(1000);
-                    }
-                } catch (InterruptedException e) {
-                }
+        waitTimer = new CountDownTimer(inSeconds*1000, 1000) {
+
+            long sec = inSeconds;
+
+            public void onTick(long millisUntilFinished) {
+                String time = Gen.getTimeDiffFromCurrentTime(sec);
+                mTimerView.setText(time);
+                sec--;
             }
-        };
-        t.start();
+
+            public void onFinish() {
+                canCallNow();
+            }
+        }.start();
+
+
+//        Thread t = new Thread() {
+//
+//            @Override
+//            public void run() {
+//                try {
+//                    while ((scheduledTime.getTime() - Calendar.getInstance().getTime().getTime()) >= 0) {
+//                        final Thread tr = new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Date currentTime = Calendar.getInstance().getTime();
+//                                String time = Gen.getTimeDiffFromCurrentTime(scheduledTime);
+//                                mTimerView.setText(time);
+//                                if ((scheduledTime.getTime() - currentTime.getTime()) / 1000 <= 0) {
+//                                    canCallNow();
+//                                }
+//                            }
+//                        });
+//                        runOnUiThread(tr);
+//                        Thread.sleep(1000);
+//                    }
+//                } catch (InterruptedException e) {
+//                }
+//            }
+//        };
+//        t.start();
     }
 
     public void canCallNow() {
@@ -133,12 +157,13 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
         mkeepCalm1.setVisibility(View.INVISIBLE);
         mkeepCalm2.setVisibility(View.INVISIBLE);
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.call_button: {
                 Gen.toast("We are connecting you now ...");
-                Intent intent =  new Intent(this, CallActivity.class);
+                Intent intent = new Intent(this, CallActivity.class);
                 startActivity(intent);
             }
         }
