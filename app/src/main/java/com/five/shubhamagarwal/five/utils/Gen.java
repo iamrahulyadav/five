@@ -7,6 +7,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.five.shubhamagarwal.five.BuildConfig;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,8 +19,17 @@ import java.util.Date;
  */
 
 public class Gen {
+    public static final String SERVER_URL = BuildConfig.SERVER_URL;
     public static void toast(String text, Context activity){
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+    }
+    private static ObjectMapper objectMapper;
+
+    public static ObjectMapper getObjectMapper() {
+        if(objectMapper == null){
+            objectMapper = new ObjectMapper();
+        }
+        return objectMapper;
     }
 
     public static String getTimeDiffFromCurrentTime(Date date) {
@@ -47,5 +60,15 @@ public class Gen {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    public static String getJSONString(Object obj){
+        ObjectMapper mapper = getObjectMapper();
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

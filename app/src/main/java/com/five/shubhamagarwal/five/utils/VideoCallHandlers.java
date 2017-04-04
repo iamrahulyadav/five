@@ -11,12 +11,12 @@ import com.five.shubhamagarwal.five.R;
  * Created by shubhamagrawal on 03/04/17.
  */
 
-public class CallHandlers implements View.OnClickListener{
+public class VideoCallHandlers implements View.OnClickListener{
 
     private CallActivity callActivity;
-    private static String LOG_TAG = CallHandlers.class.getSimpleName();
+    private static String LOG_TAG = VideoCallHandlers.class.getSimpleName();
 
-    public CallHandlers(CallActivity callActivity) {
+    public VideoCallHandlers(CallActivity callActivity) {
         this.callActivity = callActivity;
     }
 

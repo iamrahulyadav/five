@@ -10,10 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -21,7 +26,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Gen;
+import com.five.shubhamagarwal.five.utils.VolleySingelton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -30,19 +38,26 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
-public class LoginActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
-    {
+public class LoginActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private String TAG = "LoginActivity";
     CallbackManager mCallbackManager;
     private FirebaseAuth mAuth;
     private SliderLayout mDemoSlider;
+    AuthCredential credential;
+    AccessToken accessToken;
+    private static final String SERVER_URL = BuildConfig.SERVER_URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_container);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -73,38 +88,30 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
         });
 
         // check user login status
-        if ( mAuth.getCurrentUser() != null )
-            startInterestActivity(mAuth.getCurrentUser());
+        if (mAuth.getCurrentUser() != null) {
+            startFiltersActivity();
+        }
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
-
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-
-        HashMap<String,String> url_maps = new HashMap<String, String>();
+        HashMap<String, String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
         url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
         url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
-        for(String name : url_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(this);
+        for (String name : url_maps.keySet()) {
+            DefaultSliderView sliderView = new DefaultSliderView(this);
             // initialize a SliderLayout
-            textSliderView
-                    .description(name)
+            sliderView
                     .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
+            mDemoSlider.addSlider(sliderView);
         }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
+        mDemoSlider.setDuration(1000);
         mDemoSlider.addOnPageChangeListener(this);
     }
 
@@ -118,8 +125,8 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
 
     private void handleFacebookAccessToken(final AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        accessToken = token;
+        credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -133,23 +140,49 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                        }else{
-                            startInterestActivity(mAuth.getCurrentUser());
+                        } else {
+                            RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
+                            JSONObject postData = null;
+                            try {
+                                postData = getPostData();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, SERVER_URL + "/user", postData, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    startFiltersActivity();
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    if (error.networkResponse.data != null) {
+                                        try {
+                                            String body = new String(error.networkResponse.data, "UTF-8");
+                                            Log.e(TAG, body);
+                                        } catch (UnsupportedEncodingException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+                            requestQueue.add(request);
                         }
                     }
                 });
     }
 
-    private void startInterestActivity(FirebaseUser user) {
+    private JSONObject getPostData() throws JSONException {
+        JSONObject js = new JSONObject();
+        js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
+        return js;
+    }
+
+    private void startFiltersActivity() {
         Intent intent = new Intent(this, FiltersActivity.class);
         startActivity(intent);
     }
-
-
-    @Override
-    public void onBackPressed() {
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,13 +215,16 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
     @Override
     public void onSliderClick(BaseSliderView slider) {
     }
+
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
 
     @Override
     public void onPageSelected(int position) {
     }
 
     @Override
-    public void onPageScrollStateChanged(int state) {}
+    public void onPageScrollStateChanged(int state) {
+    }
 }

@@ -12,6 +12,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    packagingOptions {
+        exclude 'META-INF/NOTICE' // It is not include NOTICE file
+        exclude 'META-INF/LICENSE' // It is not include LICENSE file
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -24,6 +28,7 @@ android {
 
 android.buildTypes.each { type ->
     type.buildConfigField 'String', 'CHAT_SERVER_URL', "\"$chatServerUrl\""
+    type.buildConfigField 'String', 'SERVER_URL', "\"$serverUrl\""
 }
 
 dependencies {
@@ -47,6 +52,9 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.15@aar'
     testCompile 'junit:junit:4.12'
     compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.7.2'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.2'
 }
 
 

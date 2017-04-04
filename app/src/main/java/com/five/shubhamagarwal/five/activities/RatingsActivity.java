@@ -45,7 +45,7 @@ public class RatingsActivity extends AppCompatActivity {
         setListData();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        adapter = new RatingListViewAdapter(this, R.layout.item_listview, arrayList);
+        adapter = new RatingListViewAdapter(this, R.layout.rating_icon_text, arrayList);
         mlistView.setAdapter(adapter);
         Gen.setListViewHeightBasedOnChildren(mlistView);
 

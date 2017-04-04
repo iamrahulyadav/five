@@ -41,7 +41,7 @@ public class RatingListViewAdapter extends ArrayAdapter<RatingParameter> {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_listview, parent, false);
+            convertView = inflater.inflate(R.layout.rating_icon_text, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
 

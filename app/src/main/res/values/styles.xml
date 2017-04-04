@@ -15,7 +15,7 @@
 
     <style name="ratingBarStyle" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingbar_drawable</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginTop">16dp</item>
     </style>
 
     <style name="MyCheckBox" parent="Theme.AppCompat.Light">
@@ -31,5 +31,17 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">@dimen/paragraph_size</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 
 </resources>

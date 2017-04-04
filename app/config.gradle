@@ -1,1 +1,2 @@
 project.ext.chatServerUrl = "https://fierce-reaches-30236.herokuapp.com"
+project.ext.serverUrl = "http://ec2-54-69-125-204.us-west-2.compute.amazonaws.com:8000/fiveapp"

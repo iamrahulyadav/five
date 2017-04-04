@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.WebServiceCoordinator;
-import com.five.shubhamagarwal.five.utils.CallHandlers;
+import com.five.shubhamagarwal.five.utils.VideoCallHandlers;
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
@@ -27,7 +27,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     private static final String LOG_TAG = CallActivity.class.getSimpleName();
     private WebServiceCoordinator webServiceCoordinator;
-    private CallHandlers callHandlers;
+    private VideoCallHandlers videoCallHandlers;
 
     public String apiKey, sessionId, token;
     public Session session;
@@ -54,16 +54,16 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
 
         // init call handler and web service coordinator
-        callHandlers = new CallHandlers(this);
+        videoCallHandlers = new VideoCallHandlers(this);
         webServiceCoordinator = new WebServiceCoordinator(this, this);
 
         webServiceCoordinator.fetchSessionConnectionData();
 
         // attach call handler
-        mCallDisconnectButton.setOnClickListener(callHandlers);
-        mCameraCycleButton.setOnClickListener(callHandlers);
-        mCameraOnOffButton.setOnClickListener(callHandlers);
-        mMicOnOffButton.setOnClickListener(callHandlers);
+        mCallDisconnectButton.setOnClickListener(videoCallHandlers);
+        mCameraCycleButton.setOnClickListener(videoCallHandlers);
+        mCameraOnOffButton.setOnClickListener(videoCallHandlers);
+        mMicOnOffButton.setOnClickListener(videoCallHandlers);
     }
 
     @Override
