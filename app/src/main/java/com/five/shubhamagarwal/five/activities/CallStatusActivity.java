@@ -96,7 +96,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
 
     public void startCounter(int inSeconds) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, 3);
+        calendar.add(Calendar.SECOND, inSeconds);
         final Date scheduledTime = calendar.getTime();
 
         Thread t = new Thread() {
