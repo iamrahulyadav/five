@@ -19,8 +19,9 @@
     </style>
 
     <style name="MyCheckBox" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/indigo</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="android:paddingLeft">20dp</item>
     </style>
 
     <style name="HeaderStyle">

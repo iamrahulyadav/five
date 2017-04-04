@@ -29,6 +29,7 @@ import com.facebook.login.widget.LoginButton;
 import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Gen;
+import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
 import com.five.shubhamagarwal.five.utils.VolleySingelton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -146,11 +147,17 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                             try {
                                 postData = getPostData();
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                Gen.showError(e);
                             }
-                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, SERVER_URL + "/user", postData, new Response.Listener<JSONObject>() {
+                            JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
+                                    try {
+                                        Gen.userId = response.getString("user_uuid");
+                                        Log.d(TAG, response.getString("new_signup"));
+                                    } catch(Exception e){
+                                        Gen.showError(e);
+                                    }
                                     startFiltersActivity();
                                 }
                             }, new Response.ErrorListener() {
@@ -161,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                                             String body = new String(error.networkResponse.data, "UTF-8");
                                             Log.e(TAG, body);
                                         } catch (UnsupportedEncodingException e) {
-                                            e.printStackTrace();
+                                            Gen.showError(e);
                                         }
                                     }
                                 }

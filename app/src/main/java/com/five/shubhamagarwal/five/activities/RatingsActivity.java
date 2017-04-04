@@ -31,7 +31,6 @@ public class RatingsActivity extends AppCompatActivity {
 
     private ArrayAdapter<RatingParameter> adapter;
     private ArrayList<RatingParameter> arrayList;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +43,9 @@ public class RatingsActivity extends AppCompatActivity {
         mshareMessage = (EditText) findViewById(R.id.share_message);
         setListData();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         adapter = new RatingListViewAdapter(this, R.layout.rating_icon_text, arrayList);
         mlistView.setAdapter(adapter);
-        Gen.setListViewHeightBasedOnChildren(mlistView);
-
+        Gen.setListViewHeightBasedOnChildren(mlistView); // Hack to show the listview in expanded form.
 
         final Button button = (Button) findViewById(R.id.submit);
         // TODO: get userA and userB
@@ -60,22 +57,18 @@ public class RatingsActivity extends AppCompatActivity {
                 rating.put("giver", userB);
                 rating.put("feedback", mfeedback.getText().toString());
                 rating.put("ratingList", arrayList);
-                mDatabase.child("ratings").child(userA).setValue(rating);
-
             }
         });
         mshareCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                  if(isChecked)
-                      mshareMessage.setVisibility(View.VISIBLE);
-                  else
-                      mshareMessage.setVisibility(View.GONE);
+              if(isChecked)
+                  mshareMessage.setVisibility(View.VISIBLE);
+              else
+                  mshareMessage.setVisibility(View.GONE);
               }
           }
         );
-
-
     }
 
     private void setListData() {

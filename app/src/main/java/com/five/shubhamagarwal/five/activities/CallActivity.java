@@ -1,5 +1,6 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,11 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startRatingsActivity() {
+        Intent intent = new Intent(this, RatingsActivity.class);
+        startActivity(intent);
     }
 
     @Override

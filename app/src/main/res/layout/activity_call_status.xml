@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.five.shubhamagarwal.five.activities.CallStatusActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:id="@+id/keep_calm_image"
+        android:src="@mipmap/female_calm"
+        android:layout_margin="36dp"
+        />
+
+    <TextView
+        android:id="@+id/keep_calm_text1"
+        android:text="KEEP CALM!!"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_below="@+id/keep_calm_image"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/keep_calm_text2"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="@dimen/paragraph_size"
+        android:layout_below="@+id/keep_calm_text1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/timer_id"
+        android:layout_width="match_parent"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_below="@id/keep_calm_text2"
+        />
+
+    <Button
+        android:id="@+id/call_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="Attend Call" />
+</LinearLayout>

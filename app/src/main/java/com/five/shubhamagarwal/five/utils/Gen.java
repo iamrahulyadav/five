@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.five.shubhamagarwal.five.BuildConfig;
+import com.five.shubhamagarwal.five.MyApplication;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class Gen {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
     }
     private static ObjectMapper objectMapper;
+    public static String userId;
 
     public static ObjectMapper getObjectMapper() {
         if(objectMapper == null){
@@ -70,5 +72,10 @@ public class Gen {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void showError(Exception e){
+        e.printStackTrace();
+        toast("Some error occurred!!", MyApplication.getAppContext());
     }
 }

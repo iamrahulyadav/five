@@ -1,17 +1,12 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,19 +15,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Gen;
+import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
 import com.five.shubhamagarwal.five.utils.VolleySingelton;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 
 
 public class FiltersActivity extends AppCompatActivity {
@@ -71,9 +61,9 @@ public class FiltersActivity extends AppCompatActivity {
             try {
                 postData = getPostData();
             } catch (JSONException e) {
-                e.printStackTrace();
+                Gen.showError(e);
             }
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Gen.SERVER_URL + "/user", postData, new Response.Listener<JSONObject>() {
+            JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/update_user_details", postData, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     startHomeActivity();
@@ -86,7 +76,7 @@ public class FiltersActivity extends AppCompatActivity {
                             String body = new String(error.networkResponse.data,"UTF-8");
                             Log.e(TAG, body);
                         } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                            Gen.showError(e);
                         }
                     }
                 }
@@ -97,7 +87,7 @@ public class FiltersActivity extends AppCompatActivity {
     }
 
     private void startHomeActivity() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, CallStatusActivity.class);
         startActivity(intent);
     }
 
@@ -112,6 +102,8 @@ public class FiltersActivity extends AppCompatActivity {
         js.put("action", mAction.isChecked());
         js.put("minAge", mAgeBar.getSelectedMinValue());
         js.put("maxAge", mAgeBar.getSelectedMaxValue());
-        return js;
+        JSONObject filters = new JSONObject();
+        filters.put("filters", js);
+        return filters;
     }
 }

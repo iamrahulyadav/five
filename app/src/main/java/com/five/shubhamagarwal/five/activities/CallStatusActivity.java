@@ -13,22 +13,32 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class CallStatusActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_call_status);
     }
+    private static TextView mkeepCalm1, mkeepCalm2, mTimerView;
 
+    public interface CallStatus{
+        String NO_CALL = "Till we schedule your next call.";
+        String CALL_IN = "Your next call in ...";
+    }
     @Override
     protected void onStart() {
         super.onStart();
 
         final Button mCallButton = (Button) findViewById(R.id.call_button);
-        mCallButton.setVisibility(View.GONE);
+        mkeepCalm1 = (TextView) findViewById(R.id.keep_calm_text1);
+        mkeepCalm2 = (TextView) findViewById(R.id.keep_calm_text2);
+        mTimerView = (TextView) findViewById(R.id.timer_id);
+
+        mkeepCalm2.setText(CallStatus.CALL_IN);
+
+        mCallButton.setVisibility(View.INVISIBLE);
         mCallButton.setOnClickListener(this);
-        final TextView mTimerView = (TextView) findViewById(R.id.timerId);
         Calendar calendar = Calendar.getInstance();
 
         calendar.add(Calendar.SECOND, 3);
@@ -47,8 +57,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 String time = Gen.getTimeDiffFromCurrentTime(scheduledTime);
                                 mTimerView.setText(time);
                                 if ((scheduledTime.getTime() - currentTime.getTime())/1000 <= 0){
-                                    mTimerView.setVisibility(View.INVISIBLE);
                                     mCallButton.setVisibility(View.VISIBLE);
+
+                                    mTimerView.setVisibility(View.INVISIBLE);
+                                    mkeepCalm1.setVisibility(View.INVISIBLE);
+                                    mkeepCalm2.setVisibility(View.INVISIBLE);
                                 }
                             }
                         });
