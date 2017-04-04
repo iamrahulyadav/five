@@ -56,6 +56,8 @@ public class FiltersActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.filters_save){
+            // startHomeActivity();
+
             RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
             JSONObject postData = null;
             try {

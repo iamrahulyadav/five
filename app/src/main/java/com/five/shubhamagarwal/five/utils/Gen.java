@@ -21,11 +21,13 @@ import java.util.Date;
 
 public class Gen {
     public static final String SERVER_URL = BuildConfig.SERVER_URL;
-    public static void toast(String text, Context activity){
-        Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
+    public static void toast(String text){
+        Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
     private static ObjectMapper objectMapper;
-    public static String userId;
+
+    public static String userId = "4b1120bf-4cd5-4133-a1d4-ce62dad775a1";
+
 
     public static ObjectMapper getObjectMapper() {
         if(objectMapper == null){
@@ -76,6 +78,6 @@ public class Gen {
 
     public static void showError(Exception e){
         e.printStackTrace();
-        toast("Some error occurred!!", MyApplication.getAppContext());
+        toast("Some error occurred!!");
     }
 }

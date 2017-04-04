@@ -21,7 +21,7 @@ import org.json.JSONObject;
 public class WebServiceCoordinator {
 
     private static final String CHAT_SERVER_URL = BuildConfig.CHAT_SERVER_URL;
-    private static final String SESSION_INFO_ENDPOINT = CHAT_SERVER_URL + "/session";
+    private static final String SESSION_INFO_ENDPOINT = CHAT_SERVER_URL + "/get_session";
     private static final String LOG_TAG = WebServiceCoordinator.class.getSimpleName();
 
     private final Context context;
@@ -34,16 +34,19 @@ public class WebServiceCoordinator {
 
     public void fetchSessionConnectionData() {
         RequestQueue reqQueue = Volley.newRequestQueue(context);
-        reqQueue.add(new JsonObjectRequest(Request.Method.GET, SESSION_INFO_ENDPOINT, new Response.Listener<JSONObject>() {
+        JSONObject postData = null;
+        reqQueue.add(new JsonObjectRequestWithAuth(Request.Method.POST, SESSION_INFO_ENDPOINT, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String apiKey = response.getString("apiKey");
-                    String sessionId = response.getString("sessionId");
-                    String token = response.getString("token");
+                    JSONObject session = response.getJSONObject("session");
+                    String apiKey = session.getString("apiKey");
+                    String sessionId = session.getString("sessionId");
+                    String token = session.getString("token");
 
                     delegate.onSessionConnectionDataReady(apiKey, sessionId, token);
                 } catch (JSONException e) {
+                    Gen.showError(e);
                     delegate.onWebServiceCoordinatorError(e);
                 }
             }

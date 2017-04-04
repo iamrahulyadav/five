@@ -25,14 +25,13 @@ public class VideoCallHandlers implements View.OnClickListener{
         Log.i(LOG_TAG, "Button Pressed for "+v.getId());
         switch (v.getId()){
             case R.id.disconnect_call: {
-                Gen.toast("Disconnecting the call.....", callActivity);
+                Gen.toast("Disconnecting the call.....");
                 callActivity.startRatingsActivity();
-                NavUtils.navigateUpFromSameTask(callActivity);
                 break;
             }
 
             case R.id.camera_cycle_button: {
-                Gen.toast("Flipping the camera.....", callActivity);
+                Gen.toast("Flipping the camera.....");
                 if(callActivity.publisher != null)
                     callActivity.publisher.cycleCamera();
                 break;
@@ -40,11 +39,11 @@ public class VideoCallHandlers implements View.OnClickListener{
 
             case R.id.camera_onoff_button: {
                 if(callActivity.publisher.getPublishVideo()) {  // Camera is On
-                    Gen.toast("Deactivating Camera", callActivity);
+                    Gen.toast("Deactivating Camera");
                     callActivity.mCameraOnOffButton.setImageResource(R.mipmap.camera_off);
                     callActivity.publisher.setPublishVideo(false);
                 }else{
-                    Gen.toast("Activating Camera", callActivity);
+                    Gen.toast("Activating Camera");
                     callActivity.mCameraOnOffButton.setImageResource(R.mipmap.camera_on);
                     callActivity.publisher.setPublishVideo(true);
                 }
@@ -53,11 +52,11 @@ public class VideoCallHandlers implements View.OnClickListener{
 
             case R.id.mic_onoff_button: {
                 if(callActivity.publisher.getPublishAudio()){ // Mic is Onn
-                    Gen.toast("Deactivating Mic", callActivity);
+                    Gen.toast("Deactivating Mic");
                     callActivity.mMicOnOffButton.setImageResource(R.mipmap.mic_off);
                     callActivity.publisher.setPublishAudio(false);
                 }else{
-                    Gen.toast("Activating Mic", callActivity);
+                    Gen.toast("Activating Mic");
                     callActivity.mMicOnOffButton.setImageResource(R.mipmap.mic_onn);
                     callActivity.publisher.setPublishAudio(true);
                 }
