@@ -2,6 +2,7 @@ package com.five.shubhamagarwal.five.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -9,16 +10,21 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.five.shubhamagarwal.five.Adapters.RatingListViewAdapter;
 import com.five.shubhamagarwal.five.Models.RatingParameter;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Gen;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
+import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
+import com.five.shubhamagarwal.five.utils.VolleySingelton;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by shubhamagrawal on 01/04/17.
@@ -28,6 +34,8 @@ public class RatingsActivity extends AppCompatActivity {
     private ListView mlistView;
     private CheckBox mshareCheckBox;
     private EditText mfeedback, mshareMessage;
+
+    private static final String TAG = CallActivity.class.getSimpleName();
 
     private ArrayAdapter<RatingParameter> adapter;
     private ArrayList<RatingParameter> arrayList;
@@ -47,16 +55,10 @@ public class RatingsActivity extends AppCompatActivity {
         mlistView.setAdapter(adapter);
         Gen.setListViewHeightBasedOnChildren(mlistView); // Hack to show the listview in expanded form.
 
-        final Button button = (Button) findViewById(R.id.submit);
-        // TODO: get userA and userB
-        final String userA = "1234";
-        final String userB = "2345";
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button submitButton = (Button) findViewById(R.id.submit);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                HashMap<String, Object> rating = new HashMap<>();
-                rating.put("giver", userB);
-                rating.put("feedback", mfeedback.getText().toString());
-                rating.put("ratingList", arrayList);
+                submitRating();
             }
         });
         mshareCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -71,8 +73,47 @@ public class RatingsActivity extends AppCompatActivity {
         );
     }
 
+    private JSONObject getPostData() throws JSONException {
+        JSONObject js = new JSONObject();
+        JSONObject ratings = new JSONObject();
+        JSONObject ratingParams = new JSONObject();
+        for(RatingParameter ratingparameter: arrayList){
+            ratingParams.put(ratingparameter.getName(), ratingparameter.getRatingStar());
+        }
+
+        ratings.put("share_profile", mshareCheckBox.isChecked());
+        ratings.put("feedback", mfeedback.getText().toString());
+        ratings.put("share_message", mshareCheckBox.getText().toString());
+        ratings.put("rating_params", ratingParams);
+
+        js.put("opentok_session_id", Gen.getSessionIdFromLocalStorage());
+        js.put("ratings", ratings);
+        return js;
+    }
+
+    private void submitRating(){
+        RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
+        JSONObject postData = null;
+        try {
+            postData = getPostData();
+        } catch (JSONException e) {
+            Gen.showError(e);
+        }
+        JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/ratings", postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Gen.startCallStatusActivity(true);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Gen.showVolleyError(error);
+            }
+        });
+        requestQueue.add(request);
+    }
+
     private void setListData() {
-        // TODO: Use this from database
         arrayList = new ArrayList<>();
         arrayList.add(new RatingParameter(1.0, "Looks"));
         arrayList.add(new RatingParameter(1.0, "Communication"));

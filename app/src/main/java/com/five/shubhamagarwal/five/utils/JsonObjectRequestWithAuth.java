@@ -26,10 +26,8 @@ public class JsonObjectRequestWithAuth extends JsonObjectRequest {
         headers.putAll(super.getHeaders());
 
         // add headers <key,value>
-        String credentials = Gen.userId+":";
-        String auth = "Basic "
-                + Base64.encodeToString(credentials.getBytes(),
-                Base64.NO_WRAP);
+        String credentials = Gen.getUserIdFromLocalStorage() + ":";
+        String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
         headers.put("Authorization", auth);
         return headers;
     }

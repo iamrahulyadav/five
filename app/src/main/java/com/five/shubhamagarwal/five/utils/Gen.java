@@ -1,17 +1,25 @@
 package com.five.shubhamagarwal.five.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.MyApplication;
+import com.five.shubhamagarwal.five.activities.CallActivity;
+import com.five.shubhamagarwal.five.activities.CallStatusActivity;
+import com.five.shubhamagarwal.five.activities.FiltersActivity;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,13 +28,17 @@ import java.util.Date;
  */
 
 public class Gen {
+    public static final String TAG = Gen.class.getSimpleName();
     public static final String SERVER_URL = BuildConfig.SERVER_URL;
     public static void toast(String text){
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
     private static ObjectMapper objectMapper;
+    private static String USER_ID = "user_id";
+    private static String SESSION_ID = "user_id";
+    private static String FILTERS = "filters";
 
-    public static String userId;
+    private static String PREFS_NAME = "PreferencesFile";
 
 
     public static ObjectMapper getObjectMapper() {
@@ -37,8 +49,6 @@ public class Gen {
     }
 
     public static String getTimeDiffFromCurrentTime(long seconds) {
-//        Date currentTime = Calendar.getInstance().getTime();
-//        long seconds = (date.getTime() - currentTime.getTime())/1000;
         long hour = seconds/3600;
         seconds = seconds%3600;
         long min = seconds/60;
@@ -76,8 +86,81 @@ public class Gen {
         return null;
     }
 
+    public static void showVolleyError(VolleyError error){
+        Gen.showError(error);
+        if(error.networkResponse != null){
+            if (error.networkResponse.data != null) {
+                try {
+                    String body = new String(error.networkResponse.data, "UTF-8");
+                    Log.e(TAG, body);
+                } catch (UnsupportedEncodingException e) {
+                }
+            }
+        }
+    }
+
     public static void showError(Exception e){
         e.printStackTrace();
         toast("Some error occurred!!");
+    }
+
+    public static void saveUserIdToLocalStorage(String userId) {
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(USER_ID, userId);
+        editor.commit();
+    }
+
+    public static String getUserIdFromLocalStorage(){
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(USER_ID, "");
+    }
+
+    public static void saveSessionIdToLocalStorage(String userId) {
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(SESSION_ID, userId);
+        editor.commit();
+    }
+
+    public static String getSessionIdFromLocalStorage(){
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(SESSION_ID, "");
+    }
+
+    public static void saveFiltersToLocalStorage(boolean filters) {
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(FILTERS, filters);
+        editor.commit();
+    }
+
+    public static Boolean getFiltersFromLocalStorage(){
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        return settings.getBoolean(FILTERS, false);
+    }
+
+    public static void startFiltersActivity(boolean clearStack) {
+        Intent intent = new Intent(MyApplication.getAppContext(), FiltersActivity.class);
+        if(clearStack){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        MyApplication.getAppContext().startActivity(intent);
+    }
+
+    public static void startCallStatusActivity(boolean clearStack) {
+        Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
+        if(clearStack){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        MyApplication.getAppContext().startActivity(intent);
+    }
+
+    public static void startCallActivity(boolean clearStack) {
+        Intent intent = new Intent(MyApplication.getAppContext(), CallActivity.class);
+        if(clearStack){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        MyApplication.getAppContext().startActivity(intent);
     }
 }

@@ -10,8 +10,6 @@ import com.five.shubhamagarwal.five.MyApplication;
 
 public class VolleySingelton {
     private static VolleySingelton instance = null;
-    private static Integer i =100;
-
     private RequestQueue requestQueue;
 
     private VolleySingelton() {
@@ -19,10 +17,8 @@ public class VolleySingelton {
     }
 
     public static VolleySingelton getInstance() {
-        synchronized (i) {
-            if (instance == null) {
-                instance = new VolleySingelton();
-            }
+        if (instance == null) {
+            instance = new VolleySingelton();
         }
         return instance;
     }

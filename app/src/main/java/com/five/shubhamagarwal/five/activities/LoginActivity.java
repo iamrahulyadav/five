@@ -59,9 +59,14 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        if(Gen.getUserIdFromLocalStorage() != "") {
+            if(Gen.getFiltersFromLocalStorage() == true) {
+                Gen.startCallStatusActivity(true);
+            } else {
+                Gen.startFiltersActivity(true);
+            }
+        }
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -92,10 +97,6 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
             });
         }
 
-        // check user login status
-//        if (mAuth.getCurrentUser() != null) {
-//            startFiltersActivity();
-//        }
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
         HashMap<String, String> url_maps = new HashMap<String, String>();
@@ -157,12 +158,12 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     try {
-                                        Gen.userId = response.getString("user_uuid");
+                                        Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
                                         Log.d(TAG, response.getString("new_signup"));
                                     } catch (Exception e) {
                                         Gen.showError(e);
                                     }
-                                    startFiltersActivity();
+                                    Gen.startFiltersActivity(false);
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
@@ -188,11 +189,6 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
         js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
         js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
         return js;
-    }
-
-    private void startFiltersActivity() {
-        Intent intent = new Intent(this, FiltersActivity.class);
-        startActivity(intent);
     }
 
     @Override

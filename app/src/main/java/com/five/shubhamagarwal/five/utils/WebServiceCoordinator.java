@@ -43,6 +43,7 @@ public class WebServiceCoordinator {
                     String apiKey = session.getString("apiKey");
                     String sessionId = session.getString("sessionId");
                     String token = session.getString("token");
+                    Gen.saveSessionIdToLocalStorage(sessionId);
 
                     delegate.onSessionConnectionDataReady(apiKey, sessionId, token);
                 } catch (JSONException e) {

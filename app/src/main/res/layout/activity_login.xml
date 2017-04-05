@@ -12,7 +12,6 @@
         custom:auto_cycle="true"
         custom:indicator_visibility="visible"
         custom:pager_animation_span="1100"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="120dp"/>
 
     <LinearLayout
