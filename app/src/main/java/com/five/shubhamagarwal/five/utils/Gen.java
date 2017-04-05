@@ -157,66 +157,15 @@ public class Gen {
         MyApplication.getAppContext().startActivity(intent);
     }
 
-    public static void startLoginActivity(boolean clearStack) {
-        Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
+    public static void startActivity(Activity source, boolean clearStack, Class<?> destination) {
+        Gen.hideLoader(source);
+        Intent intent = new Intent(MyApplication.getAppContext(), destination);
         startActivity(intent, clearStack);
     }
 
-    public static void startLoginActivity(boolean clearStack, String key, String value) {
-        Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(key, value);
-        intent.putExtras(bundle);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startFiltersActivity(boolean clearStack) {
-        Intent intent = new Intent(MyApplication.getAppContext(), FiltersActivity.class);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startFiltersActivity(boolean clearStack, String key, String value) {
-        Intent intent = new Intent(MyApplication.getAppContext(), FiltersActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(key, value);
-        intent.putExtras(bundle);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startCallStatusActivity(boolean clearStack) {
-        Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
-        startActivity(intent, clearStack);
-    }
-
-
-    public static void startCallStatusActivity(boolean clearStack, String key, String value) {
-        Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(key, value);
-        intent.putExtras(bundle);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startCallActivity(boolean clearStack, String key, String value) {
-        Intent intent = new Intent(MyApplication.getAppContext(), CallActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(key, value);
-        intent.putExtras(bundle);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startCallActivity(boolean clearStack) {
-        Intent intent = new Intent(MyApplication.getAppContext(), CallActivity.class);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startRatingsActivity(boolean clearStack) {
-        Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
-        startActivity(intent, clearStack);
-    }
-
-    public static void startRatingsActivity(boolean clearStack, String key, String value) {
-        Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
+    public static void startActivity(Activity source, boolean clearStack, Class<?> destination, String key, String value) {
+        Gen.hideLoader(source);
+        Intent intent = new Intent(MyApplication.getAppContext(), destination);
         Bundle bundle = new Bundle();
         bundle.putString(key, value);
         intent.putExtras(bundle);
@@ -227,15 +176,22 @@ public class Gen {
         ViewGroup view = (ViewGroup) activity.getWindow().getDecorView().getRootView();
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.loading_indicator, view, true);
+        View loader = activity.findViewById(R.id.loading_indicator);
+        if(loader ==null ){
+            inflater.inflate(R.layout.loading_indicator, view, true);
+            loader = activity.findViewById(R.id.loading_indicator);
+        }
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        View loader = activity.findViewById(R.id.loading_indicator);
+
         loader.setVisibility(View.VISIBLE);
     }
 
     public static void hideLoader(Activity activity) {
-        activity.findViewById(R.id.loading_indicator).setVisibility(View.GONE);
+        View loader = activity.findViewById(R.id.loading_indicator);
+        if(loader !=null ){
+            loader.setVisibility(View.GONE);
+        }
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 

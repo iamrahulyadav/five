@@ -81,7 +81,7 @@ public class FiltersActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Gen.saveFiltersToLocalStorage(true); // this indicates that the filter screen is done by the user
                 Gen.hideLoader(activity);
-                Gen.startCallStatusActivity(false);
+                Gen.startActivity(activity, false, CallStatusActivity.class);
             }
         }, new Response.ErrorListener() {
             @Override

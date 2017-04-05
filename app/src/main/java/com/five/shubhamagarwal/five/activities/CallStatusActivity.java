@@ -103,11 +103,11 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_action_filter:{
-                Gen.startFiltersActivity(false);
+                Gen.startActivity(this, false, FiltersActivity.class);
                 return true;
             }
             case R.id.menu_action_logout:{
-                Gen.startLoginActivity(false, Constants.SHOW_LOGOUT_SCREEN, "true");
+                Gen.startActivity(this, false, LoginActivity.class, Constants.SHOW_LOGOUT_SCREEN, "true");
                 return true;
             }
             default:
@@ -153,7 +153,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.call_button: {
                 Gen.toast("We are connecting you now ...");
-                Gen.startCallActivity(false);
+                Gen.startActivity(this, false, CallActivity.class);
             }
         }
     }

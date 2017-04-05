@@ -105,7 +105,7 @@ public class RatingsActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Gen.hideLoader(activity);
                 Gen.toast("Thanks for your rating! We will notify you when we schedule your next call.");
-                Gen.startCallStatusActivity(true);
+                Gen.startActivity(activity, true, CallStatusActivity.class);
             }
         }, new Response.ErrorListener() {
             @Override

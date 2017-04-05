@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.logging.Filter;
 
 public class LoginActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
@@ -67,9 +68,9 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
 
         } else if(Gen.getUserIdFromLocalStorage() != "") {
             if(Gen.getFiltersFromLocalStorage() == true) {
-                Gen.startCallStatusActivity(true);
+                Gen.startActivity(this, true, CallStatusActivity.class);
             } else {
-                Gen.startFiltersActivity(true);
+                Gen.startActivity(this, true, FiltersActivity.class);
             }
         }
 
@@ -169,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                                     } catch (Exception e) {
                                         Gen.showError(e);
                                     }
-                                    Gen.startFiltersActivity(false);
+                                    Gen.startActivity(activity, false, FiltersActivity.class);
                                 }
                             }, new Response.ErrorListener() {
                                 @Override

@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.five.shubhamagarwal.five.activities.CallActivity;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.activities.FiltersActivity;
+import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 /**
  * Created by shubhamagrawal on 03/04/17.
@@ -26,7 +28,8 @@ public class VideoCallHandlers implements View.OnClickListener{
         switch (v.getId()){
             case R.id.disconnect_call: {
                 Gen.toast("Disconnecting the call.....");
-                Gen.startRatingsActivity(true);
+                Object act = FiltersActivity.class;
+                Gen.startActivity(callActivity, true, RatingsActivity.class);
                 break;
             }
 
