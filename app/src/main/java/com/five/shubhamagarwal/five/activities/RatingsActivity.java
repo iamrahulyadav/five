@@ -66,7 +66,7 @@ public class RatingsActivity extends AppCompatActivity {
               if(isChecked)
                   mshareMessage.setVisibility(View.VISIBLE);
               else
-                  mshareMessage.setVisibility(View.GONE);
+                  mshareMessage.setVisibility(View.INVISIBLE);
               }
           }
         );
@@ -101,6 +101,7 @@ public class RatingsActivity extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/ratings", postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Gen.toast("Thanks for your rating! We will notify you when we schedule your next call.");
                 Gen.startCallStatusActivity(true);
             }
         }, new Response.ErrorListener() {

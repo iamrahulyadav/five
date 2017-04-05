@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -65,7 +66,7 @@ public class Gen {
         for (int i = 0; i < listAdapter.getCount(); i++) {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
+            totalHeight += TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, MyApplication.getAppContext().getResources().getDisplayMetrics());
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
