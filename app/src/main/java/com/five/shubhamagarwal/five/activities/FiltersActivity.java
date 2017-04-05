@@ -1,15 +1,10 @@
 package com.five.shubhamagarwal.five.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,12 +14,9 @@ import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Gen;
 import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
 import com.five.shubhamagarwal.five.utils.VolleySingelton;
-
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 
 public class FiltersActivity extends AppCompatActivity {
@@ -88,14 +80,7 @@ public class FiltersActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error.networkResponse.data!=null) {
-                    try {
-                        String body = new String(error.networkResponse.data,"UTF-8");
-                        Log.e(TAG, body);
-                    } catch (UnsupportedEncodingException e) {
-                        Gen.showError(e);
-                    }
-                }
+                Gen.showVolleyError(error);
             }
         });
         requestQueue.add(request);

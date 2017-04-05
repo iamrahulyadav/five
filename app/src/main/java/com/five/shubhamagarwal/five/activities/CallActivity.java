@@ -77,11 +77,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         return super.onOptionsItemSelected(item);
     }
 
-    public void startRatingsActivity() {
-        Intent intent = new Intent(this, RatingsActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onSessionConnectionDataReady(String apiKey, String sessionId, String token) {
         this.apiKey = apiKey;

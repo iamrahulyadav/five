@@ -18,6 +18,7 @@ import com.five.shubhamagarwal.five.MyApplication;
 import com.five.shubhamagarwal.five.activities.CallActivity;
 import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.FiltersActivity;
+import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -35,7 +36,7 @@ public class Gen {
     }
     private static ObjectMapper objectMapper;
     private static String USER_ID = "user_id";
-    private static String SESSION_ID = "user_id";
+    private static String SESSION_ID = "session_id";
     private static String FILTERS = "filters";
 
     private static String PREFS_NAME = "PreferencesFile";
@@ -144,6 +145,8 @@ public class Gen {
         Intent intent = new Intent(MyApplication.getAppContext(), FiltersActivity.class);
         if(clearStack){
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         MyApplication.getAppContext().startActivity(intent);
     }
@@ -152,6 +155,8 @@ public class Gen {
         Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
         if(clearStack){
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         MyApplication.getAppContext().startActivity(intent);
     }
@@ -160,6 +165,18 @@ public class Gen {
         Intent intent = new Intent(MyApplication.getAppContext(), CallActivity.class);
         if(clearStack){
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        MyApplication.getAppContext().startActivity(intent);
+    }
+
+    public static void startRatingsActivity(boolean clearStack) {
+        Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
+        if(clearStack){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         MyApplication.getAppContext().startActivity(intent);
     }
