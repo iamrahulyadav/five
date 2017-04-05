@@ -110,10 +110,15 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
         url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
-        for (String name : url_maps.keySet()) {
+        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("screen1",R.mipmap.screen_1);
+        file_maps.put("screen2",R.mipmap.screen_2);
+        file_maps.put("screen3",R.mipmap.screen_3);
+
+        for (String name : file_maps.keySet()) {
             DefaultSliderView sliderView = new DefaultSliderView(this);
             sliderView
-                    .image(url_maps.get(name))
+                    .image(file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
             mDemoSlider.addSlider(sliderView);
@@ -121,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
 
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(1000);
+        mDemoSlider.setDuration(2000);
         mDemoSlider.addOnPageChangeListener(this);
     }
 
