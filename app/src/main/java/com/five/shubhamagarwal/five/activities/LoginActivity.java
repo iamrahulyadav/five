@@ -1,5 +1,6 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -132,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
     }
 
     private void handleFacebookAccessToken(final AccessToken token) {
+        final Activity activity = this;
         Log.d(TAG, "handleFacebookAccessToken:" + token);
         accessToken = token;
         credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -150,6 +152,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
+                            Gen.showLoader(activity);
                             JSONObject postData = null;
                             try {
                                 postData = getPostData();
@@ -159,6 +162,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                             JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
+                                    Gen.hideLoader(activity);
                                     try {
                                         Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
                                         Log.d(TAG, response.getString("new_signup"));
@@ -170,7 +174,8 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                   Gen.showVolleyError(error);
+                                    Gen.hideLoader(activity);
+                                    Gen.showVolleyError(error);
                                 }
                             });
                             requestQueue.add(request);

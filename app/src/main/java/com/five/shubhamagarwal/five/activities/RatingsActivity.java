@@ -1,5 +1,6 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -91,6 +92,7 @@ public class RatingsActivity extends AppCompatActivity {
     }
 
     private void submitRating(){
+        final Activity activity = this;
         RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
         JSONObject postData = null;
         try {
@@ -101,12 +103,15 @@ public class RatingsActivity extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/ratings", postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Gen.hideLoader(activity);
                 Gen.toast("Thanks for your rating! We will notify you when we schedule your next call.");
                 Gen.startCallStatusActivity(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                Gen.hideLoader(activity);
                 Gen.showVolleyError(error);
             }
         });

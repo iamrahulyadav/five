@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Gen;
 import com.five.shubhamagarwal.five.utils.WebServiceCoordinator;
 import com.five.shubhamagarwal.five.utils.VideoCallHandlers;
 import com.opentok.android.BaseVideoRenderer;
@@ -54,6 +55,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         videoCallHandlers = new VideoCallHandlers(this);
         webServiceCoordinator = new WebServiceCoordinator(this, this);
 
+        Gen.showLoader(this);
         webServiceCoordinator.fetchSessionConnectionData();
 
         // attach call handler
@@ -65,6 +67,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onSessionConnectionDataReady(String apiKey, String sessionId, String token) {
+        Gen.hideLoader(this);
+
         this.apiKey = apiKey;
         this.sessionId = sessionId;
         this.token = token;
@@ -83,6 +87,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onWebServiceCoordinatorError(Exception error) {
+        Gen.hideLoader(this);
+        Gen.showError(error);
         Log.e(LOG_TAG, "Web Service error: " + error.getMessage());
     }
 

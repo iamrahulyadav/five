@@ -1,5 +1,6 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.app.Activity;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     private static Button mCallButton;
 
     public interface CallStatus {
-        String NO_CALL = "Till we schedule your next call.";
+        String NO_CALL = "till we schedule your next call.";
         String CALL_IN = "Your next call in ...";
     }
 
@@ -54,9 +55,13 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
 
         RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
         JSONObject postData = null;
+
+        Gen.showLoader(this);
+        final Activity activity = this;
         final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/next_chat", postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Gen.hideLoader(activity);
                 try {
                     if (response.isNull("chat")) {
                         // there is no chat scheduled in future
@@ -79,6 +84,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Gen.hideLoader(activity);
                 Gen.showVolleyError(error);
             }
         });

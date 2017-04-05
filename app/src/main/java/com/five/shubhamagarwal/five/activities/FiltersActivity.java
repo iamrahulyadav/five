@@ -1,10 +1,12 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -64,6 +66,7 @@ public class FiltersActivity extends AppCompatActivity {
         if(!validateData())
             return;
 
+        Gen.showLoader(this);
         RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
         JSONObject postData = null;
         try {
@@ -71,15 +74,19 @@ public class FiltersActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Gen.showError(e);
         }
+
+        final Activity activity = this;
         JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/update_user_details", postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Gen.saveFiltersToLocalStorage(true); // this indicates that the filter screen is done by the user
+                Gen.hideLoader(activity);
                 Gen.startCallStatusActivity(false);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Gen.hideLoader(activity);
                 Gen.showVolleyError(error);
             }
         });
