@@ -28,6 +28,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
 import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
 import com.five.shubhamagarwal.five.utils.VolleySingelton;
@@ -59,46 +60,48 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
+        Bundle extras = getIntent().getExtras();
 
-        if(Gen.getUserIdFromLocalStorage() != "") {
+        if(extras!=null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null){
+
+        } else if(Gen.getUserIdFromLocalStorage() != "") {
             if(Gen.getFiltersFromLocalStorage() == true) {
                 Gen.startCallStatusActivity(true);
             } else {
                 Gen.startFiltersActivity(true);
             }
         }
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        configImageSlider();
 
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        if (accessToken != null) {
-            handleFacebookAccessToken(accessToken);
-        } else {
-            LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-            loginButton.setReadPermissions("email", "public_profile");
-            loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                    handleFacebookAccessToken(loginResult.getAccessToken());
-                }
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
 
-                @Override
-                public void onCancel() {
-                    Log.d(TAG, "facebook:onCancel");
-                }
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+            }
 
-                @Override
-                public void onError(FacebookException error) {
-                    Log.d(TAG, "facebook:onError", error);
-                }
-            });
-        }
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+                Gen.showError(error);
+            }
+        });
+    }
 
+    private void configImageSlider() {
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-
         HashMap<String, String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
         url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
@@ -107,7 +110,6 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
 
         for (String name : url_maps.keySet()) {
             DefaultSliderView sliderView = new DefaultSliderView(this);
-            // initialize a SliderLayout
             sliderView
                     .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)

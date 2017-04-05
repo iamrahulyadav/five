@@ -3,6 +3,8 @@ package com.five.shubhamagarwal.five.activities;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
 import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
 import com.five.shubhamagarwal.five.utils.VolleySingelton;
@@ -80,6 +83,30 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
             }
         });
         requestQueue.add(request);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(Menu.NONE, R.id.menu_action_filter, Menu.NONE, R.string.menu_action_filter);
+        menu.add(Menu.NONE, R.id.menu_action_logout, Menu.NONE, R.string.menu_action_logout);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_action_filter:{
+                Gen.startFiltersActivity(false);
+                return true;
+            }
+            case R.id.menu_action_logout:{
+                Gen.startLoginActivity(false, Constants.SHOW_LOGOUT_SCREEN, "true");
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void startCounter(final int inSeconds) {

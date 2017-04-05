@@ -3,6 +3,7 @@ package com.five.shubhamagarwal.five.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.five.shubhamagarwal.five.MyApplication;
 import com.five.shubhamagarwal.five.activities.CallActivity;
 import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.FiltersActivity;
+import com.five.shubhamagarwal.five.activities.LoginActivity;
 import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 import java.io.UnsupportedEncodingException;
@@ -35,11 +37,6 @@ public class Gen {
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
     private static ObjectMapper objectMapper;
-    private static String USER_ID = "user_id";
-    private static String SESSION_ID = "session_id";
-    private static String FILTERS = "filters";
-
-    private static String PREFS_NAME = "PreferencesFile";
 
 
     public static ObjectMapper getObjectMapper() {
@@ -106,78 +103,113 @@ public class Gen {
     }
 
     public static void saveUserIdToLocalStorage(String userId) {
-        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(USER_ID, userId);
+        editor.putString(Constants.USER_ID, userId);
         editor.commit();
     }
 
     public static String getUserIdFromLocalStorage(){
-        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
-        return settings.getString(USER_ID, "");
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        return settings.getString(Constants.USER_ID, "");
     }
 
     public static void saveSessionIdToLocalStorage(String userId) {
-        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(SESSION_ID, userId);
+        editor.putString(Constants.SESSION_ID, userId);
         editor.commit();
     }
 
     public static String getSessionIdFromLocalStorage(){
-        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
-        return settings.getString(SESSION_ID, "");
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        return settings.getString(Constants.SESSION_ID, "");
     }
 
     public static void saveFiltersToLocalStorage(boolean filters) {
-        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(FILTERS, filters);
+        editor.putBoolean(Constants.FILTERS, filters);
         editor.commit();
     }
 
     public static Boolean getFiltersFromLocalStorage(){
-        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(PREFS_NAME, 0);
-        return settings.getBoolean(FILTERS, false);
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        return settings.getBoolean(Constants.FILTERS, false);
+    }
+
+    private static void startActivity(Intent intent, boolean clearStack){
+        if(clearStack){
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        MyApplication.getAppContext().startActivity(intent);
+    }
+
+    public static void startLoginActivity(boolean clearStack) {
+        Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
+        startActivity(intent, clearStack);
+    }
+
+    public static void startLoginActivity(boolean clearStack, String key, String value) {
+        Intent intent = new Intent(MyApplication.getAppContext(), LoginActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(key, value);
+        intent.putExtras(bundle);
+        startActivity(intent, clearStack);
     }
 
     public static void startFiltersActivity(boolean clearStack) {
         Intent intent = new Intent(MyApplication.getAppContext(), FiltersActivity.class);
-        if(clearStack){
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        MyApplication.getAppContext().startActivity(intent);
+        startActivity(intent, clearStack);
+    }
+
+    public static void startFiltersActivity(boolean clearStack, String key, String value) {
+        Intent intent = new Intent(MyApplication.getAppContext(), FiltersActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(key, value);
+        intent.putExtras(bundle);
+        startActivity(intent, clearStack);
     }
 
     public static void startCallStatusActivity(boolean clearStack) {
         Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
-        if(clearStack){
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        MyApplication.getAppContext().startActivity(intent);
+        startActivity(intent, clearStack);
+    }
+
+
+    public static void startCallStatusActivity(boolean clearStack, String key, String value) {
+        Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(key, value);
+        intent.putExtras(bundle);
+        startActivity(intent, clearStack);
+    }
+
+    public static void startCallActivity(boolean clearStack, String key, String value) {
+        Intent intent = new Intent(MyApplication.getAppContext(), CallActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(key, value);
+        intent.putExtras(bundle);
+        startActivity(intent, clearStack);
     }
 
     public static void startCallActivity(boolean clearStack) {
         Intent intent = new Intent(MyApplication.getAppContext(), CallActivity.class);
-        if(clearStack){
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        MyApplication.getAppContext().startActivity(intent);
+        startActivity(intent, clearStack);
     }
 
     public static void startRatingsActivity(boolean clearStack) {
         Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
-        if(clearStack){
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        MyApplication.getAppContext().startActivity(intent);
+        startActivity(intent, clearStack);
+    }
+
+    public static void startRatingsActivity(boolean clearStack, String key, String value) {
+        Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(key, value);
+        intent.putExtras(bundle);
+        startActivity(intent, clearStack);
     }
 }

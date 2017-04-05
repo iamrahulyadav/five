@@ -1,15 +1,11 @@
 package com.five.shubhamagarwal.five.activities;
 
-import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.WebServiceCoordinator;
 import com.five.shubhamagarwal.five.utils.VideoCallHandlers;
@@ -65,16 +61,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraCycleButton.setOnClickListener(videoCallHandlers);
         mCameraOnOffButton.setOnClickListener(videoCallHandlers);
         mMicOnOffButton.setOnClickListener(videoCallHandlers);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
