@@ -30,6 +30,7 @@ import com.five.shubhamagarwal.five.activities.CallActivity;
 import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.FiltersActivity;
 import com.five.shubhamagarwal.five.activities.LoginActivity;
+import com.five.shubhamagarwal.five.activities.NotificationActivity;
 import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 import java.io.UnsupportedEncodingException;
@@ -43,6 +44,8 @@ import java.util.Date;
 public class Gen {
     public static final String TAG = Gen.class.getSimpleName();
     public static final String SERVER_URL = BuildConfig.SERVER_URL;
+    public static final String NOTIFICATION_TYPE = "notification_type";
+    public static final String CHAT_NOTIFICATION_TYPE = "Chat Notification";
     public static void toast(String text){
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
@@ -206,6 +209,18 @@ public class Gen {
             loader.setVisibility(View.GONE);
         }
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public static void handleNotification(Bundle bundle, Activity source){
+        String activityName = bundle.getString(NOTIFICATION_TYPE);
+        switch (activityName){
+            case CHAT_NOTIFICATION_TYPE: {
+                Intent intent = new Intent(MyApplication.getAppContext(), NotificationActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent, true);
+            }
+            break;
+        }
     }
 
 }

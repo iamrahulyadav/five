@@ -49,7 +49,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.logging.Filter;
 
-public class LoginActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class LoginActivity extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private String TAG = "LoginActivity";
     CallbackManager mCallbackManager;
@@ -65,7 +65,9 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
         setContentView(R.layout.activity_container);
         Bundle extras = getIntent().getExtras();
 
-        if(extras!=null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null){
+        if(extras!=null && extras.keySet().contains(Gen.NOTIFICATION_TYPE)) {
+            Gen.handleNotification(extras, this);
+        }else if(extras!=null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null){
 
         } else if(Gen.getUserIdFromLocalStorage() != "") {
             if(Gen.getFiltersFromLocalStorage() == true) {
@@ -240,5 +242,9 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
+
+    public boolean onMessageReceived() {
+        return super.isDestroyed();
     }
 }
