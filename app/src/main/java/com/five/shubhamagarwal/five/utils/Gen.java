@@ -49,6 +49,11 @@ public class Gen {
     public static void toast(String text){
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
+
+    public static void toastLong(String text){
+        Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_LONG).show();
+    }
+
     private static ObjectMapper objectMapper;
 
 
