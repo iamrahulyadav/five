@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/call_container"
     tools:context="com.five.shubhamagarwal.five.activities.CallActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/call_container"
+        app:layout_constraintRight_toRightOf="@+id/call_container"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        style="@style/HeaderStyle"
+        />
 
     <FrameLayout
         android:id="@+id/subscriber_container"

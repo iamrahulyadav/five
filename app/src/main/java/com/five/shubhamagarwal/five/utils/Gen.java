@@ -72,6 +72,12 @@ public class Gen {
         return String.format("%02d:%02d:%02d", hour, min, seconds);
     }
 
+    public static String getMinSecFromSec(long seconds) {
+        long min = seconds/60;
+        seconds = seconds%60;
+        return String.format("%02d:%02d", min, seconds);
+    }
+
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {

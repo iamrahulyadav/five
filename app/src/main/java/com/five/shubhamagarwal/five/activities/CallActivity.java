@@ -3,6 +3,7 @@ package com.five.shubhamagarwal.five.activities;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
@@ -28,6 +31,7 @@ import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
 
 import java.security.Permission;
+import java.util.Calendar;
 
 
 public class CallActivity extends AppCompatActivity implements WebServiceCoordinator.Listener,
@@ -36,6 +40,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     private static final String LOG_TAG = CallActivity.class.getSimpleName();
     private WebServiceCoordinator webServiceCoordinator;
     private VideoCallHandlers videoCallHandlers;
+    CountDownTimer waitTimer;
+    TextView mTimerView;
 
     public String apiKey, sessionId, token;
     public Session session;
@@ -60,6 +66,26 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         }
     }
 
+    public void startCounter(final int inSeconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, inSeconds);
+
+        waitTimer = new CountDownTimer(inSeconds*1000, 1000) {
+
+            long sec = inSeconds;
+
+            public void onTick(long millisUntilFinished) {
+                String time = Gen.getMinSecFromSec(sec);
+                mTimerView.setText(time);
+                sec--;
+            }
+
+            public void onFinish() {
+                onStop();
+            }
+        }.start();
+    }
+
     public ImageButton mCallDisconnectButton, mCameraCycleButton, mCameraOnOffButton, mMicOnOffButton;
 
     @Override
@@ -78,6 +104,16 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
 
+        // attach call handler
+        mCallDisconnectButton.setOnClickListener(videoCallHandlers);
+        mCameraCycleButton.setOnClickListener(videoCallHandlers);
+        mCameraOnOffButton.setOnClickListener(videoCallHandlers);
+        mMicOnOffButton.setOnClickListener(videoCallHandlers);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.RECORD_AUDIO}, Constants.CAMERA_AUDIO_WAKE_LOCK);
+    }
+
+    @Override
+    protected void onResume() {
         // init call handler and web service coordinator
         videoCallHandlers = new VideoCallHandlers(this);
         webServiceCoordinator = new WebServiceCoordinator(this, this);
@@ -85,12 +121,10 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         Gen.showLoader(this);
         webServiceCoordinator.fetchSessionConnectionData();
 
-        // attach call handler
-        mCallDisconnectButton.setOnClickListener(videoCallHandlers);
-        mCameraCycleButton.setOnClickListener(videoCallHandlers);
-        mCameraOnOffButton.setOnClickListener(videoCallHandlers);
-        mMicOnOffButton.setOnClickListener(videoCallHandlers);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.RECORD_AUDIO}, Constants.CAMERA_AUDIO_WAKE_LOCK);
+        if(waitTimer != null) {
+            startCounter(5*60);
+        }
+        super.onResume();
     }
 
     @Override
