@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_white"
             app:layout_constraintRight_toLeftOf="@+id/camera_onoff_button"
-            app:srcCompat="@mipmap/mic_onn" />
+            app:srcCompat="@mipmap/mic_off" />
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"

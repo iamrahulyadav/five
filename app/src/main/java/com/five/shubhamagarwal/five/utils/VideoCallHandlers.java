@@ -42,11 +42,11 @@ public class VideoCallHandlers implements View.OnClickListener{
             case R.id.camera_onoff_button: {
                 if(callActivity.publisher.getPublishVideo()) {  // Camera is On
                     Gen.toast("Deactivating Camera");
-                    callActivity.mCameraOnOffButton.setImageResource(R.mipmap.camera_off);
+                    callActivity.mCameraOnOffButton.setImageResource(R.mipmap.camera_on);
                     callActivity.publisher.setPublishVideo(false);
                 }else{
                     Gen.toast("Activating Camera");
-                    callActivity.mCameraOnOffButton.setImageResource(R.mipmap.camera_on);
+                    callActivity.mCameraOnOffButton.setImageResource(R.mipmap.camera_off);
                     callActivity.publisher.setPublishVideo(true);
                 }
                 break;
@@ -55,11 +55,11 @@ public class VideoCallHandlers implements View.OnClickListener{
             case R.id.mic_onoff_button: {
                 if(callActivity.publisher.getPublishAudio()){ // Mic is Onn
                     Gen.toast("Deactivating Mic");
-                    callActivity.mMicOnOffButton.setImageResource(R.mipmap.mic_off);
+                    callActivity.mMicOnOffButton.setImageResource(R.mipmap.mic_onn);
                     callActivity.publisher.setPublishAudio(false);
                 }else{
                     Gen.toast("Activating Mic");
-                    callActivity.mMicOnOffButton.setImageResource(R.mipmap.mic_onn);
+                    callActivity.mMicOnOffButton.setImageResource(R.mipmap.mic_off);
                     callActivity.publisher.setPublishAudio(true);
                 }
                 break;
