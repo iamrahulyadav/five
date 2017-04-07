@@ -40,6 +40,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -189,6 +190,10 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
         JSONObject js = new JSONObject();
         js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
         js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if(token != null){
+            Gen.saveFCMTokenToLocalStorage(token);
+        }
         js.put("fcm_token", Gen.getFCMTokenFromLocalStorage());
         return js;
     }

@@ -18,10 +18,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        String token = FirebaseInstanceId.getInstance().getToken();
-        if(token != null){
-            Gen.saveFCMTokenToLocalStorage(token);
-        }
         instance = this;
     }
 
