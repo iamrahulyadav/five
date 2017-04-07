@@ -3,6 +3,7 @@ package com.five.shubhamagarwal.five;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
@@ -15,7 +16,6 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         super.onCreate();
         instance = this;
     }

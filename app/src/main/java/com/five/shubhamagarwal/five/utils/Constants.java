@@ -10,4 +10,5 @@ public class Constants {
     public static String SESSION_ID = "session_id";
     public static String FILTERS = "filters";
     public static String PREFS_NAME = "PreferencesFile";
+    public static final int CAMERA_AUDIO_WAKE_LOCK = 1;
 }

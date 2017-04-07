@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/congrats"
+        android:text="Congrats!!"
+        style="@style/LargeHeaderStyle"
+        android:fontFamily="casual"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/message_status"
+        android:layout_below="@+id/congrats"
+        style="@style/HeaderStyle"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:text="The person has shared the facebook profile with you."/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/message"
+        android:layout_below="@+id/message_status"
+        style="@style/HeaderStyle"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:text="\''  The person has shared the facebook profile with you. \ ''"/>
+
+    <Button
+        style="@style/PrimaryButton"
+        android:id="@+id/notification_activity_action"
+        android:text="Check Profile"/>
+
+</RelativeLayout>

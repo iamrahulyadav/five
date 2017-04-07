@@ -28,7 +28,6 @@ public class VideoCallHandlers implements View.OnClickListener{
         switch (v.getId()){
             case R.id.disconnect_call: {
                 Gen.toast("Disconnecting the call.....");
-                Object act = FiltersActivity.class;
                 Gen.startActivity(callActivity, true, RatingsActivity.class);
                 break;
             }

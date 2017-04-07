@@ -1,5 +1,11 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +13,9 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
+import com.five.shubhamagarwal.five.utils.PermissionUtil;
 import com.five.shubhamagarwal.five.utils.WebServiceCoordinator;
 import com.five.shubhamagarwal.five.utils.VideoCallHandlers;
 import com.opentok.android.BaseVideoRenderer;
@@ -18,6 +26,8 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
+
+import java.security.Permission;
 
 
 public class CallActivity extends AppCompatActivity implements WebServiceCoordinator.Listener,
@@ -33,6 +43,23 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     public Subscriber subscriber;
 
     public FrameLayout mPublisherViewContainer, mSubscriberViewContainer;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Constants.CAMERA_AUDIO_WAKE_LOCK:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Gen.toast("Permission Granted!");
+                } else {
+                    Gen.toast("Permission Denied!");
+                    // re-request permission
+                    PermissionUtil.requestPermission(Manifest.permission.CAMERA, Constants.CAMERA_AUDIO_WAKE_LOCK, this);
+                }
+                break;
+        }
+    }
+
     public ImageButton mCallDisconnectButton, mCameraCycleButton, mCameraOnOffButton, mMicOnOffButton;
 
     @Override
@@ -44,8 +71,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mPublisherViewContainer = (FrameLayout)findViewById(R.id.publisher_container);
-        mSubscriberViewContainer = (FrameLayout)findViewById(R.id.subscriber_container);
+        mPublisherViewContainer = (FrameLayout) findViewById(R.id.publisher_container);
+        mSubscriberViewContainer = (FrameLayout) findViewById(R.id.subscriber_container);
         mCallDisconnectButton = (ImageButton) findViewById(R.id.disconnect_call);
         mCameraCycleButton = (ImageButton) findViewById(R.id.camera_cycle_button);
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
@@ -63,6 +90,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraCycleButton.setOnClickListener(videoCallHandlers);
         mCameraOnOffButton.setOnClickListener(videoCallHandlers);
         mMicOnOffButton.setOnClickListener(videoCallHandlers);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.RECORD_AUDIO}, Constants.CAMERA_AUDIO_WAKE_LOCK);
     }
 
     @Override
@@ -148,7 +176,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     public void onStreamCreated(PublisherKit publisherKit, Stream stream) {
         Log.i(LOG_TAG, "Publisher Stream Created");
-        publisher.setPublishVideo(false);
+        publisher.setPublishVideo(true);
     }
 
     @Override
