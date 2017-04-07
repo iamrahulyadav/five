@@ -189,6 +189,7 @@ public class LoginActivity extends AppCompatActivity implements BaseSliderView.O
         JSONObject js = new JSONObject();
         js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
         js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
+        js.put("fcm_token", Gen.getFCMTokenFromLocalStorage());
         return js;
     }
 

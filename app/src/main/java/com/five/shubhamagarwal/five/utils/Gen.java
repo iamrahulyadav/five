@@ -148,6 +148,19 @@ public class Gen {
         return settings.getBoolean(Constants.FILTERS, false);
     }
 
+
+    public static void saveFCMTokenToLocalStorage(String fcmToken) {
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Constants.FCM_TOKEN, fcmToken);
+        editor.commit();
+    }
+
+    public static String getFCMTokenFromLocalStorage(){
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        return settings.getString(Constants.FCM_TOKEN, "");
+    }
+
     private static void startActivity(Intent intent, boolean clearStack){
         if(clearStack){
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -3,6 +3,7 @@ package com.five.shubhamagarwal.five;
 import android.app.Application;
 import android.content.Context;
 
+import com.five.shubhamagarwal.five.utils.Gen;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -17,6 +18,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if(token != null){
+            Gen.saveFCMTokenToLocalStorage(token);
+        }
         instance = this;
     }
 
