@@ -26,12 +26,12 @@ public class NotificationActivity extends AppCompatActivity {
             final String facebookLink = startingIntent.getStringExtra("facebook_link");
 
 
-            Button action = (Button) findViewById(R.id.notification_activity_action);
+            Button action;
             if(hasSharedProfile.equals("true") || hasSharedProfile.equals("yes")){
                 setContentView(R.layout.activity_congrats);
                 TextView messageView = (TextView) findViewById(R.id.message);
-
                 messageView.setText("''  " + message + "  ''");
+                action = (Button) findViewById(R.id.notification_activity_action);
                 action.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -42,6 +42,7 @@ public class NotificationActivity extends AppCompatActivity {
                 });
             } else {
                 setContentView(R.layout.activity_oops);
+                action = (Button) findViewById(R.id.notification_activity_action);
                 action.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
