@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
+        android:id="@+id/timer_call"
         app:layout_constraintTop_toBottomOf="@id/call_container"
         app:layout_constraintRight_toRightOf="@+id/call_container"
         android:layout_marginRight="16dp"

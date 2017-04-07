@@ -1,12 +1,10 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +12,6 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
@@ -29,8 +26,6 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-
-import java.security.Permission;
 import java.util.Calendar;
 
 
@@ -103,25 +98,27 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraCycleButton = (ImageButton) findViewById(R.id.camera_cycle_button);
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
+        mTimerView = (TextView) findViewById(R.id.timer_call);
+
+        // init call handler and web service coordinator
+        videoCallHandlers = new VideoCallHandlers(this);
+        webServiceCoordinator = new WebServiceCoordinator(this, this);
 
         // attach call handler
         mCallDisconnectButton.setOnClickListener(videoCallHandlers);
         mCameraCycleButton.setOnClickListener(videoCallHandlers);
         mCameraOnOffButton.setOnClickListener(videoCallHandlers);
         mMicOnOffButton.setOnClickListener(videoCallHandlers);
+
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.RECORD_AUDIO}, Constants.CAMERA_AUDIO_WAKE_LOCK);
     }
 
     @Override
     protected void onResume() {
-        // init call handler and web service coordinator
-        videoCallHandlers = new VideoCallHandlers(this);
-        webServiceCoordinator = new WebServiceCoordinator(this, this);
-
         Gen.showLoader(this);
         webServiceCoordinator.fetchSessionConnectionData();
 
-        if(waitTimer != null) {
+        if(waitTimer == null) {
             startCounter(5*60);
         }
         super.onResume();
