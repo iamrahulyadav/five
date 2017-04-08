@@ -163,18 +163,26 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                             } catch (JSONException e) {
                                 Gen.showError(e);
                             }
-                            JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Gen.hideLoader(activity);
-                                    try {
-                                        Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
-                                        Log.d(TAG, response.getString("new_signup"));
-                                    } catch (Exception e) {
-                                        Gen.showError(e);
+                            JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Gen.hideLoader(activity);
+                                        JSONObject filters = null;
+                                        try {
+                                            Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
+                                            if(!response.isNull("filters")) {
+                                                filters = response.getJSONObject("filters");
+                                            }
+                                            Log.d(TAG, response.getString("new_signup"));
+                                        } catch (Exception e) {
+                                            Gen.showError(e);
+                                        }
+                                        if(filters==null)
+                                            Gen.startActivity(activity, false, FiltersActivity.class);
+                                        else
+                                            Gen.startActivity(activity, false, CallStatusActivity.class);
                                     }
-                                    Gen.startActivity(activity, false, FiltersActivity.class);
-                                }
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {

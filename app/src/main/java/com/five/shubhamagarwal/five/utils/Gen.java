@@ -1,23 +1,17 @@
 package com.five.shubhamagarwal.five.utils;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -26,16 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.MyApplication;
 import com.five.shubhamagarwal.five.R;
-import com.five.shubhamagarwal.five.activities.CallActivity;
-import com.five.shubhamagarwal.five.activities.CallStatusActivity;
-import com.five.shubhamagarwal.five.activities.FiltersActivity;
-import com.five.shubhamagarwal.five.activities.LoginActivity;
 import com.five.shubhamagarwal.five.activities.NotificationActivity;
-import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by shubhamagrawal on 03/04/17.
