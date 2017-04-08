@@ -1,6 +1,7 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
@@ -21,12 +23,22 @@ import com.five.shubhamagarwal.five.utils.JsonObjectRequestWithAuth;
 import com.five.shubhamagarwal.five.utils.VolleySingelton;
 import org.json.JSONObject;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class CallStatusActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = CallActivity.class.getSimpleName();
+    public static final String SECONDS_LEFT = "seconds_left_for_chat_start";
+    public static final String CHAT_END_TIME_KEY = "chat_end_time";
+
+
+
+
     private CountDownTimer waitTimer;
+    private String chat_end;
+
+    private JSONObject chatJSONObject = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +81,8 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                         return;
                     }
                     JSONObject chatJSON = response.getJSONObject("chat");
-                    int timeLeftForChatStart = chatJSON.getInt("seconds_left_for_chat_start");
+                    chat_end = chatJSON.getString(CHAT_END_TIME_KEY);
+                    int timeLeftForChatStart = chatJSON.getInt(SECONDS_LEFT);
                     if (timeLeftForChatStart == 0) {
                         // Chat is started or has already started
                         canCallNow();
@@ -142,7 +155,6 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
 
     public void canCallNow() {
         mCallButton.setVisibility(View.VISIBLE);
-
         mTimerView.setVisibility(View.INVISIBLE);
         mkeepCalm1.setVisibility(View.INVISIBLE);
         mkeepCalm2.setVisibility(View.INVISIBLE);
@@ -153,7 +165,9 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.call_button: {
                 Gen.toast("We are connecting you now ...");
-                Gen.startActivity(this, false, CallActivity.class);
+                Intent intent = new Intent(this, CallActivity.class);
+                intent.putExtra(CHAT_END_TIME_KEY, chat_end);
+                startActivity(intent);
             }
         }
     }

@@ -62,6 +62,8 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
+
         setContentView(R.layout.activity_container);
         Bundle extras = getIntent().getExtras();
 
@@ -73,12 +75,11 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
             if(Gen.getFiltersFromLocalStorage() == true) {
                 Gen.startActivity(this, true, CallStatusActivity.class);
             } else {
-                Gen.startActivity(this, true, FiltersActivity.class);
+                updateUserDataToBackend();
             }
         }
 
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
         configImageSlider();
 
         // Initialize Facebook Login button
@@ -155,42 +156,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
-                            Gen.showLoader(activity);
-                            JSONObject postData = null;
-                            try {
-                                postData = getPostData();
-                            } catch (JSONException e) {
-                                Gen.showError(e);
-                            }
-                            JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        Gen.hideLoader(activity);
-                                        JSONObject filters = null;
-                                        try {
-                                            Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
-                                            if(!response.isNull("filters")) {
-                                                filters = response.getJSONObject("filters");
-                                            }
-                                            Log.d(TAG, response.getString("new_signup"));
-                                        } catch (Exception e) {
-                                            Gen.showError(e);
-                                        }
-                                        if(filters==null)
-                                            Gen.startActivity(activity, false, FiltersActivity.class);
-                                        else
-                                            Gen.startActivity(activity, false, CallStatusActivity.class);
-                                    }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Gen.hideLoader(activity);
-                                    Gen.showVolleyError(error);
-                                }
-                            });
-                            requestQueue.add(request);
+                            updateUserDataToBackend();
                         }
                     }
                 });
@@ -198,8 +164,12 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
 
     private JSONObject getPostData() throws JSONException {
         JSONObject js = new JSONObject();
-        js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+            js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        if(accessToken!=null && Gen.getJSONString(accessToken)!=null)
+            js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
+
         String token = FirebaseInstanceId.getInstance().getToken();
         if(token != null){
             Gen.saveFCMTokenToLocalStorage(token);
@@ -254,5 +224,45 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
 
     public boolean onMessageReceived() {
         return super.isDestroyed();
+    }
+
+    public void updateUserDataToBackend(){
+        RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
+        final Activity activity = this;
+        Gen.showLoader(activity);
+        JSONObject postData = null;
+        try {
+            postData = getPostData();
+        } catch (JSONException e) {
+            Gen.showError(e);
+        }
+        JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Gen.hideLoader(activity);
+                        JSONObject filters = null;
+                        try {
+                            Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
+                            if(!response.isNull("filters")) {
+                                filters = response.getJSONObject("filters");
+                            }
+                            Log.d(TAG, response.getString("new_signup"));
+                        } catch (Exception e) {
+                            Gen.showError(e);
+                        }
+                        if(filters==null)
+                            Gen.startActivity(activity, true, FiltersActivity.class);
+                        else
+                            Gen.startActivity(activity, true, CallStatusActivity.class);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Gen.hideLoader(activity);
+                Gen.showVolleyError(error);
+            }
+        });
+        requestQueue.add(request);
     }
 }

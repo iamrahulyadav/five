@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Five</string>
     <string name="menu_action_logout">Logout</string>
-    <string name="menu_action_filter">Interests</string>
+    <string name="menu_action_filter">Filters</string>
 
     <string name="facebook_app_id">1821145004848687</string>
 

@@ -2,7 +2,9 @@ package com.five.shubhamagarwal.five.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Constants;
 import com.five.shubhamagarwal.five.utils.Gen;
@@ -28,6 +33,8 @@ import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
 
 import java.security.Permission;
+import java.text.ParseException;
+import java.util.Date;
 
 
 public class CallActivity extends AppCompatActivity implements WebServiceCoordinator.Listener,
@@ -41,6 +48,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     public Session session;
     public Publisher publisher;
     public Subscriber subscriber;
+    public CountDownTimer callTimer;
+    public Long secondsLeft = 0L;
 
     public FrameLayout mPublisherViewContainer, mSubscriberViewContainer;
 
@@ -61,6 +70,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     }
 
     public ImageButton mCallDisconnectButton, mCameraCycleButton, mCameraOnOffButton, mMicOnOffButton;
+    public TextView mCallTimerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,20 +87,62 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraCycleButton = (ImageButton) findViewById(R.id.camera_cycle_button);
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
+        mCallTimerView = (TextView) findViewById(R.id.call_timer_view);
 
-        // init call handler and web service coordinator
-        videoCallHandlers = new VideoCallHandlers(this);
-        webServiceCoordinator = new WebServiceCoordinator(this, this);
-
-        Gen.showLoader(this);
-        webServiceCoordinator.fetchSessionConnectionData();
 
         // attach call handler
+        videoCallHandlers = new VideoCallHandlers(this);
+
         mCallDisconnectButton.setOnClickListener(videoCallHandlers);
         mCameraCycleButton.setOnClickListener(videoCallHandlers);
         mCameraOnOffButton.setOnClickListener(videoCallHandlers);
         mMicOnOffButton.setOnClickListener(videoCallHandlers);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.RECORD_AUDIO}, Constants.CAMERA_AUDIO_WAKE_LOCK);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // init call handler and web service coordinator
+        webServiceCoordinator = new WebServiceCoordinator(this, this);
+        Gen.showLoader(this);
+        webServiceCoordinator.fetchSessionConnectionData();
+
+        Intent intent = getIntent();
+        String chat_end_time = intent.getStringExtra(CallStatusActivity.CHAT_END_TIME_KEY);
+
+        ISO8601DateFormat df = new ISO8601DateFormat();
+        try {
+            Date currentTime = new Date();
+            Date endTime = df.parse(chat_end_time);
+            secondsLeft = (endTime.getTime() - currentTime.getTime())/1000;
+            Log.d(LOG_TAG, "Seconds Left = "+secondsLeft);
+            startCounter(secondsLeft);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void startCounter(final long inSeconds){
+        if(callTimer != null) {
+            callTimer.cancel();
+            callTimer = null;
+        }
+        callTimer = new CountDownTimer(inSeconds*1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                secondsLeft--;
+                String text = String.format("%02d:%02d", secondsLeft/60, secondsLeft%60);
+                mCallTimerView.setText(text);
+            }
+
+            @Override
+            public void onFinish() {
+                mCallDisconnectButton.performClick();
+            }
+        };
+        callTimer.start();
     }
 
     @Override

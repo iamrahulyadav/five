@@ -24,6 +24,17 @@ import org.json.JSONObject;
 public class FiltersActivity extends AppCompatActivity {
 
     private static final String TAG = FiltersActivity.class.getSimpleName();
+    private static final String FILTERS = "filters";
+    private final String MALE = "male";
+    private final String FEMALE = "female";
+    private final String CASUAL = "casual";
+    private final String RELATIONSHIP = "relationship";
+    private final String LOVE = "love";
+    private final String FRIENDSHIP = "friendship";
+    private final String ACTION = "action";
+    private final String MINAGE = "minAge";
+    private final String MAXAGE = "maxAge";
+
     CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction;
     RangeSeekBar mAgeBar;
     Button mSubmit;
@@ -50,6 +61,53 @@ public class FiltersActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadFilters();
+    }
+
+    private void loadFilters() {
+        RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
+        Gen.showLoader(this);
+        final Activity activity = this;
+        JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.GET, Gen.SERVER_URL + "/get_filters", null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Gen.hideLoader(activity);
+                if(!response.isNull("filters")){
+                    try {
+                        JSONObject filters = response.getJSONObject("filters");
+                        mMale.setChecked(filters.getBoolean(MALE ));
+                        mFemale.setChecked(filters.getBoolean(FEMALE ));
+                        mCasual.setChecked(filters.getBoolean(CASUAL ));
+                        mRelationship.setChecked(filters.getBoolean(RELATIONSHIP ));
+                        mLove.setChecked(filters.getBoolean(LOVE ));
+                        mFriendship.setChecked(filters.getBoolean(FRIENDSHIP ));
+                        mAction.setChecked(filters.getBoolean(ACTION ));
+
+                        // TODO: RangeSeekBar not getting visible
+                        mAgeBar.setSelected(true);
+                        mAgeBar.setSelectedMinValue(filters.getInt(MINAGE));
+                        mAgeBar.setSelectedMaxValue(filters.getInt(MAXAGE));
+                    } catch (JSONException e) {
+                        Gen.showError(e);
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Gen.hideLoader(activity);
+                Gen.showVolleyError(error);
+            }
+        });
+        requestQueue.add(request);
+    }
+
 
     private boolean validateData() {
         if(!mMale.isChecked() && !mFemale.isChecked()){
@@ -95,17 +153,17 @@ public class FiltersActivity extends AppCompatActivity {
 
     private JSONObject getPostData() throws JSONException {
         JSONObject js = new JSONObject();
-        js.put("male", mMale.isChecked());
-        js.put("female", mFemale.isChecked());
-        js.put("casual", mCasual.isChecked());
-        js.put("relationship", mRelationship.isChecked());
-        js.put("love", mLove.isChecked());
-        js.put("friendship", mFriendship.isChecked());
-        js.put("action", mAction.isChecked());
-        js.put("minAge", mAgeBar.getSelectedMinValue());
-        js.put("maxAge", mAgeBar.getSelectedMaxValue());
+        js.put(MALE, mMale.isChecked());
+        js.put(FEMALE, mFemale.isChecked());
+        js.put(CASUAL, mCasual.isChecked());
+        js.put(RELATIONSHIP, mRelationship.isChecked());
+        js.put(LOVE, mLove.isChecked());
+        js.put(FRIENDSHIP, mFriendship.isChecked());
+        js.put(ACTION, mAction.isChecked());
+        js.put(MINAGE, mAgeBar.getSelectedMinValue());
+        js.put(MAXAGE, mAgeBar.getSelectedMaxValue());
         JSONObject filters = new JSONObject();
-        filters.put("filters", js);
+        filters.put(FILTERS, js);
         return filters;
     }
 }
