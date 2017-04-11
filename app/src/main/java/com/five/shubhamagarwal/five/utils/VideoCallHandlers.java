@@ -1,12 +1,9 @@
 package com.five.shubhamagarwal.five.utils;
 
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
-
 import com.five.shubhamagarwal.five.activities.CallActivity;
 import com.five.shubhamagarwal.five.R;
-import com.five.shubhamagarwal.five.activities.FiltersActivity;
 import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 /**

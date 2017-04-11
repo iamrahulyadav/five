@@ -1,7 +1,9 @@
 package com.five.shubhamagarwal.five;
 
+import android.os.Bundle;
 import android.util.Log;
 
+import com.five.shubhamagarwal.five.utils.Gen;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -17,6 +19,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Bundle bundle = new Bundle();
+        for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet()) {
+            bundle.putString(entry.getKey(), entry.getValue());
+        }
+        if(bundle.containsKey(Gen.NOTIFICATION_TYPE)){
+            Gen.handleNotification(bundle);
+        }
         super.onMessageReceived(remoteMessage);
     }
 

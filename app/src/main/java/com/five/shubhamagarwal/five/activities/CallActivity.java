@@ -84,7 +84,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
         mCallTimerView = (TextView) findViewById(R.id.call_timer_view);
 
-
         // attach call handler
         videoCallHandlers = new VideoCallHandlers(this);
 

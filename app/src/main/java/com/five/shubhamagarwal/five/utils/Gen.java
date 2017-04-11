@@ -203,7 +203,7 @@ public class Gen {
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public static void handleNotification(Bundle bundle, Activity source){
+    public static void handleNotification(Bundle bundle){
         String activityName = bundle.getString(NOTIFICATION_TYPE);
         switch (activityName){
             case CHAT_NOTIFICATION_TYPE: {

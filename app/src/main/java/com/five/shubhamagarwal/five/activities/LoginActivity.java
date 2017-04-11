@@ -68,7 +68,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         Bundle extras = getIntent().getExtras();
 
         if(extras!=null && extras.keySet().contains(Gen.NOTIFICATION_TYPE)) {
-            Gen.handleNotification(extras, this);
+            Gen.handleNotification(extras);
         }else if(extras!=null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null){
 
         } else if(Gen.getUserIdFromLocalStorage() != "") {
