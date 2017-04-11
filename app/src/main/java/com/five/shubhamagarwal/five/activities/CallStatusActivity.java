@@ -33,13 +33,9 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     public static final String SECONDS_LEFT = "seconds_left_for_chat_start";
     public static final String CHAT_END_TIME_KEY = "chat_end_time";
 
-
-
-
     private CountDownTimer waitTimer;
     private String chat_end;
 
-    private JSONObject chatJSONObject = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

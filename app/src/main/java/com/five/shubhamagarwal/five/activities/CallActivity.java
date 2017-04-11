@@ -1,7 +1,6 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Constants;
@@ -30,8 +28,6 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-
-import java.security.Permission;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -97,11 +93,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraOnOffButton.setOnClickListener(videoCallHandlers);
         mMicOnOffButton.setOnClickListener(videoCallHandlers);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WAKE_LOCK, Manifest.permission.RECORD_AUDIO}, Constants.CAMERA_AUDIO_WAKE_LOCK);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         // init call handler and web service coordinator
         webServiceCoordinator = new WebServiceCoordinator(this, this);
         Gen.showLoader(this);
@@ -120,7 +111,11 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     public void startCounter(final long inSeconds){
@@ -268,7 +263,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         Log.i(LOG_TAG, "On Stop Called");
         if(publisher != null)
             publisher.destroy();
@@ -277,6 +272,6 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         if(session != null)
             session.disconnect();
 
-        super.onStop();
+        super.onDestroy();
     }
 }
