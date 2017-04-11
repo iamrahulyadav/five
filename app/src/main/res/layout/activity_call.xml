@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.five.shubhamagarwal.five.activities.CallActivity">
 
-
-
     <FrameLayout
         android:id="@+id/subscriber_container"
         android:layout_width="fill_parent"
@@ -18,7 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="0dp"
         app:layout_constraintHorizontal_bias="0.0">
-
     </FrameLayout>
 
     <FrameLayout
@@ -30,7 +27,6 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="@dimen/medium_margin"
         >
-
     </FrameLayout>
 
     <LinearLayout

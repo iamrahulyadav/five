@@ -15,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.facebook.login.LoginManager;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Constants;
@@ -120,6 +121,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                 return true;
             }
             case R.id.menu_action_logout:{
+                LoginManager.getInstance().logOut();
                 Gen.startActivity(this, false, LoginActivity.class, Constants.SHOW_LOGOUT_SCREEN, "true");
                 return true;
             }
