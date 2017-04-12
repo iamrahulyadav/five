@@ -32,7 +32,7 @@ public class Gen {
     public static final String TAG = Gen.class.getSimpleName();
     public static final String SERVER_URL = BuildConfig.SERVER_URL;
     public static final String NOTIFICATION_TYPE = "notification_type";
-    public static final String CHAT_NOTIFICATION_TYPE = "Chat Notification";
+    public static final String FEEDBACK_NOTIFICATION = "FEEDBACK NOTIFICATION";
     public static void toast(String text){
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
@@ -206,7 +206,7 @@ public class Gen {
     public static void handleNotification(Bundle bundle){
         String activityName = bundle.getString(NOTIFICATION_TYPE);
         switch (activityName){
-            case CHAT_NOTIFICATION_TYPE: {
+            case FEEDBACK_NOTIFICATION: {
                 Intent intent = new Intent(MyApplication.getAppContext(), NotificationActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent, true);
