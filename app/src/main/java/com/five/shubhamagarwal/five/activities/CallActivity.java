@@ -197,6 +197,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     public void onStreamReceived(Session session, Stream stream) {
         rippleBackground.setVisibility(View.GONE);
+        mGenderPlaceholder.setVisibility(View.VISIBLE);
         Log.i(LOG_TAG, "Stream Received");
         if (subscriber == null) {
             subscriber = new Subscriber(this, stream);
