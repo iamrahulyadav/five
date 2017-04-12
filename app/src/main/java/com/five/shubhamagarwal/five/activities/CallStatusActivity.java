@@ -32,9 +32,12 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     private static final String TAG = CallActivity.class.getSimpleName();
     public static final String SECONDS_LEFT = "seconds_left_for_chat_start";
     public static final String CHAT_END_TIME_KEY = "chat_end_time";
+    public static final String USER = "user";
+    public static final String GENDER = "gender";
 
     private CountDownTimer waitTimer;
     private String chat_end;
+    private String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                     JSONObject chatJSON = response.getJSONObject("chat");
                     chat_end = chatJSON.getString(CHAT_END_TIME_KEY);
                     int timeLeftForChatStart = chatJSON.getInt(SECONDS_LEFT);
+                    gender = chatJSON.getJSONObject(USER).getString(GENDER);
+
                     if (timeLeftForChatStart == 0) {
                         // Chat is started or has already started
                         canCallNow();
@@ -165,6 +170,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                 Gen.toast("We are connecting you now ...");
                 Intent intent = new Intent(this, CallActivity.class);
                 intent.putExtra(CHAT_END_TIME_KEY, chat_end);
+                intent.putExtra(GENDER, gender);
                 startActivity(intent);
             }
         }

@@ -10,8 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.five.shubhamagarwal.five.R;
@@ -28,12 +30,14 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
+import com.skyfishjy.library.RippleBackground;
+
 import java.text.ParseException;
 import java.util.Date;
 
 
 public class CallActivity extends AppCompatActivity implements WebServiceCoordinator.Listener,
-        Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener{
+        Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener, SubscriberKit.VideoListener{
 
     private static final String LOG_TAG = CallActivity.class.getSimpleName();
     private WebServiceCoordinator webServiceCoordinator;
@@ -66,6 +70,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     public ImageButton mCallDisconnectButton, mCameraCycleButton, mCameraOnOffButton, mMicOnOffButton;
     public TextView mCallTimerView;
+    public ImageView mGenderPlaceholder;
+    public RippleBackground rippleBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mCameraOnOffButton = (ImageButton) findViewById(R.id.camera_onoff_button);
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
         mCallTimerView = (TextView) findViewById(R.id.call_timer_view);
+        mGenderPlaceholder = (ImageView) findViewById(R.id.placeholder_image);
 
         // attach call handler
         videoCallHandlers = new VideoCallHandlers(this);
@@ -99,6 +106,15 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
         Intent intent = getIntent();
         String chat_end_time = intent.getStringExtra(CallStatusActivity.CHAT_END_TIME_KEY);
+        String gender = intent.getStringExtra(CallStatusActivity.GENDER);
+        if(gender.equals("female")){
+            mGenderPlaceholder.setImageResource(R.mipmap.female);
+        } else {
+            mGenderPlaceholder.setImageResource(R.mipmap.male);
+        }
+
+        rippleBackground = (RippleBackground)findViewById(R.id.calling_animated);
+        rippleBackground.startRippleAnimation();
 
         ISO8601DateFormat df = new ISO8601DateFormat();
         try {
@@ -180,8 +196,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onStreamReceived(Session session, Stream stream) {
+        rippleBackground.setVisibility(View.GONE);
         Log.i(LOG_TAG, "Stream Received");
-
         if (subscriber == null) {
             subscriber = new Subscriber(this, stream);
             subscriber.setSubscriberListener(this);
@@ -272,5 +288,30 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
             session.disconnect();
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onVideoDataReceived(SubscriberKit subscriberKit) {
+
+    }
+
+    @Override
+    public void onVideoDisabled(SubscriberKit subscriberKit, String s) {
+        mGenderPlaceholder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onVideoEnabled(SubscriberKit subscriberKit, String s) {
+        mGenderPlaceholder.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onVideoDisableWarning(SubscriberKit subscriberKit) {
+
+    }
+
+    @Override
+    public void onVideoDisableWarningLifted(SubscriberKit subscriberKit) {
+
     }
 }
