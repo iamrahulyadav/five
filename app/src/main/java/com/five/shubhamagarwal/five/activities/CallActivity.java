@@ -300,7 +300,10 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
             subscriber.destroy();
         if(session != null)
             session.disconnect();
-
+        if(callTimer!=null){         // invalidateds timer
+            callTimer.cancel();
+            callTimer = null;
+        }
         super.onDestroy();
     }
 
