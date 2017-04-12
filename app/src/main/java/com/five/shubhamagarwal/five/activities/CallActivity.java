@@ -31,13 +31,15 @@ import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
 import com.skyfishjy.library.RippleBackground;
-
 import java.text.ParseException;
 import java.util.Date;
 
 
+// TODO: if the subscriber is changing the camera(switching it on or off), we are not getting any notification at any handlers.
+// Change ripplebackground to not appear if the call is already made in the session
+
 public class CallActivity extends AppCompatActivity implements WebServiceCoordinator.Listener,
-        Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener, SubscriberKit.VideoListener{
+        Session.SessionListener, PublisherKit.PublisherListener, Publisher.CameraListener, SubscriberKit.SubscriberListener, Session.StreamPropertiesListener{
 
     private static final String LOG_TAG = CallActivity.class.getSimpleName();
     private WebServiceCoordinator webServiceCoordinator;
@@ -197,7 +199,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     public void onStreamReceived(Session session, Stream stream) {
         rippleBackground.setVisibility(View.GONE);
-        mGenderPlaceholder.setVisibility(View.VISIBLE);
+        adjustUIOnVideoChange(stream);
         Log.i(LOG_TAG, "Stream Received");
         if (subscriber == null) {
             subscriber = new Subscriber(this, stream);
@@ -207,6 +209,17 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
             this.session.subscribe(subscriber);
         }
     }
+
+    private void adjustUIOnVideoChange(Stream stream) {
+//        if(stream.hasVideo()){
+//            mGenderPlaceholder.setVisibility(View.GONE);
+//        } else {
+//            mGenderPlaceholder.setVisibility(View.VISIBLE);
+//        }
+        // adding temporarily because subscriber video change event wasn't triggering.
+        mGenderPlaceholder.setVisibility(View.GONE);
+    }
+
 
     @Override
     public void onStreamDropped(Session session, Stream stream) {
@@ -254,7 +267,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onCameraChanged(Publisher publisher, int i) {
-
+        Log.d(LOG_TAG, "stream video dimension changed");
     }
 
     @Override
@@ -292,27 +305,22 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     }
 
     @Override
-    public void onVideoDataReceived(SubscriberKit subscriberKit) {
-
+    public void onStreamHasAudioChanged(Session session, Stream stream, boolean b) {
+        Log.d(LOG_TAG, "stream video dimension changed");
     }
 
     @Override
-    public void onVideoDisabled(SubscriberKit subscriberKit, String s) {
-        mGenderPlaceholder.setVisibility(View.VISIBLE);
+    public void onStreamHasVideoChanged(Session session, Stream stream, boolean b) {
+        adjustUIOnVideoChange(stream);
     }
 
     @Override
-    public void onVideoEnabled(SubscriberKit subscriberKit, String s) {
-        mGenderPlaceholder.setVisibility(View.GONE);
+    public void onStreamVideoDimensionsChanged(Session session, Stream stream, int i, int i1) {
+        Log.d(LOG_TAG, "stream video dimension changed");
     }
 
     @Override
-    public void onVideoDisableWarning(SubscriberKit subscriberKit) {
-
-    }
-
-    @Override
-    public void onVideoDisableWarningLifted(SubscriberKit subscriberKit) {
-
+    public void onStreamVideoTypeChanged(Session session, Stream stream, Stream.StreamVideoType streamVideoType) {
+        Log.d(LOG_TAG, "stream video dimension changed");
     }
 }

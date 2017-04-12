@@ -21,13 +21,15 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         android:id="@+id/placeholder_image"
         android:src="@mipmap/male"
+        android:scaleType="fitStart"
         android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0" />
 
     <com.skyfishjy.library.RippleBackground
