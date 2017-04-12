@@ -162,10 +162,132 @@
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/day_card"
+                android:layout_margin="@dimen/medium_margin"
+                android:padding="@dimen/medium_margin"
+                android:layout_below="@id/age_card">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/small_margin"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="... on days ..."
+                        style="@style/HeaderStyle"
+                        android:id="@+id/day_text"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/day_text">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Monday"
+                            android:theme="@style/MyCheckBox"
+                            android:id="@+id/monday_checkbox"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tuesday"
+                            android:id="@+id/tuesday_checkbox"
+                            android:theme="@style/MyCheckBox"
+                            android:layout_below="@id/monday_checkbox"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wednesday"
+                            android:id="@+id/wednesday_checkbox"
+                            android:theme="@style/MyCheckBox"
+                            android:layout_below="@id/tuesday_checkbox"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thursday"
+                            android:id="@+id/thursday_checkbox"
+                            android:theme="@style/MyCheckBox"
+                            android:layout_below="@id/wednesday_checkbox"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Friday"
+                            android:theme="@style/MyCheckBox"
+                            android:id="@+id/friday_checkbox"
+                            android:layout_below="@id/thursday_checkbox"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Saturday"
+                            android:theme="@style/MyCheckBox"
+                            android:id="@+id/saturday_checkbox"
+                            android:layout_below="@id/friday_checkbox"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sunday"
+                            android:theme="@style/MyCheckBox"
+                            android:id="@+id/sunday_checkbox"
+                            android:layout_below="@id/saturday_checkbox"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/time_card"
+                android:layout_below="@id/day_card"
+                android:layout_margin="@dimen/medium_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/medium_margin"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time_range_card"
+                        style="@style/HeaderStyle"
+                        android:text="... at time ..."/>
+
+                    <!--https://github.com/anothem/android-range-seek-bar/blob/master/rangeseekbar-sample/src/main/res/layout/main.xml-->
+                    <org.florescu.android.rangeseekbar.RangeSeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time_seekbar"
+                        rsb:defaultColor="@color/colorPrimaryDark"
+                        rsb:thumbNormal="@drawable/custom_slider_thumb"
+                        rsb:thumbPressed="@drawable/custom_slider_thumb"
+                        android:layout_marginTop="@dimen/extra_big_margin"
+                        rsb:absoluteMaxValue="24"
+                        rsb:absoluteMinValue="0"
+                        rsb:textAboveThumbsColor="@color/dark_gray"
+                        rsb:thumbShadowColor="@color/colorPrimaryLight"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_space"
-                android:layout_below="@id/age_card"/>
+                android:layout_below="@id/time_card"/>
 
         </RelativeLayout>
     </ScrollView>
@@ -174,6 +296,5 @@
         android:id="@+id/submit_filters"
         android:text="Submit"
         style="@style/PrimaryButton"/>
-
 
 </RelativeLayout>

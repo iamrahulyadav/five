@@ -34,9 +34,18 @@ public class FiltersActivity extends AppCompatActivity {
     private final String ACTION = "action";
     private final String MINAGE = "minAge";
     private final String MAXAGE = "maxAge";
+    private final String MINTIME = "minTime";
+    private final String MAXTIME = "maxTime";
+    private final String MONDAY = "monday";
+    private final String TUESDAY = "tuesday";
+    private final String WEDNESDAY = "wednesday";
+    private final String THURSDAY = "thursday";
+    private final String FRIDAY = "friday";
+    private final String SATURDAY = "saturday";
+    private final String SUNDAY = "sunday";
 
-    CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction;
-    RangeSeekBar mAgeBar;
+    CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction, mMonday, mTuesday, mWednesday, mThursday, mFriday, mSaturday, mSunday;
+    RangeSeekBar mAgeBar, mTimeBar;
     Button mSubmit;
 
     @Override
@@ -51,7 +60,15 @@ public class FiltersActivity extends AppCompatActivity {
         mLove = (CheckBox) findViewById(R.id.love_checkbox);
         mFriendship = (CheckBox) findViewById(R.id.friendship_checkbox);
         mAction = (CheckBox) findViewById(R.id.action_checkbox);
+        mMonday = (CheckBox) findViewById(R.id.monday_checkbox);
+        mTuesday = (CheckBox) findViewById(R.id.tuesday_checkbox);
+        mWednesday = (CheckBox) findViewById(R.id.wednesday_checkbox);
+        mThursday = (CheckBox) findViewById(R.id.thursday_checkbox);
+        mFriday = (CheckBox) findViewById(R.id.friday_checkbox);
+        mSaturday = (CheckBox) findViewById(R.id.saturday_checkbox);
+        mSunday = (CheckBox) findViewById(R.id.sunday_checkbox);
         mAgeBar = (RangeSeekBar) findViewById(R.id.age_seekbar);
+        mTimeBar = (RangeSeekBar) findViewById(R.id.time_seekbar);
         mSubmit = (Button) findViewById(R.id.submit_filters);
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
@@ -87,11 +104,21 @@ public class FiltersActivity extends AppCompatActivity {
                         mLove.setChecked(filters.getBoolean(LOVE ));
                         mFriendship.setChecked(filters.getBoolean(FRIENDSHIP ));
                         mAction.setChecked(filters.getBoolean(ACTION ));
+                        mMonday.setChecked(filters.getBoolean(MONDAY ));
+                        mTuesday.setChecked(filters.getBoolean(TUESDAY ));
+                        mWednesday.setChecked(filters.getBoolean(WEDNESDAY ));
+                        mThursday.setChecked(filters.getBoolean(THURSDAY ));
+                        mFriday.setChecked(filters.getBoolean(FRIDAY ));
+                        mSaturday.setChecked(filters.getBoolean(SATURDAY ));
+                        mSunday.setChecked(filters.getBoolean(SUNDAY ));
 
-                        // TODO: RangeSeekBar not getting visible
                         mAgeBar.setSelected(true);
                         mAgeBar.setSelectedMinValue(filters.getInt(MINAGE));
                         mAgeBar.setSelectedMaxValue(filters.getInt(MAXAGE));
+
+                        mTimeBar.setSelected(true);
+                        mTimeBar.setSelectedMinValue(filters.getInt(MINTIME));
+                        mTimeBar.setSelectedMaxValue(filters.getInt(MAXTIME));
                     } catch (JSONException e) {
                         Gen.showError(e);
                     }
@@ -114,7 +141,10 @@ public class FiltersActivity extends AppCompatActivity {
             Gen.toast("At least select one gender to talk to!");
             return false;
         } else if(!mCasual.isChecked() && !mRelationship.isChecked() && !mLove.isChecked()&& !mFriendship.isChecked()&& !mAction.isChecked()){
-            Gen.toast("Select something to talk about");
+            Gen.toast("Select something to talk about!");
+            return false;
+        } else if(!mMonday.isChecked() && !mTuesday.isChecked() && !mWednesday.isChecked()&& !mThursday.isChecked()&& !mFriday.isChecked()&& !mSaturday.isChecked()&& !mSunday.isChecked()){
+            Gen.toast("Select at least one day when you want to talk!");
             return false;
         }
         return true;
@@ -160,8 +190,17 @@ public class FiltersActivity extends AppCompatActivity {
         js.put(LOVE, mLove.isChecked());
         js.put(FRIENDSHIP, mFriendship.isChecked());
         js.put(ACTION, mAction.isChecked());
+        js.put(MONDAY, mMonday.isChecked());
+        js.put(TUESDAY, mTuesday.isChecked());
+        js.put(WEDNESDAY, mWednesday.isChecked());
+        js.put(THURSDAY, mThursday.isChecked());
+        js.put(FRIDAY, mFriday.isChecked());
+        js.put(SATURDAY, mSaturday.isChecked());
+        js.put(SUNDAY, mSunday.isChecked());
         js.put(MINAGE, mAgeBar.getSelectedMinValue());
         js.put(MAXAGE, mAgeBar.getSelectedMaxValue());
+        js.put(MINTIME, mTimeBar.getSelectedMinValue());
+        js.put(MAXTIME, mTimeBar.getSelectedMaxValue());
         JSONObject filters = new JSONObject();
         filters.put(FILTERS, js);
         return filters;
