@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.MyApplication;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.NotificationActivity;
 
 import java.io.UnsupportedEncodingException;
@@ -209,6 +210,12 @@ public class Gen {
             case FEEDBACK_NOTIFICATION: {
                 Intent intent = new Intent(MyApplication.getAppContext(), NotificationActivity.class);
                 intent.putExtras(bundle);
+                startActivity(intent, true);
+            }
+            break;
+
+            default: {   // for default case just start Call status Activity
+                Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
                 startActivity(intent, true);
             }
             break;
