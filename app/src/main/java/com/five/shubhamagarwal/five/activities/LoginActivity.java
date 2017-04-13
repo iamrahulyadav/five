@@ -89,18 +89,18 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                // Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
+                // Log.d(TAG, "facebook:onCancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
+                // Log.d(TAG, "facebook:onError", error);
                 Gen.showError(error);
             }
         });
@@ -139,20 +139,20 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
 
     private void handleFacebookAccessToken(final AccessToken token) {
         final Activity activity = this;
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
+        // Log.d(TAG, "handleFacebookAccessToken:" + token);
         accessToken = token;
         credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        // Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
+                            // Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -247,7 +247,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                             if(!response.isNull("filters")) {
                                 filters = response.getJSONObject("filters");
                             }
-                            Log.d(TAG, response.getString("new_signup"));
+                            // Log.d(TAG, response.getString("new_signup"));
                         } catch (Exception e) {
                             Gen.showError(e);
                         }

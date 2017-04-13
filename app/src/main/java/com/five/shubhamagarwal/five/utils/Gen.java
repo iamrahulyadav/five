@@ -96,7 +96,7 @@ public class Gen {
             if (error.networkResponse.data != null) {
                 try {
                     String body = new String(error.networkResponse.data, "UTF-8");
-                    Log.e(TAG, body);
+                    // Log.e(TAG, body);
                 } catch (UnsupportedEncodingException e) {
                 }
             }

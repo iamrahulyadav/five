@@ -65,7 +65,7 @@ public class RatingListViewAdapter extends ArrayAdapter<RatingParameter> {
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 RatingParameter item = getItem(position);
                 item.setRatingStar(v);
-                Log.i("Adapter", "star: " + v);
+                // Log.i("Adapter", "star: " + v);
             }
         };
     }

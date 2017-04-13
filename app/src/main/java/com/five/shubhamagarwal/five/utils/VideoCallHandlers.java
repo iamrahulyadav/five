@@ -21,7 +21,7 @@ public class VideoCallHandlers implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Log.i(LOG_TAG, "Button Pressed for "+v.getId());
+        // Log.i(LOG_TAG, "Button Pressed for "+v.getId());
         switch (v.getId()){
             case R.id.disconnect_call: {
                 Gen.toast("Disconnecting the call.....");
