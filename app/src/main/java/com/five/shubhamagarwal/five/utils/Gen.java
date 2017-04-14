@@ -22,6 +22,7 @@ import com.five.shubhamagarwal.five.MyApplication;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.NotificationActivity;
+import com.five.shubhamagarwal.five.activities.RatingsActivity;
 
 import java.io.UnsupportedEncodingException;
 
@@ -225,6 +226,13 @@ public class Gen {
             case FEEDBACK_NOTIFICATION: {
                 Intent intent = new Intent(MyApplication.getAppContext(), NotificationActivity.class);
                 intent.putExtras(bundle);
+                startActivity(intent, true);
+            }
+            break;
+
+            case CALL_ENDED_NOTIFICATION: {
+                Gen.toast("Other user has ended the call....");
+                Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
                 startActivity(intent, true);
             }
             break;

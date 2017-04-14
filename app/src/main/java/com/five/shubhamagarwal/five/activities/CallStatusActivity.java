@@ -82,6 +82,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                         return;
                     }
                     JSONObject chatJSON = response.getJSONObject("chat");
+                    Gen.setOtherUserFCMTokenToLocalStorage(chatJSON.getJSONObject("user").getString("fcm_token"));
                     chat_end = chatJSON.getString(CHAT_END_TIME_KEY);
                     int timeLeftForChatStart = chatJSON.getInt(SECONDS_LEFT);
                     gender = chatJSON.getJSONObject(USER).getString(GENDER);
