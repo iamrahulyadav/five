@@ -78,9 +78,12 @@ public class RatingsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Boolean callEndedByUser = getIntent().getExtras().getBoolean("call_ended_by_user");
-        if(callEndedByUser){
-            Gen.toast("Other user has disconnected the call");
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null) {
+            Boolean callEndedByUser = getIntent().getExtras().getBoolean("call_ended_by_user", false);
+            if (callEndedByUser) {
+                Gen.toast("Other user has disconnected the call");
+            }
         }
     }
 

@@ -109,6 +109,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
         Intent intent = getIntent();
         String chat_end_time = intent.getStringExtra(CallStatusActivity.CHAT_END_TIME_KEY);
+        String current_time = intent.getStringExtra(CallStatusActivity.CURRENT_TIME);
         String gender = intent.getStringExtra(CallStatusActivity.GENDER);
         if(gender.equals("female")){
             mGenderPlaceholder.setImageResource(R.mipmap.female);
@@ -123,7 +124,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
         ISO8601DateFormat df = new ISO8601DateFormat();
         try {
-            Date currentTime = new Date();
+            Date currentTime = df.parse(current_time);
             Date endTime = df.parse(chat_end_time);
             secondsLeft = (endTime.getTime() - currentTime.getTime())/1000;
             // Log.d(LOG_TAG, "Seconds Left = "+secondsLeft);
