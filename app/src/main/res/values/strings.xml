@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Five</string>
+    <string name="app_name">Spate</string>
     <string name="menu_action_logout">Logout</string>
     <string name="menu_action_filter">Filters</string>
 
