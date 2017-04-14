@@ -63,7 +63,6 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.opentok.android:opentok-android-sdk:2.10.1-REL-2782'
     compile 'com.mcxiaoke.volley:library:1.0.15@aar'
-    testCompile 'junit:junit:4.12'
     compile 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
     compile 'com.fasterxml.jackson.core:jackson-core:2.7.2'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.2'
@@ -72,6 +71,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.0.0'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    testCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'com.google.gms.google-services'

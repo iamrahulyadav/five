@@ -23,6 +23,7 @@ import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.NotificationActivity;
 import com.five.shubhamagarwal.five.activities.RatingsActivity;
+import com.five.shubhamagarwal.five.activities.RingingActivity;
 
 import java.io.UnsupportedEncodingException;
 
@@ -37,6 +38,7 @@ public class Gen {
     public static final String FEEDBACK_NOTIFICATION = "FEEDBACK NOTIFICATION";
     public static final String CALL_ENDED_NOTIFICATION = "CALL ENDED NOTIFICATION";
     public static final String FCM_TOKEN_KEY = "fcm_token";
+    public static final String RINGING_NOTIFICATION = "RINGING NOTIFICATION";
 
     public static void toast(String text) {
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
@@ -230,6 +232,9 @@ public class Gen {
         } else if (activityName != null && activityName.equals(CALL_ENDED_NOTIFICATION)) {
             Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
             intent.putExtra("call_ended_by_user", true);
+            startActivity(intent, true);
+        }else if (activityName !=null && activityName.equals(RINGING_NOTIFICATION)){
+            Intent intent = new Intent(MyApplication.getAppContext(), RingingActivity.class);
             startActivity(intent, true);
         } else {   // for default case just start Call status Activity
             Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
