@@ -47,7 +47,7 @@ public class VideoCallHandlers implements View.OnClickListener{
                     Gen.showError(e);
                 }
 
-                final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/notification/callend", postData,
+                final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/notification", postData,
                     new Response.Listener<JSONObject>() {
 
                         @Override
