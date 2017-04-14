@@ -38,11 +38,11 @@ public class Gen {
     public static final String CALL_ENDED_NOTIFICATION = "CALL ENDED NOTIFICATION";
     public static final String FCM_TOKEN_KEY = "fcm_token";
 
-    public static void toast(String text){
+    public static void toast(String text) {
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
 
-    public static void toastLong(String text){
+    public static void toastLong(String text) {
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_LONG).show();
     }
 
@@ -50,17 +50,17 @@ public class Gen {
 
 
     public static ObjectMapper getObjectMapper() {
-        if(objectMapper == null){
+        if (objectMapper == null) {
             objectMapper = new ObjectMapper();
         }
         return objectMapper;
     }
 
     public static String getTimeDiffFromCurrentTime(long seconds) {
-        long hour = seconds/3600;
-        seconds = seconds%3600;
-        long min = seconds/60;
-        seconds = seconds%60;
+        long hour = seconds / 3600;
+        seconds = seconds % 3600;
+        long min = seconds / 60;
+        seconds = seconds % 60;
         return String.format("%02d:%02d:%02d", hour, min, seconds);
     }
 
@@ -84,7 +84,7 @@ public class Gen {
         listView.requestLayout();
     }
 
-    public static String getJSONString(Object obj){
+    public static String getJSONString(Object obj) {
         ObjectMapper mapper = getObjectMapper();
         try {
             return mapper.writeValueAsString(obj);
@@ -94,9 +94,9 @@ public class Gen {
         return null;
     }
 
-    public static void showVolleyError(VolleyError error){
+    public static void showVolleyError(VolleyError error) {
         Gen.showError(error);
-        if(error.networkResponse != null){
+        if (error.networkResponse != null) {
             if (error.networkResponse.data != null) {
                 try {
                     String body = new String(error.networkResponse.data, "UTF-8");
@@ -107,7 +107,7 @@ public class Gen {
         }
     }
 
-    public static void showError(Exception e){
+    public static void showError(Exception e) {
         e.printStackTrace();
         toast("Some error occurred!!");
     }
@@ -119,7 +119,7 @@ public class Gen {
         editor.commit();
     }
 
-    public static String getUserIdFromLocalStorage(){
+    public static String getUserIdFromLocalStorage() {
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         return settings.getString(Constants.USER_ID, "");
     }
@@ -131,7 +131,7 @@ public class Gen {
         editor.commit();
     }
 
-    public static String getSessionIdFromLocalStorage(){
+    public static String getSessionIdFromLocalStorage() {
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         return settings.getString(Constants.SESSION_ID, "");
     }
@@ -143,7 +143,7 @@ public class Gen {
         editor.commit();
     }
 
-    public static Boolean getFiltersFromLocalStorage(){
+    public static Boolean getFiltersFromLocalStorage() {
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         return settings.getBoolean(Constants.FILTERS, false);
     }
@@ -156,25 +156,25 @@ public class Gen {
         editor.commit();
     }
 
-    public static void setOtherUserFCMTokenToLocalStorage(String fcmToken){
+    public static void setOtherUserFCMTokenToLocalStorage(String fcmToken) {
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(Constants.OTHER_USER_FCM_TOKEN, fcmToken);
         editor.commit();
     }
 
-    public static String getFCMTokenFromLocalStorage(){
+    public static String getFCMTokenFromLocalStorage() {
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         return settings.getString(Constants.FCM_TOKEN, "");
     }
 
-    public static String getOtherUserFCMTokenFromLocalStorage(){
+    public static String getOtherUserFCMTokenFromLocalStorage() {
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         return settings.getString(Constants.OTHER_USER_FCM_TOKEN, "");
     }
 
-    private static void startActivity(Intent intent, boolean clearStack){
-        if(clearStack){
+    private static void startActivity(Intent intent, boolean clearStack) {
+        if (clearStack) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         } else {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -202,7 +202,7 @@ public class Gen {
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View loader = activity.findViewById(R.id.loading_indicator);
-        if(loader ==null ){
+        if (loader == null) {
             inflater.inflate(R.layout.loading_indicator, view, true);
             loader = activity.findViewById(R.id.loading_indicator);
         }
@@ -214,35 +214,28 @@ public class Gen {
 
     public static void hideLoader(Activity activity) {
         View loader = activity.findViewById(R.id.loading_indicator);
-        if(loader !=null ){
+        if (loader != null) {
             loader.setVisibility(View.GONE);
         }
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public static void handleNotification(Bundle bundle){
+    public static void handleNotification(Bundle bundle) {
         String activityName = bundle.getString(NOTIFICATION_TYPE);
-        switch (activityName){
-            case FEEDBACK_NOTIFICATION: {
-                Intent intent = new Intent(MyApplication.getAppContext(), NotificationActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent, true);
-            }
-            break;
 
-            case CALL_ENDED_NOTIFICATION: {
-                Gen.toast("Other user has ended the call....");
-                Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
-                startActivity(intent, true);
-            }
-            break;
-
-            default: {   // for default case just start Call status Activity
-                Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
-                startActivity(intent, true);
-            }
-            break;
+        if (activityName != null && activityName.equals(FEEDBACK_NOTIFICATION)) {
+            Intent intent = new Intent(MyApplication.getAppContext(), NotificationActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent, true);
+        } else if (activityName != null && activityName.equals(CALL_ENDED_NOTIFICATION)) {
+            Gen.toast("Other user has ended the call....");
+            Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
+            startActivity(intent, true);
+        } else {   // for default case just start Call status Activity
+            Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
+            startActivity(intent, true);
         }
     }
+}
 
 }
