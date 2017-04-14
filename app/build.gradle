@@ -9,10 +9,10 @@ android {
             storeFile file('/Users/ansal/AndroidStudioProjects/fivekeystore/my-release-key.keystore')
             storePassword 'spate007'
         }
-        SpateReleaseKey {
-            keyAlias 'alias_name'
+        SpateKey {
+            keyAlias 'SpateKey'
             keyPassword 'spate007'
-            storeFile file('/Users/ansal/AndroidStudioProjects/fivekeystore/spate-release-key.keystore')
+            storeFile file('/Users/ansal/AndroidStudioProjects/fivekeystore/spate.jks')
             storePassword 'spate007'
         }
     }
@@ -34,7 +34,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.SpateReleaseKey
+            signingConfig signingConfigs.SpateKey
         }
     }
     productFlavors {

@@ -34,6 +34,9 @@ public class Gen {
     public static final String SERVER_URL = BuildConfig.SERVER_URL;
     public static final String NOTIFICATION_TYPE = "notification_type";
     public static final String FEEDBACK_NOTIFICATION = "FEEDBACK NOTIFICATION";
+    public static final String CALL_ENDED_NOTIFICATION = "CALL ENDED NOTIFICATION";
+    public static final String FCM_TOKEN_KEY = "fcm_token";
+
     public static void toast(String text){
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
     }
@@ -152,9 +155,21 @@ public class Gen {
         editor.commit();
     }
 
+    public static void setOtherUserFCMTokenToLocalStorage(String fcmToken){
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(Constants.OTHER_USER_FCM_TOKEN, fcmToken);
+        editor.commit();
+    }
+
     public static String getFCMTokenFromLocalStorage(){
         SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
         return settings.getString(Constants.FCM_TOKEN, "");
+    }
+
+    public static String getOtherUserFCMTokenFromLocalStorage(){
+        SharedPreferences settings = MyApplication.getAppContext().getSharedPreferences(Constants.PREFS_NAME, 0);
+        return settings.getString(Constants.OTHER_USER_FCM_TOKEN, "");
     }
 
     private static void startActivity(Intent intent, boolean clearStack){

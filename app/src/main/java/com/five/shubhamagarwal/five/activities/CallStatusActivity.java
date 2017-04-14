@@ -70,7 +70,8 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
 
         Gen.showLoader(this);
         final Activity activity = this;
-        final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/next_chat", postData, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/next_chat", postData,
+                new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Gen.hideLoader(activity);
