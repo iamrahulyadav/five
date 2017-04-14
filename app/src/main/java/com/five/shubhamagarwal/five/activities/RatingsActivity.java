@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -73,6 +75,18 @@ public class RatingsActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null) {
+            Boolean callEndedByUser = getIntent().getExtras().getBoolean("call_ended_by_user", false);
+            if (callEndedByUser) {
+                Gen.toast("Other user has disconnected the call");
+            }
+        }
+    }
+
     private JSONObject getPostData() throws JSONException {
         JSONObject js = new JSONObject();
         JSONObject ratings = new JSONObject();
@@ -83,7 +97,7 @@ public class RatingsActivity extends AppCompatActivity {
 
         ratings.put("share_profile", mshareCheckBox.isChecked());
         ratings.put("feedback", mfeedback.getText().toString());
-        ratings.put("share_message", mshareCheckBox.getText().toString());
+        ratings.put("share_message", mshareMessage.getText().toString());
         ratings.put("rating_params", ratingParams);
 
         js.put("opentok_session_id", Gen.getSessionIdFromLocalStorage());
