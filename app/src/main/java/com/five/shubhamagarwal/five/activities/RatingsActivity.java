@@ -83,7 +83,7 @@ public class RatingsActivity extends AppCompatActivity {
 
         ratings.put("share_profile", mshareCheckBox.isChecked());
         ratings.put("feedback", mfeedback.getText().toString());
-        ratings.put("share_message", mshareCheckBox.getText().toString());
+        ratings.put("share_message", mshareMessage.getText().toString());
         ratings.put("rating_params", ratingParams);
 
         js.put("opentok_session_id", Gen.getSessionIdFromLocalStorage());
