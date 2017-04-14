@@ -9,8 +9,8 @@
 
     <FrameLayout
         android:id="@+id/subscriber_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:background="@color/white"
@@ -20,8 +20,8 @@
     </FrameLayout>
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:id="@+id/placeholder_image"
         android:src="@mipmap/male"
         android:scaleType="fitStart"
@@ -47,11 +47,11 @@
         app:rb_duration="3000"
         app:rb_scale="6"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="150dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:id="@+id/circle_placeholder"
             android:src="@mipmap/male"
             android:layout_centerInParent="true"

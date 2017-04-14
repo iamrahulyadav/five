@@ -72,7 +72,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     public ImageButton mCallDisconnectButton, mCameraCycleButton, mCameraOnOffButton, mMicOnOffButton;
     public TextView mCallTimerView;
-    public ImageView mGenderPlaceholder;
+    public ImageView mGenderPlaceholder, mCircleImage;
     public RippleBackground rippleBackground;
 
     @Override
@@ -92,6 +92,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
         mCallTimerView = (TextView) findViewById(R.id.call_timer_view);
         mGenderPlaceholder = (ImageView) findViewById(R.id.placeholder_image);
+        mCircleImage = (ImageView) findViewById(R.id.circle_placeholder);
 
         // attach call handler
         videoCallHandlers = new VideoCallHandlers(this);
@@ -111,8 +112,10 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         String gender = intent.getStringExtra(CallStatusActivity.GENDER);
         if(gender.equals("female")){
             mGenderPlaceholder.setImageResource(R.mipmap.female);
+            mCircleImage.setImageResource(R.mipmap.female);
         } else {
             mGenderPlaceholder.setImageResource(R.mipmap.male);
+            mCircleImage.setImageResource(R.mipmap.male);
         }
 
         rippleBackground = (RippleBackground)findViewById(R.id.calling_animated);
