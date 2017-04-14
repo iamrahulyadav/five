@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -71,6 +73,15 @@ public class RatingsActivity extends AppCompatActivity {
               }
           }
         );
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Boolean callEndedByUser = getIntent().getExtras().getBoolean("call_ended_by_user");
+        if(callEndedByUser){
+            Gen.toast("Other user has disconnected the call");
+        }
     }
 
     private JSONObject getPostData() throws JSONException {

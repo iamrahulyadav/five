@@ -228,8 +228,8 @@ public class Gen {
             intent.putExtras(bundle);
             startActivity(intent, true);
         } else if (activityName != null && activityName.equals(CALL_ENDED_NOTIFICATION)) {
-            Gen.toast("Other user has ended the call....");
             Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
+            intent.putExtra("call_ended_by_user", true);
             startActivity(intent, true);
         } else {   // for default case just start Call status Activity
             Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
