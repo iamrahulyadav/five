@@ -266,7 +266,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/time_range_card"
                         style="@style/HeaderStyle"
-                        android:text="... at time ..."/>
+                        android:text="... at times ..."/>
 
                     <!--https://github.com/anothem/android-range-seek-bar/blob/master/rangeseekbar-sample/src/main/res/layout/main.xml-->
                     <org.florescu.android.rangeseekbar.RangeSeekBar
