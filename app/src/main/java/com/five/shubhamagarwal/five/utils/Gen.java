@@ -235,6 +235,7 @@ public class Gen {
             startActivity(intent, true);
         }else if (activityName !=null && activityName.equals(RINGING_NOTIFICATION)){
             Intent intent = new Intent(MyApplication.getAppContext(), RingingActivity.class);
+            intent.putExtras(bundle);
             startActivity(intent, true);
         } else {   // for default case just start Call status Activity
             Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);

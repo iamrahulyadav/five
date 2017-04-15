@@ -14,7 +14,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/ringingImageBackground"
+        android:id="@+id/ringing_image_background"
         app:rb_color="@color/colorPrimaryLight"
         app:rb_radius="32dp"
         app:rb_rippleAmount="4"
@@ -24,13 +24,12 @@
         android:layout_marginBottom="180dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ringing_image_dp"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:id="@+id/ringingImageView"
-            android:src="@mipmap/male"
             android:layout_centerInParent="true"
             android:foregroundGravity="center"
-            />
+            android:src="@mipmap/male" />
 
     </com.skyfishjy.library.RippleBackground>
 
@@ -73,7 +72,7 @@
         android:text="Accept Call"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ringingImageBackground" />
+        app:layout_constraintTop_toBottomOf="@+id/ringing_image_background" />
 
 
 </android.support.constraint.ConstraintLayout>

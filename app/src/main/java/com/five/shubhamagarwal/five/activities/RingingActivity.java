@@ -1,6 +1,5 @@
 package com.five.shubhamagarwal.five.activities;
 
-import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -30,12 +29,16 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
         acceptCallButton.setOnClickListener(this);
         silentCallButton.setOnClickListener(this);
         rejectCallButton.setOnClickListener(this);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.ringingImageBackground);
+        ImageView imageView = (ImageView) findViewById(R.id.ringing_image_dp);
+        String gender = getIntent().getStringExtra("gender");
+
+        if (gender.equals("male"))
+            imageView.setImageResource(R.mipmap.male);
+        else
+            imageView.setImageResource(R.mipmap.female);
+
+        final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.ringing_image_background);
         rippleBackground.startRippleAnimation();
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -44,9 +47,24 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Skip pressed back button
+    }
+
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        ringtone.stop();
     }
+
 
     @Override
     public void onClick(View v) {
@@ -55,7 +73,7 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
         }else if(v.getId() == R.id.silent_call_button){
             ringtone.stop();
         }else if (v.getId() == R.id.reject_call_button){
-            Gen.startActivity(this, true, CallStatusActivity.class);
+            finish();
         }
     }
 }
