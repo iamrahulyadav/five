@@ -77,7 +77,7 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.accept_call_button){
-            Gen.startActivity(this, true, CallStatusActivity.class);
+            Gen.startActivity(this, true, CallActivity.class);
         }else if(v.getId() == R.id.silent_call_button){
             ringtone.stop();
         }else if (v.getId() == R.id.reject_call_button){
