@@ -179,7 +179,7 @@ public class Gen {
         return settings.getString(Constants.OTHER_USER_FCM_TOKEN, "");
     }
 
-    private static void startActivity(Intent intent, boolean clearStack) {
+    public static void startActivity(Intent intent, boolean clearStack) {
         if (clearStack) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         } else {

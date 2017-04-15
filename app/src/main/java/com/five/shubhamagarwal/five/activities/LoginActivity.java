@@ -106,6 +106,13 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
     private void configImageSlider() {
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
@@ -204,6 +211,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
         mDemoSlider.stopAutoCycle();
         super.onStop();
+        Gen.setAppActive(false);
     }
 
     @Override

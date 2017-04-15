@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Gen;
 
 /**
  * Created by shubhamagrawal on 07/04/17.
@@ -52,5 +53,19 @@ public class NotificationActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
     }
 }

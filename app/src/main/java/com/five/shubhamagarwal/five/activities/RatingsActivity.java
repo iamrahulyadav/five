@@ -143,4 +143,17 @@ public class RatingsActivity extends AppCompatActivity {
         arrayList.add(new RatingParameter(1, "Overall"));
         Gen.setListViewHeightBasedOnChildren(mlistView);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
+    }
 }

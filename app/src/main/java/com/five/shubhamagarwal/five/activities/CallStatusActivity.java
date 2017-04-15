@@ -112,6 +112,19 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, R.id.menu_action_filter, Menu.NONE, R.string.menu_action_filter);

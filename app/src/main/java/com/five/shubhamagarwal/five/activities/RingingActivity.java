@@ -1,6 +1,7 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -77,7 +78,14 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.accept_call_button){
-            Gen.startActivity(this, true, CallActivity.class);
+            Bundle bundle = getIntent().getExtras();
+
+            Intent intent = new Intent(this, CallActivity.class);
+            intent.putExtra(CallStatusActivity.CHAT_END_TIME_KEY, bundle.getString(CallStatusActivity.CHAT_END_TIME_KEY));
+            intent.putExtra(CallStatusActivity.CURRENT_TIME, bundle.getString(CallStatusActivity.CURRENT_TIME));
+            intent.putExtra(CallStatusActivity.GENDER, bundle.getString(CallStatusActivity.GENDER));
+            Gen.startActivity(intent, true);
+
         }else if(v.getId() == R.id.silent_call_button){
             ringtone.stop();
         }else if (v.getId() == R.id.reject_call_button){

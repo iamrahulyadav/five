@@ -147,10 +147,9 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Gen.setAppActive(true);
-
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
     }
 
     public void startCounter(final long inSeconds){

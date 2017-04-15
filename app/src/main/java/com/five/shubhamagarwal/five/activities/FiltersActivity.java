@@ -136,6 +136,19 @@ public class FiltersActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
+    }
+
     private boolean validateData() {
         if(!mMale.isChecked() && !mFemale.isChecked()){
             Gen.toast("At least select one gender to talk to!");
