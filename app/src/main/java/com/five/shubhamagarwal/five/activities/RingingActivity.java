@@ -1,8 +1,10 @@
 package com.five.shubhamagarwal.five.activities;
 
+import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,11 +18,16 @@ import com.skyfishjy.library.RippleBackground;
 public class RingingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Ringtone ringtone;
+    private PowerManager.WakeLock wakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ringing);
+
+        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TAG");
+        wakeLock.acquire();
 
         Button acceptCallButton = (Button) findViewById(R.id.accept_call_button);
         Button silentCallButton = (Button) findViewById(R.id.silent_call_button);
@@ -63,6 +70,7 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         ringtone.stop();
+        wakeLock.release();
     }
 
 
