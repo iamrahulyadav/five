@@ -139,6 +139,19 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         super.onStart();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
+    }
+
     public void startCounter(final long inSeconds){
         if(callTimer != null) {
             callTimer.cancel();

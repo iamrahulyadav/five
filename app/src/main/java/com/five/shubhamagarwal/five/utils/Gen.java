@@ -1,6 +1,8 @@
 package com.five.shubhamagarwal.five.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.activities.CallStatusActivity;
 import com.five.shubhamagarwal.five.activities.NotificationActivity;
 import com.five.shubhamagarwal.five.activities.RatingsActivity;
+import com.five.shubhamagarwal.five.activities.RingingActivity;
 
 import java.io.UnsupportedEncodingException;
 
@@ -37,6 +40,9 @@ public class Gen {
     public static final String FEEDBACK_NOTIFICATION = "FEEDBACK NOTIFICATION";
     public static final String CALL_ENDED_NOTIFICATION = "CALL ENDED NOTIFICATION";
     public static final String FCM_TOKEN_KEY = "fcm_token";
+    public static final String RINGING_NOTIFICATION = "RINGING NOTIFICATION";
+    private static Activity activity = null;
+    private static Boolean appActive = false;
 
     public static void toast(String text) {
         Toast.makeText(MyApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();
@@ -173,7 +179,7 @@ public class Gen {
         return settings.getString(Constants.OTHER_USER_FCM_TOKEN, "");
     }
 
-    private static void startActivity(Intent intent, boolean clearStack) {
+    public static void startActivity(Intent intent, boolean clearStack) {
         if (clearStack) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         } else {
@@ -220,6 +226,14 @@ public class Gen {
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
+    public static void setCurrentForegroundActivity(Activity act){
+        activity = act;
+    }
+
+    public static Activity getCurrentForegroundActivity(){
+        return activity;
+    }
+
     public static void handleNotification(Bundle bundle) {
         String activityName = bundle.getString(NOTIFICATION_TYPE);
 
@@ -231,10 +245,32 @@ public class Gen {
             Intent intent = new Intent(MyApplication.getAppContext(), RatingsActivity.class);
             intent.putExtra("call_ended_by_user", true);
             startActivity(intent, true);
+        }else if (activityName !=null && activityName.equals(RINGING_NOTIFICATION)){
+            Boolean ringFlag = true;
+            if(Gen.getCurrentForegroundActivity()!=null && Gen.isAppActive()){
+                Log.i("Activity Name", Gen.getCurrentForegroundActivity().getLocalClassName() );
+                String str = Gen.getCurrentForegroundActivity().getClass().getSimpleName();
+                if(str.equals("CallActivity")){
+                    ringFlag = false;  // dont ring if user is alread in call activity
+                }
+            }
+            if(ringFlag){
+                Intent intent = new Intent(MyApplication.getAppContext(), RingingActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent, true);
+            }
+
         } else {   // for default case just start Call status Activity
             Intent intent = new Intent(MyApplication.getAppContext(), CallStatusActivity.class);
             startActivity(intent, true);
         }
     }
 
+    public static Boolean isAppActive() {
+        return appActive;
+    }
+
+    public static void setAppActive(Boolean appActive) {
+        Gen.appActive = appActive;
+    }
 }
