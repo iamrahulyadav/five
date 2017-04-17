@@ -26,7 +26,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,16 +33,33 @@
             android:name=".activities.RatingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="ACTIVITY_RATINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.CallStatusActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="ACTIVITY_CALL_STATUS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.FiltersActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="ACTIVITY_FILTERS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -52,14 +68,19 @@
         <activity
             android:name=".activities.CallActivity"
             android:parentActivityName=".activities.CallStatusActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="ACTIVITY_CALL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.NotificationActivity"
             android:screenOrientation="sensor"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="ACTIVITY_NOTIFICATION" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -73,12 +94,12 @@
             </intent-filter>
         </service>
 
-        <!-- <service -->
-        <!-- android:name=".MyFirebaseInstanceIDService"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT"/> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+         <!--<service -->
+         <!--android:name=".MyFirebaseInstanceIDService"> -->
+         <!--<intent-filter> -->
+         <!--<action android:name="com.google.firebase.MESSAGING_EVENT"/> -->
+         <!--</intent-filter> -->
+         <!--</service> -->
 
         <activity android:name=".activities.RingingActivity"></activity>
     </application>
