@@ -46,7 +46,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Filter;
 
 public class LoginActivity extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
@@ -114,18 +116,13 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
 
     private void configImageSlider() {
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        Integer slides[] = { R.mipmap.swipe, R.mipmap.filters, R.mipmap.keep_calm, R.mipmap.video_call, R.mipmap.ratings };
+        List<Integer> slideList = Arrays.asList(slides);
 
-        // TODO: issue with the image order. Rating image is coming before video call screen, don't know why
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("screen1",R.mipmap.filters);
-        file_maps.put("screen2",R.mipmap.keep_calm);
-        file_maps.put("screen3",R.mipmap.video_call);
-        file_maps.put("screen4",R.mipmap.ratings);
-
-        for (String name : file_maps.keySet()) {
+        for (Integer slide : slideList) {
             DefaultSliderView sliderView = new DefaultSliderView(this);
             sliderView
-                    .image(file_maps.get(name))
+                    .image(slide)
                     .setScaleType(BaseSliderView.ScaleType.CenterInside)
                     .setOnSliderClickListener(this);
             mDemoSlider.addSlider(sliderView);
