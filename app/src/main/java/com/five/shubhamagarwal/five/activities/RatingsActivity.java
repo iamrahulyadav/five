@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class RatingsActivity extends AppCompatActivity {
     private ListView mlistView;
-    private CheckBox mshareCheckBox;
+    private CheckBox mshareCheckBox, mReportAbuseCheckbox;
     private EditText mfeedback, mshareMessage;
 
     private static final String TAG = CallActivity.class.getSimpleName();
@@ -49,6 +49,7 @@ public class RatingsActivity extends AppCompatActivity {
 
         mlistView = (ListView) findViewById(R.id.list_view);
         mshareCheckBox = (CheckBox) findViewById(R.id.share_checkbox);
+        mReportAbuseCheckbox = (CheckBox) findViewById(R.id.report_abuse_checkbox);
         mfeedback = (EditText) findViewById(R.id.feedback);
         mshareMessage = (EditText) findViewById(R.id.share_message);
         setListData();
@@ -99,6 +100,7 @@ public class RatingsActivity extends AppCompatActivity {
         ratings.put("feedback", mfeedback.getText().toString());
         ratings.put("share_message", mshareMessage.getText().toString());
         ratings.put("rating_params", ratingParams);
+        ratings.put("report_abuse", mReportAbuseCheckbox.isChecked());
 
         js.put("opentok_session_id", Gen.getSessionIdFromLocalStorage());
         js.put("ratings", ratings);

@@ -22,11 +22,20 @@
                 android:listSelector="@android:color/transparent"
                 />
 
+            <CheckBox
+                android:id="@+id/report_abuse_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list_view"
+                android:text="Report abuse"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:theme="@style/MyCheckBox" />
+
             <EditText
                 android:id="@+id/feedback"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_below="@id/list_view"
+                android:layout_below="@id/report_abuse_checkbox"
                 android:hint="Enter some feedback..." />
 
             <CheckBox
