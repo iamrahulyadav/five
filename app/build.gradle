@@ -43,6 +43,7 @@ android {
 
 android.buildTypes.each { type ->
     type.buildConfigField 'String', 'SERVER_URL', "\"$serverUrl\""
+    type.buildConfigField 'String', 'APP_LINK', "\"$appLink\""
 }
 
 dependencies {

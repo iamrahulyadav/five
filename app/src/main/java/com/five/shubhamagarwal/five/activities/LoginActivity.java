@@ -181,6 +181,8 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
             Gen.saveFCMTokenToLocalStorage(token);
         }
         js.put("fcm_token", Gen.getFCMTokenFromLocalStorage());
+        js.put(Constants.BUILD_VERSION, Gen.getCurrentAppVersion());
+
         return js;
     }
 

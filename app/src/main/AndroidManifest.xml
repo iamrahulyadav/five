@@ -104,6 +104,10 @@
         <activity android:name=".activities.RingingActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity android:name=".activities.AppUpdatePopup"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

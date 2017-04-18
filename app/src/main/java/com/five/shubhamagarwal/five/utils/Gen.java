@@ -5,6 +5,8 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -106,7 +108,8 @@ public class Gen {
             if (error.networkResponse.data != null) {
                 try {
                     String body = new String(error.networkResponse.data, "UTF-8");
-                    // Log.e(TAG, body);
+                    Log.e(TAG, body);
+                    AnalyticsManager.log(AnalyticsManager.Event.ERROR, AnalyticsManager.Param.ERROR_BODY, body);
                 } catch (UnsupportedEncodingException e) {
                 }
             }
@@ -115,6 +118,7 @@ public class Gen {
 
     public static void showError(Exception e) {
         e.printStackTrace();
+        AnalyticsManager.log(AnalyticsManager.Event.ERROR, AnalyticsManager.Param.STACK_TRACE, e.getMessage());
         toast("Some error occurred!!");
     }
 
@@ -272,5 +276,15 @@ public class Gen {
 
     public static void setAppActive(Boolean appActive) {
         Gen.appActive = appActive;
+    }
+
+    public static String getCurrentAppVersion(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = MyApplication.getAppContext().getPackageManager().getPackageInfo(MyApplication.getAppContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return packageInfo.versionName;
     }
 }

@@ -282,17 +282,27 @@
                         android:layout_below="@id/time_range_card"
                         >
 
-                        <TextView
+                        <android.support.v4.widget.Space
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="50dp"
-                            android:textColor="@color/black"
-                            android:text="from"/>
+                            android:layout_weight="1"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/black"
+                            android:text="from"/>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:id="@+id/from_time"
                             android:fontFamily="casual"
                             android:textColor="@color/colorPrimaryDark"/>
@@ -309,14 +319,24 @@
                             android:textColor="@color/black"
                             android:text="to"/>
 
+                        <android.support.v4.widget.Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="casual"
                             android:textColor="@color/colorPrimaryDark"
-                            android:id="@+id/to_time"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="50dp"/>
+                            android:id="@+id/to_time"/>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
 
                     </LinearLayout>
 
