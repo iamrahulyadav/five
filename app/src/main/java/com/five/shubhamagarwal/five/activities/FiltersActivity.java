@@ -1,12 +1,15 @@
 package com.five.shubhamagarwal.five.activities;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,6 +23,8 @@ import com.five.shubhamagarwal.five.utils.VolleySingelton;
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 
 public class FiltersActivity extends AppCompatActivity {
@@ -46,8 +51,9 @@ public class FiltersActivity extends AppCompatActivity {
     private final String SUNDAY = "sunday";
 
     CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction, mMonday, mTuesday, mWednesday, mThursday, mFriday, mSaturday, mSunday, mAllDay;
-    RangeSeekBar mAgeBar, mTimeBar;
+    RangeSeekBar mAgeBar;
     Button mSubmit;
+    TextView mFromTime, mToTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +76,23 @@ public class FiltersActivity extends AppCompatActivity {
         mSunday = (CheckBox) findViewById(R.id.sunday_checkbox);
         mAllDay = (CheckBox) findViewById(R.id.all_day_checkbox);
         mAgeBar = (RangeSeekBar) findViewById(R.id.age_seekbar);
-        mTimeBar = (RangeSeekBar) findViewById(R.id.time_seekbar);
         mSubmit = (Button) findViewById(R.id.submit_filters);
+        mFromTime = (TextView) findViewById(R.id.from_time);
+        mToTime = (TextView) findViewById(R.id.to_time);
+
+        mFromTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTimerClick(v);
+            }
+        });
+
+        mToTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTimerClick(v);
+            }
+        });
 
         mAllDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -102,6 +123,45 @@ public class FiltersActivity extends AppCompatActivity {
                 saveFilters();
             }
         });
+    }
+
+    public void onTimerClick(View v) {
+
+        final TextView textView = (TextView) v;
+        if (v == textView) {
+            if(textView.getText().toString().equals("") || !textView.getText().toString().contains(":")){
+                textView.setText("12:00 am");
+            }
+            String time = textView.getText().toString().split(" ")[0];
+            int hour = Integer.parseInt(time.split(":")[0]);
+            int min = Integer.parseInt(time.split(":")[1]);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            String AMPM = "am";
+                            if(hourOfDay >=12){
+                                AMPM = "pm";
+                            } if(hourOfDay >=13){
+                                hourOfDay-=12;
+                            }
+                            String hour = hourOfDay+"";
+                            if(hourOfDay<10)
+                                hour = "0"+hour;
+
+                            String min = minute+"";
+                            if(minute<10)
+                                min = "0"+min;
+                            textView.setText(hour + ":" + min + " " + AMPM);
+                        }
+                    }, hour, min, false);
+            timePickerDialog.show();
+        }
     }
 
     @Override
@@ -141,9 +201,8 @@ public class FiltersActivity extends AppCompatActivity {
                         mAgeBar.setSelectedMinValue(filters.getInt(MINAGE));
                         mAgeBar.setSelectedMaxValue(filters.getInt(MAXAGE));
 
-                        mTimeBar.setSelected(true);
-                        mTimeBar.setSelectedMinValue(filters.getInt(MINTIME));
-                        mTimeBar.setSelectedMaxValue(filters.getInt(MAXTIME));
+                        mFromTime.setText(filters.getString(MINTIME));
+                        mToTime.setText(filters.getString(MAXTIME));
                     } catch (JSONException e) {
                         Gen.showError(e);
                     }
@@ -237,8 +296,8 @@ public class FiltersActivity extends AppCompatActivity {
         js.put(SUNDAY, mSunday.isChecked());
         js.put(MINAGE, mAgeBar.getSelectedMinValue());
         js.put(MAXAGE, mAgeBar.getSelectedMaxValue());
-        js.put(MINTIME, mTimeBar.getSelectedMinValue());
-        js.put(MAXTIME, mTimeBar.getSelectedMaxValue());
+        js.put(MINTIME, mFromTime.getText().toString());
+        js.put(MAXTIME, mToTime.getText().toString());
         JSONObject filters = new JSONObject();
         filters.put(FILTERS, js);
         return filters;
