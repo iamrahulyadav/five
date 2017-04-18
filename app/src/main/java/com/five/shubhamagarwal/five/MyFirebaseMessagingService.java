@@ -23,9 +23,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet()) {
             bundle.putString(entry.getKey(), entry.getValue());
         }
-        if(bundle.containsKey(Gen.NOTIFICATION_TYPE)){
-            Gen.handleNotification(bundle);
-        }
+
+        Gen.handleNotification(bundle);
         super.onMessageReceived(remoteMessage);
     }
 

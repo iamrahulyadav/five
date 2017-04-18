@@ -2,9 +2,18 @@ package com.five.shubhamagarwal.five.utils;
 
 import android.util.Log;
 import android.view.View;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.five.shubhamagarwal.five.activities.CallActivity;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.activities.RatingsActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by shubhamagrawal on 03/04/17.
@@ -21,11 +30,40 @@ public class VideoCallHandlers implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Log.i(LOG_TAG, "Button Pressed for "+v.getId());
+        // Log.i(LOG_TAG, "Button Pressed for "+v.getId());
         switch (v.getId()){
             case R.id.disconnect_call: {
                 Gen.toast("Disconnecting the call.....");
                 Gen.startActivity(callActivity, true, RatingsActivity.class);
+
+                // send call disconnect notification via our server
+                RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
+
+                JSONObject postData = new JSONObject();
+                try {
+                    postData.put(Gen.NOTIFICATION_TYPE, Gen.CALL_ENDED_NOTIFICATION);
+                    postData.put(Gen.FCM_TOKEN_KEY, Gen.getOtherUserFCMTokenFromLocalStorage());
+                } catch (JSONException e) {
+                    Gen.showError(e);
+                }
+
+                final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/notification", postData,
+                    new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // do nothing
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Gen.showError(error);
+                        }
+                    }
+                );
+                requestQueue.add(request);
+
                 break;
             }
 

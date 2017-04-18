@@ -72,7 +72,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     public ImageButton mCallDisconnectButton, mCameraCycleButton, mCameraOnOffButton, mMicOnOffButton;
     public TextView mCallTimerView;
-    public ImageView mGenderPlaceholder;
+    public ImageView mGenderPlaceholder, mCircleImage;
     public RippleBackground rippleBackground;
 
     @Override
@@ -92,6 +92,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
         mMicOnOffButton = (ImageButton) findViewById(R.id.mic_onoff_button);
         mCallTimerView = (TextView) findViewById(R.id.call_timer_view);
         mGenderPlaceholder = (ImageView) findViewById(R.id.placeholder_image);
+        mCircleImage = (ImageView) findViewById(R.id.circle_placeholder);
 
         // attach call handler
         videoCallHandlers = new VideoCallHandlers(this);
@@ -108,11 +109,14 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
         Intent intent = getIntent();
         String chat_end_time = intent.getStringExtra(CallStatusActivity.CHAT_END_TIME_KEY);
+        String current_time = intent.getStringExtra(CallStatusActivity.CURRENT_TIME);
         String gender = intent.getStringExtra(CallStatusActivity.GENDER);
         if(gender.equals("female")){
             mGenderPlaceholder.setImageResource(R.mipmap.female);
+            mCircleImage.setImageResource(R.mipmap.female);
         } else {
             mGenderPlaceholder.setImageResource(R.mipmap.male);
+            mCircleImage.setImageResource(R.mipmap.male);
         }
 
         rippleBackground = (RippleBackground)findViewById(R.id.calling_animated);
@@ -120,10 +124,10 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
         ISO8601DateFormat df = new ISO8601DateFormat();
         try {
-            Date currentTime = new Date();
+            Date currentTime = df.parse(current_time);
             Date endTime = df.parse(chat_end_time);
             secondsLeft = (endTime.getTime() - currentTime.getTime())/1000;
-            Log.d(LOG_TAG, "Seconds Left = "+secondsLeft);
+            // Log.d(LOG_TAG, "Seconds Left = "+secondsLeft);
             startCounter(secondsLeft);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -133,6 +137,19 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
     }
 
     public void startCounter(final long inSeconds){
@@ -180,12 +197,12 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
     public void onWebServiceCoordinatorError(Exception error) {
         Gen.hideLoader(this);
         Gen.showError(error);
-        Log.e(LOG_TAG, "Web Service error: " + error.getMessage());
+        // Log.e(LOG_TAG, "Web Service error: " + error.getMessage());
     }
 
     @Override
     public void onConnected(Session session) {
-        Log.i(LOG_TAG, "Session Connected");
+        // Log.i(LOG_TAG, "Session Connected");
         if(publisher != null){
             this.session.publish(publisher);
         }
@@ -193,14 +210,14 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onDisconnected(Session session) {
-        Log.i(LOG_TAG, "Session Disconnected");
+        // Log.i(LOG_TAG, "Session Disconnected");
     }
 
     @Override
     public void onStreamReceived(Session session, Stream stream) {
         rippleBackground.setVisibility(View.GONE);
         adjustUIOnVideoChange(stream);
-        Log.i(LOG_TAG, "Stream Received");
+        // Log.i(LOG_TAG, "Stream Received");
         if (subscriber == null) {
             subscriber = new Subscriber(this, stream);
             subscriber.setSubscriberListener(this);
@@ -223,7 +240,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onStreamDropped(Session session, Stream stream) {
-        Log.i(LOG_TAG, "Stream Dropped");
+        // Log.i(LOG_TAG, "Stream Dropped");
 
         if (subscriber != null) {
             subscriber = null;
@@ -238,8 +255,8 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
 
     private void logOpenTokError(OpentokError opentokError) {
-        Log.e(LOG_TAG, "Error Domain: " + opentokError.getErrorDomain().name());
-        Log.e(LOG_TAG, "Error Code: " + opentokError.getErrorCode().name());
+        // Log.e(LOG_TAG, "Error Domain: " + opentokError.getErrorDomain().name());
+        // Log.e(LOG_TAG, "Error Code: " + opentokError.getErrorCode().name());
     }
 
     private void initializeSession() {
@@ -250,13 +267,13 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onStreamCreated(PublisherKit publisherKit, Stream stream) {
-        Log.i(LOG_TAG, "Publisher Stream Created");
+        // Log.i(LOG_TAG, "Publisher Stream Created");
         publisher.setPublishVideo(true);
     }
 
     @Override
     public void onStreamDestroyed(PublisherKit publisherKit, Stream stream) {
-        Log.i(LOG_TAG, "Publisher Stream Destroyed");
+        // Log.i(LOG_TAG, "Publisher Stream Destroyed");
     }
 
 
@@ -267,7 +284,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onCameraChanged(Publisher publisher, int i) {
-        Log.d(LOG_TAG, "stream video dimension changed");
+        // Log.d(LOG_TAG, "stream video dimension changed");
     }
 
     @Override
@@ -277,13 +294,13 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onConnected(SubscriberKit subscriberKit) {
-        Log.i(LOG_TAG, "Subscriber Connected");
+        // Log.i(LOG_TAG, "Subscriber Connected");
         mSubscriberViewContainer.addView(subscriber.getView());
     }
 
     @Override
     public void onDisconnected(SubscriberKit subscriberKit) {
-        Log.i(LOG_TAG, "Subscriber Disconnected");
+        // Log.i(LOG_TAG, "Subscriber Disconnected");
     }
 
     @Override
@@ -293,7 +310,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     protected void onDestroy() {
-        Log.i(LOG_TAG, "On Stop Called");
+        // Log.i(LOG_TAG, "On Stop Called");
         if(publisher != null)
             publisher.destroy();
         if(subscriber != null)
@@ -309,7 +326,7 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onStreamHasAudioChanged(Session session, Stream stream, boolean b) {
-        Log.d(LOG_TAG, "stream video dimension changed");
+        // Log.d(LOG_TAG, "stream video dimension changed");
     }
 
     @Override
@@ -319,11 +336,11 @@ public class CallActivity extends AppCompatActivity implements WebServiceCoordin
 
     @Override
     public void onStreamVideoDimensionsChanged(Session session, Stream stream, int i, int i1) {
-        Log.d(LOG_TAG, "stream video dimension changed");
+        // Log.d(LOG_TAG, "stream video dimension changed");
     }
 
     @Override
     public void onStreamVideoTypeChanged(Session session, Stream stream, Stream.StreamVideoType streamVideoType) {
-        Log.d(LOG_TAG, "stream video dimension changed");
+        // Log.d(LOG_TAG, "stream video dimension changed");
     }
 }

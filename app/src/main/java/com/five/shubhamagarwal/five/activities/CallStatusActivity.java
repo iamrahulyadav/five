@@ -34,10 +34,12 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     public static final String CHAT_END_TIME_KEY = "chat_end_time";
     public static final String USER = "user";
     public static final String GENDER = "gender";
+    public static final String CURRENT_TIME = "current_time";
 
     private CountDownTimer waitTimer;
     private String chat_end;
     private String gender;
+    private String current_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,8 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
 
         Gen.showLoader(this);
         final Activity activity = this;
-        final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/next_chat", postData, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Gen.SERVER_URL + "/next_chat", postData,
+                new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Gen.hideLoader(activity);
@@ -81,6 +84,8 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                         return;
                     }
                     JSONObject chatJSON = response.getJSONObject("chat");
+                    Gen.setOtherUserFCMTokenToLocalStorage(chatJSON.getJSONObject("user").getString("fcm_token"));
+                    current_time = chatJSON.getString(CURRENT_TIME);
                     chat_end = chatJSON.getString(CHAT_END_TIME_KEY);
                     int timeLeftForChatStart = chatJSON.getInt(SECONDS_LEFT);
                     gender = chatJSON.getJSONObject(USER).getString(GENDER);
@@ -104,6 +109,19 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
             }
         });
         requestQueue.add(request);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gen.setCurrentForegroundActivity(this);
+        Gen.setAppActive(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Gen.setAppActive(false);
     }
 
     @Override
@@ -170,6 +188,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
                 Gen.toast("We are connecting you now ...");
                 Intent intent = new Intent(this, CallActivity.class);
                 intent.putExtra(CHAT_END_TIME_KEY, chat_end);
+                intent.putExtra(CURRENT_TIME, current_time);
                 intent.putExtra(GENDER, gender);
                 startActivity(intent);
             }
