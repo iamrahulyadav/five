@@ -116,23 +116,26 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
     private void configImageSlider() {
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
+        // TODO: issue with the image order. Rating image is coming before video call screen, don't know why
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("screen1",R.mipmap.screen_1);
-        file_maps.put("screen2",R.mipmap.screen_2);
-        file_maps.put("screen3",R.mipmap.screen_3);
+        file_maps.put("screen1",R.mipmap.filters);
+        file_maps.put("screen2",R.mipmap.keep_calm);
+        file_maps.put("screen3",R.mipmap.video_call);
+        file_maps.put("screen4",R.mipmap.ratings);
 
         for (String name : file_maps.keySet()) {
             DefaultSliderView sliderView = new DefaultSliderView(this);
             sliderView
                     .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setScaleType(BaseSliderView.ScaleType.CenterInside)
                     .setOnSliderClickListener(this);
             mDemoSlider.addSlider(sliderView);
         }
 
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(2000);
+        mDemoSlider.setDuration(3000);
+        mDemoSlider.setCurrentPosition(0, true);
         mDemoSlider.addOnPageChangeListener(this);
     }
 
