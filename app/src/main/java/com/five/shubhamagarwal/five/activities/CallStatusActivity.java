@@ -51,7 +51,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
     private static Button mCallButton;
 
     public interface CallStatus {
-        String NO_CALL = "till we schedule your next call within next 24 hours";
+        String NO_CALL = "till we find best match for you and schedule the call. Generally it is within next 24 hours";
         String CALL_IN = "Your next call is in ...";
     }
 
