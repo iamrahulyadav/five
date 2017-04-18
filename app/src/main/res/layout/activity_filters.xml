@@ -191,7 +191,7 @@
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Monday"
+                            android:text="All Days"
                             android:theme="@style/MyCheckBox"
                             android:id="@+id/all_day_checkbox"/>
 
