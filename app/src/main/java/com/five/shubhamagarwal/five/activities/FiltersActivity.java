@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +45,7 @@ public class FiltersActivity extends AppCompatActivity {
     private final String SATURDAY = "saturday";
     private final String SUNDAY = "sunday";
 
-    CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction, mMonday, mTuesday, mWednesday, mThursday, mFriday, mSaturday, mSunday;
+    CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction, mMonday, mTuesday, mWednesday, mThursday, mFriday, mSaturday, mSunday, mAllDay;
     RangeSeekBar mAgeBar, mTimeBar;
     Button mSubmit;
 
@@ -67,9 +68,33 @@ public class FiltersActivity extends AppCompatActivity {
         mFriday = (CheckBox) findViewById(R.id.friday_checkbox);
         mSaturday = (CheckBox) findViewById(R.id.saturday_checkbox);
         mSunday = (CheckBox) findViewById(R.id.sunday_checkbox);
+        mAllDay = (CheckBox) findViewById(R.id.all_day_checkbox);
         mAgeBar = (RangeSeekBar) findViewById(R.id.age_seekbar);
         mTimeBar = (RangeSeekBar) findViewById(R.id.time_seekbar);
         mSubmit = (Button) findViewById(R.id.submit_filters);
+
+        mAllDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mMonday.setChecked(true);
+                    mTuesday.setChecked(true);
+                    mWednesday.setChecked(true);
+                    mThursday.setChecked(true);
+                    mFriday.setChecked(true);
+                    mSaturday.setChecked(true);
+                    mSunday.setChecked(true);
+                } else {
+                    mMonday.setChecked(false);
+                    mTuesday.setChecked(false);
+                    mWednesday.setChecked(false);
+                    mThursday.setChecked(false);
+                    mFriday.setChecked(false);
+                    mSaturday.setChecked(false);
+                    mSunday.setChecked(false);
+                }
+            }
+        });
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
