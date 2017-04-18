@@ -150,6 +150,9 @@ public class FiltersActivity extends AppCompatActivity {
                             } if(hourOfDay >=13){
                                 hourOfDay-=12;
                             }
+                            if(hourOfDay == 0){
+                                hourOfDay = 12;
+                            }
                             String hour = hourOfDay+"";
                             if(hourOfDay<10)
                                 hour = "0"+hour;
