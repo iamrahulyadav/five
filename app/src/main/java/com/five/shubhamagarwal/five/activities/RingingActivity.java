@@ -2,6 +2,7 @@ package com.five.shubhamagarwal.five.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.five.shubhamagarwal.five.R;
@@ -30,12 +32,10 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TAG");
         wakeLock.acquire();
 
-        Button acceptCallButton = (Button) findViewById(R.id.accept_call_button);
-        Button silentCallButton = (Button) findViewById(R.id.silent_call_button);
-        Button rejectCallButton = (Button) findViewById(R.id.reject_call_button);
+        ImageButton acceptCallButton = (ImageButton) findViewById(R.id.accept);
+        ImageButton rejectCallButton = (ImageButton) findViewById(R.id.decline);
 
         acceptCallButton.setOnClickListener(this);
-        silentCallButton.setOnClickListener(this);
         rejectCallButton.setOnClickListener(this);
 
         ImageView imageView = (ImageView) findViewById(R.id.ringing_image_dp);
@@ -65,8 +65,6 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
         // Skip pressed back button
     }
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -77,7 +75,7 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.accept_call_button){
+        if(v.getId() == R.id.accept){
             Bundle bundle = getIntent().getExtras();
 
             Intent intent = new Intent(this, CallActivity.class);
@@ -86,9 +84,7 @@ public class RingingActivity extends AppCompatActivity implements View.OnClickLi
             intent.putExtra(CallStatusActivity.GENDER, bundle.getString(CallStatusActivity.GENDER));
             Gen.startActivity(intent, true);
 
-        }else if(v.getId() == R.id.silent_call_button){
-            ringtone.stop();
-        }else if (v.getId() == R.id.reject_call_button){
+        }else if (v.getId() == R.id.decline){
             finish();
         }
     }

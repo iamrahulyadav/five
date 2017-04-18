@@ -9,9 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         custom:pager_animation="Default"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         custom:auto_cycle="true"
         custom:indicator_visibility="visible"
-        custom:pager_animation_span="1100"
         android:layout_marginBottom="120dp"/>
 
     <LinearLayout

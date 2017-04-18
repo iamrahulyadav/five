@@ -33,46 +33,51 @@
 
     </com.skyfishjy.library.RippleBackground>
 
-    <Button
-        android:id="@+id/reject_call_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorAccent"
-        android:text="Reject Call"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/silent_call_button" />
 
-    <Button
-        android:id="@+id/silent_call_button"
+    <LinearLayout
+        android:id="@+id/action_button_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/holo_green_dark"
-        android:text="Silent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="60dp"
+        android:padding="@dimen/small_margin"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accept_call_button" />
+        app:layout_constraintLeft_toLeftOf="parent">
 
-    <Button
-        android:id="@+id/accept_call_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/holo_green_dark"
-        android:text="Accept Call"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ringing_image_background" />
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/accept"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            app:srcCompat="@mipmap/accept" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent" />
+
+
+        <ImageButton
+            android:id="@+id/decline"
+            android:background="@null"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@mipmap/decline"
+            />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>
