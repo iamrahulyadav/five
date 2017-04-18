@@ -48,7 +48,7 @@ public class MyApplication extends Application {
                         Log.d(LOG_TAG, "success");
                         try {
                             Boolean forceUpdate = response.getBoolean(Constants.FORCE_UPDATE);
-                            if (!forceUpdate) {
+                            if (forceUpdate) {
                                 // Show the forced popup for app update
                                 Intent intent = new Intent(MyApplication.getAppContext(), AppUpdatePopup.class);
                                 Gen.startActivity(intent, true);
