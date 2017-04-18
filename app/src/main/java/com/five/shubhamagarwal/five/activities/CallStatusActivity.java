@@ -141,6 +141,7 @@ public class CallStatusActivity extends AppCompatActivity implements View.OnClic
             }
             case R.id.menu_action_logout:{
                 LoginManager.getInstance().logOut();
+                Gen.saveUserIdToLocalStorage("");
                 Gen.startActivity(this, false, LoginActivity.class, Constants.SHOW_LOGOUT_SCREEN, "true");
                 return true;
             }

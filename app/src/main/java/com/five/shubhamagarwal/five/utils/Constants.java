@@ -1,5 +1,7 @@
 package com.five.shubhamagarwal.five.utils;
 
+import com.five.shubhamagarwal.five.BuildConfig;
+
 /**
  * Created by shubhamagrawal on 05/04/17.
  */
@@ -13,4 +15,5 @@ public class Constants {
     public static String FCM_TOKEN = "fcm_token";
     public static String PREFS_NAME = "PreferencesFile";
     public static final int CAMERA_AUDIO_WAKE_LOCK = 1;
+    public static final String SERVER_URL = BuildConfig.SERVER_URL;
 }

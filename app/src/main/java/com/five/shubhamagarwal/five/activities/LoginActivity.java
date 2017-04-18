@@ -57,7 +57,6 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
     private SliderLayout mDemoSlider;
     AuthCredential credential;
     AccessToken accessToken;
-    private static final String SERVER_URL = BuildConfig.SERVER_URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +246,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         } catch (JSONException e) {
             Gen.showError(e);
         }
-        JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, SERVER_URL + "/user", postData,
+        JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Constants.SERVER_URL + "/user", postData,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
