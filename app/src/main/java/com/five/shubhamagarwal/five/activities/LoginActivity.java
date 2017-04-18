@@ -2,6 +2,7 @@ package com.five.shubhamagarwal.five.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -260,10 +261,18 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                         } catch (Exception e) {
                             Gen.showError(e);
                         }
-                        if(filters==null)
-                            Gen.startActivity(activity, true, FiltersActivity.class);
-                        else
-                            Gen.startActivity(activity, true, CallStatusActivity.class);
+                        try {
+                            if(response.getBoolean("force_update")){
+                                // TODO Shubham to show blured screen and link to play store
+                                Gen.toastLong("Please update your App to latest Version");
+                            }
+                            else if(filters==null)
+                                Gen.startActivity(activity, true, FiltersActivity.class);
+                            else
+                                Gen.startActivity(activity, true, CallStatusActivity.class);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
