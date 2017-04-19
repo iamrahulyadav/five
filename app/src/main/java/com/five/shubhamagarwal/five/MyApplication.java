@@ -40,7 +40,6 @@ public class MyApplication extends Application {
         return instance;
     }
 
-
     public static Context getAppContext() {
         return instance.getApplicationContext();
     }

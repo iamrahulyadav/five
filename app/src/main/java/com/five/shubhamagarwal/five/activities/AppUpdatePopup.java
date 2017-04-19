@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
-import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.R;
 import com.five.shubhamagarwal.five.utils.Gen;
 
@@ -22,7 +20,6 @@ public class AppUpdatePopup extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_popup);
-        final String appLink = BuildConfig.APP_LINK;
 
         Button action;
         action = (Button) findViewById(R.id.app_update_link_button);
