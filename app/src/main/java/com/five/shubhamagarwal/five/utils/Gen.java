@@ -30,6 +30,7 @@ import com.five.shubhamagarwal.five.activities.RatingsActivity;
 import com.five.shubhamagarwal.five.activities.RingingActivity;
 
 import java.io.UnsupportedEncodingException;
+import java.util.TimeZone;
 
 /**
  * Created by shubhamagrawal on 03/04/17.
@@ -286,5 +287,10 @@ public class Gen {
             e.printStackTrace();
         }
         return packageInfo.versionName;
+    }
+
+    public static String getCurrentTimeZone(){
+        TimeZone timeZone = TimeZone.getDefault();
+        return timeZone.getID();
     }
 }

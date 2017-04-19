@@ -18,4 +18,5 @@ public class Constants {
     public static final String SERVER_URL = BuildConfig.SERVER_URL;
     public static final String FORCE_UPDATE = "force_update";
     public static final String BUILD_VERSION = "build_version";
+    public static final String TIMEZONE = "timezone";
 }
