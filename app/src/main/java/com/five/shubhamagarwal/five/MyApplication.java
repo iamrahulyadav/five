@@ -34,59 +34,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
-        JSONObject postData = null;
-        try {
-            postData = getPostData();
-        } catch (JSONException e) {
-            Gen.showError(e);
-        }
-        JsonObjectRequest request = new JsonObjectRequestWithAuth(Request.Method.POST, Constants.SERVER_URL + "/user", postData,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(LOG_TAG, "success");
-                        try {
-                            Boolean forceUpdate = response.getBoolean(Constants.FORCE_UPDATE);
-                            if (forceUpdate) {
-                                // Show the forced popup for app update
-                                Intent intent = new Intent(MyApplication.getAppContext(), AppUpdatePopup.class);
-                                Gen.startActivity(intent, true);
-                            }
-
-                        } catch (JSONException e) {
-                            Gen.showError(e);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Gen.showVolleyError(error);
-            }
-        });
-        requestQueue.add(request);
     }
 
     public static MyApplication getInstance() {
         return instance;
     }
 
-    private JSONObject getPostData() throws JSONException {
-        JSONObject js = new JSONObject();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null)
-            js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        String token = FirebaseInstanceId.getInstance().getToken();
-        if (token != null) {
-            Gen.saveFCMTokenToLocalStorage(token);
-        }
-        js.put("fcm_token", Gen.getFCMTokenFromLocalStorage());
-
-        js.put(Constants.BUILD_VERSION, Gen.getCurrentAppVersion());
-        js.put(Constants.TIMEZONE, Gen.getCurrentTimeZone());
-        return js;
-    }
 
     public static Context getAppContext() {
         return instance.getApplicationContext();

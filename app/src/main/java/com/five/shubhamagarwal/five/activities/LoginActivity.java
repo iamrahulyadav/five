@@ -69,16 +69,12 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         setContentView(R.layout.activity_container);
         Bundle extras = getIntent().getExtras();
 
-        if(extras!=null && extras.keySet().contains(Gen.NOTIFICATION_TYPE)) {
+        if (extras != null && extras.keySet().contains(Gen.NOTIFICATION_TYPE)) {
             Gen.handleNotification(extras);
-        }else if(extras!=null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null){
+        } else if (extras != null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null) {
 
-        } else if(Gen.getUserIdFromLocalStorage() != "") {
-            if(Gen.getFiltersFromLocalStorage() == true) {
-                Gen.startActivity(this, true, CallStatusActivity.class);
-            } else {
-                updateUserDataToBackend();
-            }
+        } else if (Gen.getUserIdFromLocalStorage() != "") {
+            updateUserDataToBackend();
         }
 
         // Initialize Firebase Auth
@@ -117,7 +113,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
 
     private void configImageSlider() {
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-        Integer slides[] = { R.mipmap.swipe, R.mipmap.filters, R.mipmap.keep_calm, R.mipmap.video_call, R.mipmap.ratings };
+        Integer slides[] = {R.mipmap.swipe, R.mipmap.filters, R.mipmap.keep_calm, R.mipmap.video_call, R.mipmap.ratings};
         List<Integer> slideList = Arrays.asList(slides);
 
         for (Integer slide : slideList) {
@@ -171,14 +167,14 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
 
     private JSONObject getPostData() throws JSONException {
         JSONObject js = new JSONObject();
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
             js.put("firebase_user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        if(accessToken!=null && Gen.getJSONString(accessToken)!=null)
+        if (accessToken != null && Gen.getJSONString(accessToken) != null)
             js.put("fb_data", new JSONObject(Gen.getJSONString(accessToken)));
 
         String token = FirebaseInstanceId.getInstance().getToken();
-        if(token != null){
+        if (token != null) {
             Gen.saveFCMTokenToLocalStorage(token);
         }
         js.put("fcm_token", Gen.getFCMTokenFromLocalStorage());
@@ -237,7 +233,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         return super.isDestroyed();
     }
 
-    public void updateUserDataToBackend(){
+    public void updateUserDataToBackend() {
         RequestQueue requestQueue = VolleySingelton.getInstance().getRequestQueue();
         final Activity activity = this;
         Gen.showLoader(activity);
@@ -255,7 +251,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                         JSONObject filters = null;
                         try {
                             Gen.saveUserIdToLocalStorage(response.getString("user_uuid"));
-                            if(!response.isNull("filters")) {
+                            if (!response.isNull("filters")) {
                                 filters = response.getJSONObject("filters");
                             }
                             // Log.d(TAG, response.getString("new_signup"));
@@ -263,11 +259,11 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                             Gen.showError(e);
                         }
                         try {
-                            if(response.getBoolean("force_update")){
-                                // TODO Shubham to show blured screen and link to play store
-                                Gen.toastLong("Please update your App to latest Version");
-                            }
-                            else if(filters==null)
+                            Boolean forceUpdate = response.getBoolean(Constants.FORCE_UPDATE);
+                            if (forceUpdate) {
+                                // Show the forced popup for app update
+                                Gen.startActivity(activity, true, AppUpdatePopup.class);
+                            } else if (filters == null)
                                 Gen.startActivity(activity, true, FiltersActivity.class);
                             else
                                 Gen.startActivity(activity, true, CallStatusActivity.class);

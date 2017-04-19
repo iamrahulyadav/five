@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.five.shubhamagarwal.five.BuildConfig;
 import com.five.shubhamagarwal.five.R;
+import com.five.shubhamagarwal.five.utils.Gen;
 
 /**
  * Created by shubhamagrawal on 19/04/17.
@@ -28,9 +29,12 @@ public class AppUpdatePopup extends AppCompatActivity {
         action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(appLink);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    Gen.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)), true);
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    Gen.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)), true);
+                }
             }
         });
     }
