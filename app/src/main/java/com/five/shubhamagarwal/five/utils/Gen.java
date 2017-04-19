@@ -290,7 +290,6 @@ public class Gen {
     }
 
     public static String getCurrentTimeZone(){
-        TimeZone timeZone = TimeZone.getDefault();
-        return timeZone.getID();
+        return TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
     }
 }
