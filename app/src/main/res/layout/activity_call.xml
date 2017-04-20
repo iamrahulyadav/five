@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context="com.five.shubhamagarwal.five.activities.CallActivity">
+    tools:context="com.spate.in.activities.CallActivity">
 
     <FrameLayout
         android:id="@+id/subscriber_container"
