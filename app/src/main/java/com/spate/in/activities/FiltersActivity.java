@@ -86,6 +86,7 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
         mFromTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 currentlyClicked = "FromTime";
                 onTimerClick(v);
             }
@@ -94,6 +95,7 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
         mToTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 currentlyClicked = "ToTime";
                 onTimerClick(v);
             }
@@ -149,7 +151,7 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
             if(textView == mFromTime){
                 timePickerDialog.setMaxTime(23, 54, 0);
             } else if(textView == mToTime){
-                String[] fromTime = Gen.getTimeIn24HoursFormat(mFromTime.getText().toString()).split(":");
+                String[] fromTime = Gen.convertTime12To24format(mFromTime.getText().toString()).split(":");
                 int fhour = Integer.parseInt(fromTime[0]);
                 int fmin = Integer.parseInt(fromTime[1]);
                 timePickerDialog.setMinTime(fhour, fmin, 0);
@@ -198,13 +200,13 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
                         if(filters.getString(MINTIME).equals("")){
                             mFromTime.setText(FROM_INIT_TIME);
                         } else{
-                            mFromTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MINTIME)));
+                            mFromTime.setText(Gen.convertTime24To12format(filters.getString(MINTIME)));
                         }
 
                         if(filters.getString(MAXTIME).equals("")){
                             mToTime.setText(TO_INIT_TIME);
                         } else{
-                            mToTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MAXTIME)));
+                            mToTime.setText(Gen.convertTime24To12format(filters.getString(MAXTIME)));
                         }
                     } catch (JSONException e) {
                         Gen.showError(e);
@@ -299,8 +301,8 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
         js.put(SUNDAY, mSunday.isChecked());
         js.put(MINAGE, mAgeBar.getSelectedMinValue());
         js.put(MAXAGE, mAgeBar.getSelectedMaxValue());
-        js.put(MINTIME, Gen.getTimeIn24HoursFormat(mFromTime.getText().toString()));
-        js.put(MAXTIME, Gen.getTimeIn24HoursFormat(mToTime.getText().toString()));
+        js.put(MINTIME, Gen.convertTime12To24format(mFromTime.getText().toString()));
+        js.put(MAXTIME, Gen.convertTime12To24format(mToTime.getText().toString()));
         JSONObject filters = new JSONObject();
         filters.put(FILTERS, js);
         return filters;
@@ -327,7 +329,7 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
             min = "0"+min;
         if(currentlyClicked.equals("FromTime")){
             mFromTime.setText(hour + ":" + min + " " + AMPM);
-            String[] toTime = Gen.getTimeIn24HoursFormat(mToTime.getText().toString()).split(":");
+            String[] toTime = Gen.convertTime12To24format(mToTime.getText().toString()).split(":");
             int thour = Integer.parseInt(toTime[0]);
             int tmin = Integer.parseInt(toTime[1]);
             if(hourOfDayPrev > thour || (hourOfDayPrev == thour && minute > tmin)){

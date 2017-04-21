@@ -29,6 +29,9 @@ import com.spate.in.activities.RatingsActivity;
 import com.spate.in.activities.RingingActivity;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -292,27 +295,30 @@ public class Gen {
         return TimeZone.getDefault().getID();
     }
 
-    public static String getTimeIn24HoursFormat(String time){
-        String[] timeSplits = time.split(" ");
-
-        int hour = Integer.parseInt(timeSplits[0].split(":")[0]);
-        int min = Integer.parseInt(timeSplits[0].split(":")[1]);
-        if(timeSplits[1].equals("pm")){
-            hour+=12;
+    public static String convertTime12To24format(String time) { // 23:02
+        SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
+        try {
+            Date date = parseFormat.parse(time);
+            return displayFormat.format(date);
+        } catch (ParseException e) {
+            Gen.showError(e);
+            return null;
         }
-        return hour+":"+min;
+
     }
 
-    public static String getTimeIn12HoursFormat(String time){
-        int hour = Integer.parseInt(time.split(":")[0]);
-        int min = Integer.parseInt(time.split(":")[1]);
-        String AMPM = "am";
-        if(hour >=12){
-            AMPM = "pm";
+    public static String convertTime24To12format(String time){ //12:20:am
+        time = time.toUpperCase();
+        SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm");
+        try {
+            Date date = parseFormat.parse(time);
+            return displayFormat.format(date);
+        } catch (ParseException e) {
+            Gen.showError(e);
+            return null;
         }
-        if(hour > 13){
-            hour-=12;
-        }
-        return hour+":"+min+" "+AMPM;
+
     }
 }
