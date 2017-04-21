@@ -289,7 +289,7 @@ public class Gen {
     }
 
     public static String getCurrentTimeZone(){
-        return TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
+        return TimeZone.getDefault().getID();
     }
 
     public static String getTimeIn24HoursFormat(String time){
