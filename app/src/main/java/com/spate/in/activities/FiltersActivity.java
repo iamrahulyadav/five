@@ -1,7 +1,6 @@
 package com.spate.in.activities;
 
 import android.app.Activity;
-import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,12 +20,14 @@ import com.spate.in.R;
 import com.spate.in.utils.Gen;
 import com.spate.in.utils.JsonObjectRequestWithAuth;
 import com.spate.in.utils.VolleySingelton;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class FiltersActivity extends AppCompatActivity {
+public class FiltersActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = FiltersActivity.class.getSimpleName();
     private static final String FILTERS = "filters";
@@ -48,11 +49,14 @@ public class FiltersActivity extends AppCompatActivity {
     private final String FRIDAY = "friday";
     private final String SATURDAY = "saturday";
     private final String SUNDAY = "sunday";
+    private final String FROM_INIT_TIME = "12:00 am";
+    private final String TO_INIT_TIME = "11:59 pm";
 
     CheckBox mMale, mFemale, mCasual, mRelationship, mLove, mFriendship, mAction, mMonday, mTuesday, mWednesday, mThursday, mFriday, mSaturday, mSunday, mAllDay;
     RangeSeekBar mAgeBar;
     Button mSubmit;
     TextView mFromTime, mToTime;
+    String currentlyClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class FiltersActivity extends AppCompatActivity {
         mFromTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                currentlyClicked = "FromTime";
                 onTimerClick(v);
             }
         });
@@ -89,6 +95,8 @@ public class FiltersActivity extends AppCompatActivity {
         mToTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                currentlyClicked = "ToTime";
                 onTimerClick(v);
             }
         });
@@ -129,40 +137,29 @@ public class FiltersActivity extends AppCompatActivity {
         final TextView textView = (TextView) v;
         if (v == textView) {
             if(textView.getText().toString().equals("") || !textView.getText().toString().contains(":")){
-                textView.setText("12:00 am");
+                if(textView == mFromTime)
+                    textView.setText(FROM_INIT_TIME);
+                else
+                    textView.setText(TO_INIT_TIME);
             }
             String time = textView.getText().toString().split(" ")[0];
             int hour = Integer.parseInt(time.split(":")[0]);
             int min = Integer.parseInt(time.split(":")[1]);
 
             // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                    new TimePickerDialog.OnTimeSetListener() {
-
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-
-                            String AMPM = "am";
-                            if(hourOfDay >=12){
-                                AMPM = "pm";
-                            } if(hourOfDay >=13){
-                                hourOfDay-=12;
-                            }
-                            if(hourOfDay == 0){
-                                hourOfDay = 12;
-                            }
-                            String hour = hourOfDay+"";
-                            if(hourOfDay<10)
-                                hour = "0"+hour;
-
-                            String min = minute+"";
-                            if(minute<10)
-                                min = "0"+min;
-                            textView.setText(hour + ":" + min + " " + AMPM);
-                        }
-                    }, hour, min, false);
-            timePickerDialog.show();
+            TimePickerDialog timePickerDialog  = TimePickerDialog.newInstance(FiltersActivity.this, hour, min, false);
+            if(textView == mFromTime){
+                String[] toTime = Gen.getTimeIn24HoursFormat(mToTime.getText().toString()).split(":");
+                int thour = Integer.parseInt(toTime[0]);
+                int tmin = Integer.parseInt(toTime[1]);
+                timePickerDialog.setMaxTime(thour, tmin, 0);
+            } else if(textView == mToTime){
+                String[] fromTime = Gen.getTimeIn24HoursFormat(mFromTime.getText().toString()).split(":");
+                int fhour = Integer.parseInt(fromTime[0]);
+                int fmin = Integer.parseInt(fromTime[1]);
+                timePickerDialog.setMinTime(fhour, fmin, 0);
+            }
+            timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
         }
     }
 
@@ -203,8 +200,17 @@ public class FiltersActivity extends AppCompatActivity {
                         mAgeBar.setSelectedMinValue(filters.getInt(MINAGE));
                         mAgeBar.setSelectedMaxValue(filters.getInt(MAXAGE));
 
-                        mFromTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MINTIME)));
-                        mToTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MAXTIME)));
+                        if(filters.getString(MINTIME).equals("")){
+                            mFromTime.setText(FROM_INIT_TIME);
+                        } else{
+                            mFromTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MINTIME)));
+                        }
+
+                        if(filters.getString(MAXTIME).equals("")){
+                            mToTime.setText(TO_INIT_TIME);
+                        } else{
+                            mToTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MAXTIME)));
+                        }
                     } catch (JSONException e) {
                         Gen.showError(e);
                     }
@@ -303,5 +309,29 @@ public class FiltersActivity extends AppCompatActivity {
         JSONObject filters = new JSONObject();
         filters.put(FILTERS, js);
         return filters;
+    }
+
+    @Override
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        String AMPM = "am";
+        if(hourOfDay >=12){
+            AMPM = "pm";
+        } if(hourOfDay >=13){
+            hourOfDay-=12;
+        }
+        if(hourOfDay == 0){
+            hourOfDay = 12;
+        }
+        String hour = hourOfDay+"";
+        if(hourOfDay<10)
+            hour = "0"+hour;
+
+        String min = minute+"";
+        if(minute<10)
+            min = "0"+min;
+        if(currentlyClicked.equals("FromTime"))
+            mFromTime.setText(hour + ":" + min + " " + AMPM);
+        else if(currentlyClicked.equals("ToTime"))
+            mToTime.setText(hour + ":" + min + " " + AMPM);
     }
 }
