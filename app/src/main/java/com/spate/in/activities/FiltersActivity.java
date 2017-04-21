@@ -203,8 +203,8 @@ public class FiltersActivity extends AppCompatActivity {
                         mAgeBar.setSelectedMinValue(filters.getInt(MINAGE));
                         mAgeBar.setSelectedMaxValue(filters.getInt(MAXAGE));
 
-                        mFromTime.setText(filters.getString(MINTIME));
-                        mToTime.setText(filters.getString(MAXTIME));
+                        mFromTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MINTIME)));
+                        mToTime.setText(Gen.getTimeIn12HoursFormat(filters.getString(MAXTIME)));
                     } catch (JSONException e) {
                         Gen.showError(e);
                     }
@@ -298,8 +298,8 @@ public class FiltersActivity extends AppCompatActivity {
         js.put(SUNDAY, mSunday.isChecked());
         js.put(MINAGE, mAgeBar.getSelectedMinValue());
         js.put(MAXAGE, mAgeBar.getSelectedMaxValue());
-        js.put(MINTIME, mFromTime.getText().toString());
-        js.put(MAXTIME, mToTime.getText().toString());
+        js.put(MINTIME, Gen.getTimeIn24HoursFormat(mFromTime.getText().toString()));
+        js.put(MAXTIME, Gen.getTimeIn24HoursFormat(mToTime.getText().toString()));
         JSONObject filters = new JSONObject();
         filters.put(FILTERS, js);
         return filters;

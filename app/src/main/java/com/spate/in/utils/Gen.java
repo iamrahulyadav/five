@@ -291,4 +291,28 @@ public class Gen {
     public static String getCurrentTimeZone(){
         return TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
     }
+
+    public static String getTimeIn24HoursFormat(String time){
+        String[] timeSplits = time.split(" ");
+
+        int hour = Integer.parseInt(timeSplits[0].split(":")[0]);
+        int min = Integer.parseInt(timeSplits[0].split(":")[1]);
+        if(timeSplits[1].equals("pm")){
+            hour+=12;
+        }
+        return hour+":"+min;
+    }
+
+    public static String getTimeIn12HoursFormat(String time){
+        int hour = Integer.parseInt(time.split(":")[0]);
+        int min = Integer.parseInt(time.split(":")[1]);
+        String AMPM = "am";
+        if(hour >=12){
+            AMPM = "pm";
+        }
+        if(hour > 13){
+            hour-=12;
+        }
+        return hour+":"+min+" "+AMPM;
+    }
 }
