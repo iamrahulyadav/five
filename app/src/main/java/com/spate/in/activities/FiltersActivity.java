@@ -86,7 +86,6 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
         mFromTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 currentlyClicked = "FromTime";
                 onTimerClick(v);
             }
@@ -95,7 +94,6 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
         mToTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 currentlyClicked = "ToTime";
                 onTimerClick(v);
             }
@@ -149,10 +147,7 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog  = TimePickerDialog.newInstance(FiltersActivity.this, hour, min, false);
             if(textView == mFromTime){
-                String[] toTime = Gen.getTimeIn24HoursFormat(mToTime.getText().toString()).split(":");
-                int thour = Integer.parseInt(toTime[0]);
-                int tmin = Integer.parseInt(toTime[1]);
-                timePickerDialog.setMaxTime(thour, tmin, 0);
+                timePickerDialog.setMaxTime(23, 54, 0);
             } else if(textView == mToTime){
                 String[] fromTime = Gen.getTimeIn24HoursFormat(mFromTime.getText().toString()).split(":");
                 int fhour = Integer.parseInt(fromTime[0]);
@@ -314,6 +309,7 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         String AMPM = "am";
+        int hourOfDayPrev = hourOfDay;
         if(hourOfDay >=12){
             AMPM = "pm";
         } if(hourOfDay >=13){
@@ -329,8 +325,15 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
         String min = minute+"";
         if(minute<10)
             min = "0"+min;
-        if(currentlyClicked.equals("FromTime"))
+        if(currentlyClicked.equals("FromTime")){
             mFromTime.setText(hour + ":" + min + " " + AMPM);
+            String[] toTime = Gen.getTimeIn24HoursFormat(mToTime.getText().toString()).split(":");
+            int thour = Integer.parseInt(toTime[0]);
+            int tmin = Integer.parseInt(toTime[1]);
+            if(hourOfDayPrev > thour || (hourOfDayPrev == thour && minute > tmin)){
+                mToTime.callOnClick();
+            }
+        }
         else if(currentlyClicked.equals("ToTime"))
             mToTime.setText(hour + ":" + min + " " + AMPM);
     }
