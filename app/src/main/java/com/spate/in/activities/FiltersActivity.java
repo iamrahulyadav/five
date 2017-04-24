@@ -329,12 +329,14 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
             min = "0"+min;
         if(currentlyClicked.equals("FromTime")){
             mFromTime.setText(hour + ":" + min + " " + AMPM);
-            String[] toTime = Gen.convertTime12To24format(mToTime.getText().toString()).split(":");
-            int thour = Integer.parseInt(toTime[0]);
-            int tmin = Integer.parseInt(toTime[1]);
-            if(hourOfDayPrev > thour || (hourOfDayPrev == thour && minute > tmin)){
-                mToTime.callOnClick();
-            }
+
+            // TODO: Shubham Was seeing some crashes here in the phone. Not sure why. So commenting it for now.
+//            String[] toTime = Gen.convertTime12To24format(mToTime.getText().toString()).split(":");
+//            int thour = Integer.parseInt(toTime[0]);
+//            int tmin = Integer.parseInt(toTime[1]);
+//            if(hourOfDayPrev > thour || (hourOfDayPrev == thour && minute > tmin)){
+//                mToTime.callOnClick();
+//            }
         }
         else if(currentlyClicked.equals("ToTime"))
             mToTime.setText(hour + ":" + min + " " + AMPM);
