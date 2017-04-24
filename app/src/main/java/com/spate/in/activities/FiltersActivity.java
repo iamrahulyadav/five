@@ -197,13 +197,13 @@ public class FiltersActivity extends AppCompatActivity implements TimePickerDial
                         mAgeBar.setSelectedMinValue(filters.getInt(MINAGE));
                         mAgeBar.setSelectedMaxValue(filters.getInt(MAXAGE));
 
-                        if(filters.getString(MINTIME).equals("")){
+                        if(!filters.has(MINTIME) || filters.getString(MINTIME).equals("")){
                             mFromTime.setText(FROM_INIT_TIME);
                         } else{
                             mFromTime.setText(Gen.convertTime24To12format(filters.getString(MINTIME)));
                         }
 
-                        if(filters.getString(MAXTIME).equals("")){
+                        if(!filters.has(MAXTIME) || filters.getString(MAXTIME).equals("")){
                             mToTime.setText(TO_INIT_TIME);
                         } else{
                             mToTime.setText(Gen.convertTime24To12format(filters.getString(MAXTIME)));
