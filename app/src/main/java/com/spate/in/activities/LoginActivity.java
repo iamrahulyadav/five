@@ -62,9 +62,10 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
         Bundle extras = getIntent().getExtras();
 
         if (extras != null && extras.keySet().contains(Gen.NOTIFICATION_TYPE)) {
+            // handle notification
             Gen.handleNotification(extras);
         } else if (extras != null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null) {
-
+            // show logout screen
         } else if (Gen.getUserIdFromLocalStorage() != "") {
             updateUserDataToBackend();
         }
@@ -261,7 +262,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
                             else
                                 Gen.startActivity(activity, true, CallStatusActivity.class);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Gen.showError(e);
                         }
                     }
                 }, new Response.ErrorListener() {
