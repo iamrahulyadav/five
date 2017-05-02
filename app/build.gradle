@@ -22,8 +22,8 @@ android {
         applicationId "com.spate.in"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 4
-        versionName "2.3"
+        versionCode 6
+        versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     packagingOptions {
