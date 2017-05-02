@@ -66,7 +66,7 @@ public class LoginActivity extends Activity implements BaseSliderView.OnSliderCl
             Gen.handleNotification(extras);
         } else if (extras != null && extras.getString(Constants.SHOW_LOGOUT_SCREEN, null) != null) {
             // show logout screen
-        } else if (Gen.getUserIdFromLocalStorage() != "") {
+        } else {
             updateUserDataToBackend();
         }
 
